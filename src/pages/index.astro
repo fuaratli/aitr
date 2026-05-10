@@ -5,11 +5,15 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import AdSlot from '../components/AdSlot.astro';
 import { SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from '../consts';
+import { CATEGORY_META } from '../content.config';
 
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 6);
+const allPosts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const posts = allPosts.slice(0, 6);
+const featured = posts[0];
 ---
 
 <!doctype html>
@@ -45,16 +49,21 @@ const posts = (await getCollection('blog'))
 						<a class="btn btn-ghost" href="/about">AITR Nedir?</a>
 					</div>
 					<div class="brand-row" aria-label="Bu sitede ele aldığımız markalar">
-						<span class="brand-chip">ChatGPT</span>
-						<span class="brand-chip">Claude</span>
-						<span class="brand-chip">Gemini</span>
-						<span class="brand-chip">Midjourney</span>
-						<span class="brand-chip">Cursor</span>
-						<span class="brand-chip">Perplexity</span>
-						<span class="brand-chip">Notion AI</span>
+						<a class="brand-chip" href="/blog/kategori/karsilastirmalar">ChatGPT</a>
+						<a class="brand-chip" href="/blog/kategori/karsilastirmalar">Claude</a>
+						<a class="brand-chip" href="/blog/kategori/karsilastirmalar">Gemini</a>
+						<a class="brand-chip" href="/blog/kategori/rehberler">Midjourney</a>
+						<a class="brand-chip" href="/blog/kategori/incelemeler">Cursor</a>
+						<a class="brand-chip" href="/blog/kategori/incelemeler">Perplexity</a>
+						<a class="brand-chip" href="/blog/kategori/rehberler">Notion AI</a>
 					</div>
 				</div>
 			</section>
+
+			<!-- ÜST REKLAM -->
+			<div class="ad-wrap">
+				<AdSlot size="leaderboard" label="Reklam" slot="home-top" />
+			</div>
 
 			<!-- KATEGORİLER -->
 			<section class="section reveal">
@@ -63,26 +72,17 @@ const posts = (await getCollection('blog'))
 					<p>Dört ana kategoride üretiyoruz, hepsi Türkçe ve uygulamaya dönük.</p>
 				</header>
 				<div class="cat-grid">
-					<a class="cat-card" href="/blog">
-						<div class="cat-emoji" style="--g: linear-gradient(135deg,#8b5cf6,#ec4899)">⚖️</div>
-						<h3>Karşılaştırmalar</h3>
-						<p>ChatGPT vs Claude, Midjourney vs DALL·E ve daha fazlası — yan yana, dürüstçe.</p>
-					</a>
-					<a class="cat-card" href="/blog">
-						<div class="cat-emoji" style="--g: linear-gradient(135deg,#3b82f6,#8b5cf6)">📘</div>
-						<h3>Kullanım Rehberleri</h3>
-						<p>Sıfırdan başlayanlar için adım adım Türkçe AI aracı eğitimleri.</p>
-					</a>
-					<a class="cat-card" href="/blog">
-						<div class="cat-emoji" style="--g: linear-gradient(135deg,#06b6d4,#3b82f6)">🔍</div>
-						<h3>İncelemeler</h3>
-						<p>Hype'ın ötesinde gerçek artılar, gerçek eksiler. Test ettik, anlatıyoruz.</p>
-					</a>
-					<a class="cat-card" href="/blog">
-						<div class="cat-emoji" style="--g: linear-gradient(135deg,#ec4899,#f97316)">💼</div>
-						<h3>Para Kazanma</h3>
-						<p>Yapay zekayı işine ve cebine dokunan biçimde kullanmanın yolları.</p>
-					</a>
+					{
+						(Object.entries(CATEGORY_META) as [keyof typeof CATEGORY_META, (typeof CATEGORY_META)[keyof typeof CATEGORY_META]][]).map(
+							([key, meta]) => (
+								<a class="cat-card" href={`/blog/kategori/${meta.slug}/`}>
+									<div class="cat-emoji" style={`--g: ${meta.gradient}`}>{meta.emoji}</div>
+									<h3>{meta.label}</h3>
+									<p>{meta.description}</p>
+								</a>
+							)
+						)
+					}
 				</div>
 			</section>
 
@@ -105,6 +105,11 @@ const posts = (await getCollection('blog'))
 					<div class="stat-label">Güncel veri</div>
 				</div>
 			</section>
+
+			<!-- ORTA REKLAM -->
+			<div class="ad-wrap">
+				<AdSlot size="responsive" label="Reklam" slot="home-mid" />
+			</div>
 
 			<!-- SON YAZILAR -->
 			<section class="section reveal">
@@ -149,6 +154,11 @@ const posts = (await getCollection('blog'))
 					<a class="btn btn-ghost" href="/blog">Tüm yazılar →</a>
 				</div>
 			</section>
+
+			<!-- ALT REKLAM -->
+			<div class="ad-wrap">
+				<AdSlot size="banner" label="Reklam" slot="home-bottom" />
+			</div>
 		</main>
 		<Footer />
 
@@ -477,6 +487,13 @@ const posts = (await getCollection('blog'))
 			.see-all {
 				text-align: center;
 				margin-top: 2.5em;
+			}
+			.ad-wrap {
+				display: flex;
+				justify-content: center;
+				padding: 0 1.25em;
+				max-width: 1200px;
+				margin: 0 auto;
 			}
 
 			@media (max-width: 760px) {

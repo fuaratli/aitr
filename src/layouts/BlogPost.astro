@@ -1,15 +1,33 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import AdSlot from '../components/AdSlot.astro';
 import { SITE_LANG, SITE_TITLE, SITE_AUTHOR } from '../consts';
+import { CATEGORY_META, type CategoryKey } from '../content.config';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & {
+	headings?: MarkdownHeading[];
+	minutes?: number;
+};
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	category,
+	headings = [],
+	minutes,
+} = Astro.props;
+
+const categoryMeta = category ? CATEGORY_META[category as CategoryKey] : null;
+const h2s = headings.filter((h) => h.depth === 2);
 
 const articleSchema = {
 	'@context': 'https://schema.org',
@@ -47,7 +65,13 @@ const articleSchema = {
 				<header class="post-header">
 					<div class="mesh-bg" aria-hidden="true"></div>
 					<div class="meta">
-						<span class="pill pill-glow">Yazı</span>
+						{
+							categoryMeta && (
+								<a class="cat-pill" href={`/blog/kategori/${categoryMeta.slug}/`} style={`background:${categoryMeta.gradient}`}>
+									{categoryMeta.emoji} {categoryMeta.label}
+								</a>
+							)
+						}
 						<span class="date">
 							<FormattedDate date={pubDate} />
 							{
@@ -61,6 +85,17 @@ const articleSchema = {
 								)
 							}
 						</span>
+						{
+							minutes && (
+								<span class="read-time">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<circle cx="12" cy="12" r="10" />
+										<polyline points="12 6 12 12 16 14" />
+									</svg>
+									{minutes} dk okuma
+								</span>
+							)
+						}
 					</div>
 					<h1>{title}</h1>
 					<p class="lede">{description}</p>
@@ -74,12 +109,42 @@ const articleSchema = {
 					)
 				}
 
+				<div class="ad-top">
+					<AdSlot size="leaderboard" label="Reklam" slot="post-top" />
+				</div>
+
+				{
+					h2s.length > 2 && (
+						<nav class="toc" aria-label="İçindekiler">
+							<h3>📑 İçindekiler</h3>
+							<ol>
+								{h2s.map((h) => (
+									<li>
+										<a href={`#${h.slug}`}>{h.text}</a>
+									</li>
+								))}
+							</ol>
+						</nav>
+					)
+				}
+
 				<div class="prose">
 					<slot />
 				</div>
 
+				<div class="ad-bottom">
+					<AdSlot size="banner" label="Reklam" slot="post-bottom" />
+				</div>
+
 				<footer class="post-footer">
 					<a class="btn btn-ghost" href="/blog">← Tüm yazılar</a>
+					{
+						categoryMeta && (
+							<a class="btn btn-primary" href={`/blog/kategori/${categoryMeta.slug}/`}>
+								{categoryMeta.label} →
+							</a>
+						)
+					}
 				</footer>
 			</article>
 		</main>
@@ -108,7 +173,24 @@ const articleSchema = {
 				gap: 0.85em;
 				flex-wrap: wrap;
 				justify-content: center;
-				margin-bottom: 1em;
+				margin-bottom: 1.25em;
+			}
+			.cat-pill {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4em;
+				padding: 0.4em 0.95em;
+				border-radius: 999px;
+				color: white;
+				font-weight: 600;
+				font-size: 0.85em;
+				text-decoration: none;
+				box-shadow: var(--glow-violet);
+				transition: 0.2s ease;
+			}
+			.cat-pill:hover {
+				transform: translateY(-1px);
+				color: white;
 			}
 			.meta .date {
 				color: var(--text-muted);
@@ -121,12 +203,19 @@ const articleSchema = {
 			.meta .updated {
 				font-style: italic;
 			}
+			.read-time {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4em;
+				color: var(--text-muted);
+				font-size: 0.9em;
+			}
 			.post-header h1 {
 				font-size: clamp(2em, 5vw, 3.2em);
 				max-width: 900px;
 				margin: 0 auto 0.5em;
 				letter-spacing: -0.03em;
-				line-height: 1.1;
+				line-height: 1.15;
 			}
 			.lede {
 				font-size: 1.15em;
@@ -147,18 +236,65 @@ const articleSchema = {
 				border-radius: 16px;
 				border: 1px solid var(--border);
 			}
+			.ad-top,
+			.ad-bottom {
+				max-width: 760px;
+				margin: 1.5em auto;
+				padding: 0 1.25em;
+			}
+			.toc {
+				max-width: 760px;
+				margin: 2em auto 0;
+				padding: 1.25em 1.5em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				color: var(--text-muted);
+			}
+			.toc h3 {
+				margin: 0 0 0.5em 0;
+				font-size: 1em;
+				color: var(--text);
+				font-family: var(--font-display);
+			}
+			.toc ol {
+				margin: 0;
+				padding-left: 1.25em;
+			}
+			.toc li {
+				margin: 0.35em 0;
+			}
+			.toc a {
+				color: var(--text-muted);
+				text-decoration: none;
+				transition: 0.15s ease;
+				border-bottom: 1px solid transparent;
+			}
+			.toc a:hover {
+				color: #c4b5fd;
+				border-bottom-color: rgba(196, 181, 253, 0.3);
+			}
 			.prose {
 				max-width: 760px;
 				margin: 0 auto;
-				padding: 3em 1.25em 2em;
-				font-size: 1.05em;
+				padding: 2em 1.25em;
+				font-size: 1.08em;
+				line-height: 1.8;
+			}
+			.prose :global(h2) {
+				scroll-margin-top: 80px;
+			}
+			.prose :global(h3) {
+				scroll-margin-top: 80px;
 			}
 			.post-footer {
 				max-width: 760px;
 				margin: 0 auto;
 				padding: 1em 1.25em 3em;
 				display: flex;
-				justify-content: flex-start;
+				justify-content: space-between;
+				gap: 1em;
+				flex-wrap: wrap;
 			}
 			@media (max-width: 720px) {
 				.post-header {
@@ -168,7 +304,11 @@ const articleSchema = {
 					font-size: 1em;
 				}
 				.prose {
-					padding: 2em 1em 1em;
+					padding: 1.5em 1em;
+					font-size: 1.02em;
+				}
+				.post-footer {
+					padding: 1em 1em 2.5em;
 				}
 			}
 		</style>

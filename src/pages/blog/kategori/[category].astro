@@ -1,0 +1,221 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import Header from '../../../components/Header.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { SITE_LANG, SITE_TITLE } from '../../../consts';
+import { CATEGORY_META, type CategoryKey } from '../../../content.config';
+
+export async function getStaticPaths() {
+	const all = await getCollection('blog');
+	return (Object.keys(CATEGORY_META) as CategoryKey[]).map((key) => {
+		const meta = CATEGORY_META[key];
+		const posts = all
+			.filter((p) => p.data.category === key)
+			.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+		return {
+			params: { category: meta.slug },
+			props: { meta, posts, key },
+		};
+	});
+}
+
+const { meta, posts } = Astro.props;
+const pageTitle = `${meta.label} — ${SITE_TITLE}`;
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={meta.description} />
+	</head>
+	<body>
+		<Header />
+		<main class="cat-main">
+			<header class="cat-hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<div class="cat-emoji" style={`background: ${meta.gradient}`}>{meta.emoji}</div>
+					<h1>{meta.label}</h1>
+					<p>{meta.description}</p>
+				</div>
+			</header>
+
+			<section class="list-wrap">
+				<AdSlot size="leaderboard" label="Reklam" slot="cat-top" />
+
+				{
+					posts.length === 0 ? (
+						<div class="empty">
+							Bu kategoride henüz yazı yok — yakında dolacak.
+							<br />
+							<a class="btn btn-ghost" href="/blog" style="margin-top:1.5em">← Tüm yazılar</a>
+						</div>
+					) : (
+						<ul class="post-grid">
+							{posts.map((post, i) => (
+								<>
+									<li class="post-card">
+										<a href={`/blog/${post.id}/`}>
+											{post.data.heroImage && (
+												<div class="img-wrap">
+													<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+												</div>
+											)}
+											<div class="body">
+												<span class="pill">{meta.label}</span>
+												<h2>{post.data.title}</h2>
+												<p class="excerpt">{post.data.description}</p>
+												<p class="date">
+													<FormattedDate date={post.data.pubDate} />
+												</p>
+											</div>
+										</a>
+									</li>
+									{i === 2 && posts.length > 4 && (
+										<li class="ad-row">
+											<AdSlot size="responsive" label="Reklam" slot={`cat-mid-${i}`} />
+										</li>
+									)}
+								</>
+							))}
+						</ul>
+					)
+				}
+
+				<AdSlot size="leaderboard" label="Reklam" slot="cat-bottom" />
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.cat-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.cat-hero {
+				position: relative;
+				overflow: hidden;
+				padding: 4em 1.25em 3em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.cat-hero .inner {
+				position: relative;
+				z-index: 2;
+				max-width: 760px;
+				margin: 0 auto;
+				animation: fade-up 0.5s ease both;
+			}
+			.cat-emoji {
+				display: inline-grid;
+				place-items: center;
+				width: 70px;
+				height: 70px;
+				border-radius: 16px;
+				font-size: 2em;
+				margin-bottom: 1em;
+				box-shadow: var(--glow-violet);
+			}
+			.cat-hero h1 {
+				font-size: clamp(2em, 5vw, 3em);
+				margin: 0 0 0.4em 0;
+				letter-spacing: -0.03em;
+			}
+			.cat-hero p {
+				color: var(--text-muted);
+				max-width: 580px;
+				margin: 0 auto;
+				font-size: 1.05em;
+			}
+			.list-wrap {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 3em 1.25em;
+			}
+			.post-grid {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 1.5em;
+			}
+			.post-card {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				overflow: hidden;
+				transition: 0.25s ease;
+				backdrop-filter: blur(12px);
+			}
+			.post-card:hover {
+				border-color: var(--border-glow);
+				transform: translateY(-3px);
+				box-shadow: var(--shadow-card-hover);
+			}
+			.post-card a {
+				text-decoration: none;
+				color: var(--text);
+				display: block;
+				height: 100%;
+			}
+			.img-wrap {
+				overflow: hidden;
+				background: var(--bg-2);
+			}
+			.img-wrap img {
+				display: block;
+				width: 100%;
+				height: 200px;
+				object-fit: cover;
+				transition: transform 0.4s ease;
+				border-radius: 0;
+			}
+			.post-card:hover .img-wrap img {
+				transform: scale(1.04);
+			}
+			.body {
+				padding: 1.5em;
+			}
+			.body .pill {
+				margin-bottom: 0.85em;
+			}
+			.body h2 {
+				margin: 0 0 0.5em 0;
+				font-size: 1.25em;
+				line-height: 1.3;
+				color: var(--text);
+			}
+			.excerpt {
+				color: var(--text-muted);
+				font-size: 0.95em;
+				margin: 0 0 1em 0;
+				line-height: 1.55;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			.date {
+				font-size: 0.82em;
+				color: var(--text-dim);
+				margin: 0;
+			}
+			.ad-row {
+				grid-column: 1 / -1;
+				list-style: none;
+			}
+			.empty {
+				text-align: center;
+				padding: 4em 1em;
+				color: var(--text-muted);
+				border: 1px dashed var(--border);
+				border-radius: 12px;
+			}
+		</style>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+---
+interface Props {
+	text?: string;
+	wpm?: number;
+}
+const { text = '', wpm = 220 } = Astro.props;
+const words = text.trim().split(/\s+/).filter(Boolean).length;
+const minutes = Math.max(1, Math.ceil(words / wpm));
+---
+
+<span class="read-time" aria-label={`${minutes} dakikalık okuma`}>
+	<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<circle cx="12" cy="12" r="10"></circle>
+		<polyline points="12 6 12 12 16 14"></polyline>
+	</svg>
+	{minutes} dk okuma
+</span>
+
+<style>
+	.read-time {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		color: var(--text-muted);
+		font-size: 0.9em;
+	}
+</style>

@@ -5,7 +5,9 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
+import AdSlot from '../../components/AdSlot.astro';
 import { SITE_LANG, SITE_TITLE } from '../../consts';
+import { CATEGORY_META } from '../../content.config';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -34,33 +36,60 @@ const pageDescription =
 			</header>
 
 			<section class="list-wrap">
+				<AdSlot size="leaderboard" label="Reklam" slot="list-top" />
+
+				<nav class="cat-bar" aria-label="Kategori filtreleri">
+					<a class="cat-btn active" href="/blog">Tümü</a>
+					{
+						(Object.entries(CATEGORY_META) as [string, { slug: string; label: string; emoji: string }][]).map(
+							([, meta]) => (
+								<a class="cat-btn" href={`/blog/kategori/${meta.slug}/`}>
+									<span aria-hidden="true">{meta.emoji}</span> {meta.label}
+								</a>
+							)
+						)
+					}
+				</nav>
+
 				{
 					posts.length === 0 ? (
 						<div class="empty">Yazılar çok yakında.</div>
 					) : (
 						<ul class="post-grid">
-							{posts.map((post) => (
-								<li class="post-card">
-									<a href={`/blog/${post.id}/`}>
-										{post.data.heroImage && (
-											<div class="img-wrap">
-												<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
-											</div>
+							{posts.map((post, i) => {
+								const meta = CATEGORY_META[post.data.category as keyof typeof CATEGORY_META];
+								return (
+									<>
+										<li class="post-card">
+											<a href={`/blog/${post.id}/`}>
+												{post.data.heroImage && (
+													<div class="img-wrap">
+														<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+													</div>
+												)}
+												<div class="body">
+													<span class="pill">{meta?.label ?? 'Yazı'}</span>
+													<h2>{post.data.title}</h2>
+													<p class="excerpt">{post.data.description}</p>
+													<p class="date">
+														<FormattedDate date={post.data.pubDate} />
+													</p>
+												</div>
+											</a>
+										</li>
+										{(i === 3 || i === 7) && (
+											<li class="ad-row">
+												<AdSlot size="responsive" label="Reklam" slot={`list-mid-${i}`} />
+											</li>
 										)}
-										<div class="body">
-											<span class="pill">Yazı</span>
-											<h2>{post.data.title}</h2>
-											<p class="excerpt">{post.data.description}</p>
-											<p class="date">
-												<FormattedDate date={post.data.pubDate} />
-											</p>
-										</div>
-									</a>
-								</li>
-							))}
+									</>
+								);
+							})}
 						</ul>
 					)
 				}
+
+				<AdSlot size="banner" label="Reklam" slot="list-bottom" />
 			</section>
 		</main>
 		<Footer />
@@ -178,6 +207,41 @@ const pageDescription =
 				color: var(--text-muted);
 				border: 1px dashed var(--border);
 				border-radius: 12px;
+			}
+			.cat-bar {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5em;
+				justify-content: center;
+				margin: 0 0 2.5em 0;
+			}
+			.cat-btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4em;
+				padding: 0.55em 1.1em;
+				background: var(--surface);
+				color: var(--text-muted);
+				border: 1px solid var(--border);
+				border-radius: 999px;
+				text-decoration: none;
+				font-size: 0.92em;
+				font-weight: 500;
+				transition: 0.2s ease;
+			}
+			.cat-btn:hover {
+				color: var(--text);
+				border-color: var(--border-glow);
+				background: var(--surface-2);
+			}
+			.cat-btn.active {
+				color: var(--text);
+				background: var(--gradient-1);
+				border-color: transparent;
+			}
+			.ad-row {
+				grid-column: 1 / -1;
+				list-style: none;
 			}
 			@media (max-width: 720px) {
 				.blog-hero {

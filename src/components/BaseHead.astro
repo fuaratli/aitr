@@ -74,6 +74,14 @@ const ogImageURL = new URL(image.src, Astro.url);
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={ogImageURL} />
 
+{/* Google AdSense — onay sonrası açılacak.
+	1) https://www.google.com/adsense adresinden başvur (siteni canlıya aldıktan sonra)
+	2) Onay alınca aşağıdaki client ID'yi kendi yayıncı ID'nle değiştir (ca-pub-XXXX...)
+	3) Aşağıdaki yorum satırını aç ve src/components/AdSlot.astro içindeki ins blokunu da aç */}
+{/*
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+*/}
+
 <script is:inline>
 	(function () {
 		if (!('IntersectionObserver' in window)) {
