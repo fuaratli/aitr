@@ -1,0 +1,37 @@
+<div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+
+<style>
+	.reading-progress {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 3px;
+		background: linear-gradient(90deg, #8b5cf6, #ec4899, #3b82f6);
+		width: 0%;
+		z-index: 100;
+		transition: width 0.08s linear;
+		box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+		will-change: width;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function setupProgress() {
+			var bar = document.getElementById('reading-progress');
+			if (!bar) return;
+			function update() {
+				var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+				if (docHeight <= 0) {
+					bar.style.width = '0%';
+					return;
+				}
+				var progress = (window.scrollY / docHeight) * 100;
+				bar.style.width = Math.min(progress, 100) + '%';
+			}
+			window.addEventListener('scroll', update, { passive: true });
+			update();
+		}
+		document.addEventListener('astro:page-load', setupProgress);
+	})();
+</script>

@@ -1,0 +1,74 @@
+<aside class="author-card">
+	<div class="avatar" aria-hidden="true">
+		<svg viewBox="0 0 24 24" width="22" height="22" fill="white">
+			<path d="M12 2 L20 21 L17 21 L15.2 16.5 H8.8 L7 21 L4 21 Z M9.7 13.6 H14.3 L12 7.5 Z"></path>
+			<circle cx="20.5" cy="3.5" r="1.5"></circle>
+		</svg>
+	</div>
+	<div class="info">
+		<h3>AITR Editör</h3>
+		<p>
+			Bağımsız yapay zeka rehberi. ChatGPT'den Midjourney'e, Cursor'dan Suno'ya — tüm AI dünyasını
+			Türkçe, dürüstçe ve uygulanabilir biçimde anlatıyoruz.
+		</p>
+		<a class="learn-more" href="/about/">
+			Hakkımızda
+			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<path d="M5 12h14M13 5l7 7-7 7"/>
+			</svg>
+		</a>
+	</div>
+</aside>
+
+<style>
+	.author-card {
+		display: flex;
+		align-items: flex-start;
+		gap: 1.25em;
+		padding: 1.5em;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 16px;
+		max-width: 760px;
+		margin: 2em auto;
+	}
+	.avatar {
+		flex-shrink: 0;
+		width: 56px;
+		height: 56px;
+		border-radius: 14px;
+		background: var(--gradient-1);
+		display: grid;
+		place-items: center;
+		box-shadow: var(--glow-violet);
+	}
+	.info {
+		flex: 1;
+	}
+	.info h3 {
+		margin: 0 0 0.4em 0;
+		font-size: 1.05em;
+		color: var(--text);
+		font-family: var(--font-display);
+	}
+	.info p {
+		margin: 0 0 0.75em 0;
+		color: var(--text-muted);
+		font-size: 0.95em;
+		line-height: 1.55;
+	}
+	.learn-more {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		color: #c4b5fd;
+		text-decoration: none;
+		font-size: 0.9em;
+		font-weight: 600;
+		transition: 0.2s ease;
+	}
+	.learn-more:hover {
+		color: #f9a8d4;
+		gap: 0.55em;
+	}
+</style>

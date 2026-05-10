@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import AdSlot from '../components/AdSlot.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
 import { SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from '../consts';
 import { CATEGORY_META } from '../lib/categories';
 
@@ -154,6 +155,11 @@ const featured = posts[0];
 					<a class="btn btn-ghost" href="/blog">Tüm yazılar →</a>
 				</div>
 			</section>
+
+			<!-- BÜLTEN -->
+			<div class="reveal">
+				<NewsletterSignup variant="section" />
+			</div>
 
 			<!-- ALT REKLAM -->
 			<div class="ad-wrap">

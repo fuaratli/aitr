@@ -15,8 +15,19 @@ const post = Astro.props;
 const { Content, headings } = await render(post);
 const words = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
 const minutes = Math.max(1, Math.ceil(words / 220));
+
+const all = await getCollection('blog');
+const related = all
+	.filter((p) => p.id !== post.id)
+	.sort((a, b) => {
+		const aMatch = a.data.category === post.data.category ? 1 : 0;
+		const bMatch = b.data.category === post.data.category ? 1 : 0;
+		if (aMatch !== bMatch) return bMatch - aMatch;
+		return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+	})
+	.slice(0, 3);
 ---
 
-<BlogPost {...post.data} headings={headings} minutes={minutes}>
+<BlogPost {...post.data} headings={headings} minutes={minutes} related={related}>
 	<Content />
 </BlogPost>

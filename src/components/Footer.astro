@@ -1,72 +1,105 @@
 ---
+import SiteChrome from './SiteChrome.astro';
 const today = new Date();
 ---
 
 <footer>
 	<div class="container">
-		<div class="brand-row">
-			<div class="brand">
-				<span class="brand-icon" aria-hidden="true">
-					<svg viewBox="0 0 24 24" width="16" height="16" fill="none">
-						<path
-							d="M12 2 L20 21 L17 21 L15.2 16.5 H8.8 L7 21 L4 21 Z M9.7 13.6 H14.3 L12 7.5 Z"
-							fill="white"
-						></path>
-						<circle cx="20.5" cy="3.5" r="1.5" fill="white"></circle>
-					</svg>
-				</span>
-				<span class="brand-text">AITR</span>
+		<div class="grid">
+			<div class="col brand-col">
+				<div class="brand">
+					<span class="brand-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+							<path
+								d="M12 2 L20 21 L17 21 L15.2 16.5 H8.8 L7 21 L4 21 Z M9.7 13.6 H14.3 L12 7.5 Z"
+								fill="white"
+							></path>
+							<circle cx="20.5" cy="3.5" r="1.5" fill="white"></circle>
+						</svg>
+					</span>
+					<span class="brand-text">AITR</span>
+				</div>
+				<p class="tagline">
+					Türkçe yapay zeka araçları rehberi. Karşılaştırmalar, incelemeler, uygulanabilir
+					bilgiler.
+				</p>
 			</div>
-			<p class="tagline">Türkçe yapay zeka araçları rehberi.</p>
+			<div class="col">
+				<h4>Keşfet</h4>
+				<ul>
+					<li><a href="/">Anasayfa</a></li>
+					<li><a href="/blog">Tüm Yazılar</a></li>
+					<li><a href="/about">Hakkında</a></li>
+					<li><a href="/rss.xml">RSS</a></li>
+				</ul>
+			</div>
+			<div class="col">
+				<h4>Kategoriler</h4>
+				<ul>
+					<li><a href="/blog/kategori/karsilastirmalar/">Karşılaştırmalar</a></li>
+					<li><a href="/blog/kategori/rehberler/">Rehberler</a></li>
+					<li><a href="/blog/kategori/incelemeler/">İncelemeler</a></li>
+					<li><a href="/blog/kategori/para-kazanma/">Para Kazanma</a></li>
+				</ul>
+			</div>
+			<div class="col">
+				<h4>Yasal</h4>
+				<ul>
+					<li><a href="/gizlilik/">Gizlilik Politikası</a></li>
+					<li><a href="/kullanim-kosullari/">Kullanım Koşulları</a></li>
+				</ul>
+			</div>
 		</div>
-		<nav class="links" aria-label="Alt menü">
-			<a href="/">Anasayfa</a>
-			<a href="/blog">Yazılar</a>
-			<a href="/about">Hakkında</a>
-			<a href="/rss.xml">RSS</a>
-		</nav>
-		<p class="copy">&copy; {today.getFullYear()} AITR. Tüm hakları saklıdır.</p>
+		<div class="bottom">
+			<p class="copy">&copy; {today.getFullYear()} AITR. Tüm hakları saklıdır.</p>
+			<p class="made">
+				<span class="dot"></span>
+				Türkiye'de tasarlandı ve hazırlandı
+			</p>
+		</div>
 	</div>
 </footer>
+
+<SiteChrome />
+
 <style>
 	footer {
 		margin-top: 4em;
 		border-top: 1px solid var(--border);
 		background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.04));
-		padding: 2.5em 1.25em 3em 1.25em;
+		padding: 3em 1.25em 2em 1.25em;
 	}
 	.container {
 		max-width: 1200px;
 		margin: 0 auto;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1.25em;
-		text-align: center;
 	}
-	.brand-row {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.5em;
+	.grid {
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr 1fr;
+		gap: 2em;
+		margin-bottom: 2.5em;
+	}
+	.brand-col {
+		max-width: 360px;
 	}
 	.brand {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5em;
 		font-family: var(--font-display);
+		margin-bottom: 0.75em;
 	}
 	.brand-icon {
 		display: grid;
 		place-items: center;
-		width: 26px;
-		height: 26px;
+		width: 28px;
+		height: 28px;
 		background: var(--gradient-1);
-		border-radius: 7px;
+		border-radius: 8px;
 	}
 	.brand-text {
 		font-weight: 800;
-		font-size: 1.05em;
+		font-size: 1.15em;
 		background: var(--gradient-text);
 		-webkit-background-clip: text;
 		background-clip: text;
@@ -77,26 +110,80 @@ const today = new Date();
 	.tagline {
 		margin: 0;
 		color: var(--text-muted);
-		font-size: 0.95em;
+		font-size: 0.92em;
+		line-height: 1.6;
 	}
-	.links {
-		display: flex;
-		gap: 1.25em;
-		flex-wrap: wrap;
-		justify-content: center;
+	.col h4 {
+		font-size: 0.78em;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--text-dim);
+		margin: 0 0 1em 0;
+		font-family: var(--font-display);
+		font-weight: 700;
 	}
-	.links a {
-		text-decoration: none;
+	.col ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.col li {
+		margin-bottom: 0.5em;
+	}
+	.col a {
 		color: var(--text-muted);
-		font-size: 0.9em;
+		text-decoration: none;
+		font-size: 0.92em;
 		transition: 0.15s ease;
 	}
-	.links a:hover {
+	.col a:hover {
 		color: #c4b5fd;
+	}
+	.bottom {
+		padding-top: 1.5em;
+		border-top: 1px solid var(--border);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.75em;
 	}
 	.copy {
 		font-size: 0.85em;
 		color: var(--text-dim);
 		margin: 0;
+	}
+	.made {
+		font-size: 0.85em;
+		color: var(--text-dim);
+		margin: 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+	}
+	.dot {
+		width: 8px;
+		height: 8px;
+		background: #ef4444;
+		border-radius: 50%;
+		box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+	}
+	@media (max-width: 720px) {
+		.grid {
+			grid-template-columns: 1fr 1fr;
+			gap: 1.5em;
+		}
+		.brand-col {
+			grid-column: 1 / -1;
+		}
+		.bottom {
+			justify-content: center;
+			text-align: center;
+		}
+	}
+	@media (max-width: 480px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>
