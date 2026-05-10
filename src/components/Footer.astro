@@ -1,50 +1,101 @@
 ---
-import { SITE_TITLE } from '../consts';
 const today = new Date();
 ---
 
 <footer>
-	<p class="brand">{SITE_TITLE}</p>
-	<p class="tagline">Türkçe yapay zeka araçları rehberi.</p>
-	<nav class="footer-links">
-		<a href="/">Anasayfa</a>
-		<a href="/blog">Yazılar</a>
-		<a href="/about">Hakkında</a>
-		<a href="/rss.xml">RSS</a>
-	</nav>
-	<p class="copy">&copy; {today.getFullYear()} AITR. Tüm hakları saklıdır.</p>
+	<div class="container">
+		<div class="brand-row">
+			<div class="brand">
+				<span class="brand-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+						<path
+							d="M12 2 L20 21 L17 21 L15.2 16.5 H8.8 L7 21 L4 21 Z M9.7 13.6 H14.3 L12 7.5 Z"
+							fill="white"
+						></path>
+						<circle cx="20.5" cy="3.5" r="1.5" fill="white"></circle>
+					</svg>
+				</span>
+				<span class="brand-text">AITR</span>
+			</div>
+			<p class="tagline">Türkçe yapay zeka araçları rehberi.</p>
+		</div>
+		<nav class="links" aria-label="Alt menü">
+			<a href="/">Anasayfa</a>
+			<a href="/blog">Yazılar</a>
+			<a href="/about">Hakkında</a>
+			<a href="/rss.xml">RSS</a>
+		</nav>
+		<p class="copy">&copy; {today.getFullYear()} AITR. Tüm hakları saklıdır.</p>
+	</div>
 </footer>
 <style>
 	footer {
-		padding: 2em 1em 4em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
+		margin-top: 4em;
+		border-top: 1px solid var(--border);
+		background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.04));
+		padding: 2.5em 1.25em 3em 1.25em;
+	}
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.25em;
 		text-align: center;
 	}
+	.brand-row {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5em;
+	}
 	.brand {
-		font-weight: 700;
-		color: rgb(var(--gray-dark));
-		margin: 0 0 0.25em 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5em;
+		font-family: var(--font-display);
+	}
+	.brand-icon {
+		display: grid;
+		place-items: center;
+		width: 26px;
+		height: 26px;
+		background: var(--gradient-1);
+		border-radius: 7px;
+	}
+	.brand-text {
+		font-weight: 800;
+		font-size: 1.05em;
+		background: var(--gradient-text);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		letter-spacing: -0.02em;
 	}
 	.tagline {
-		margin: 0 0 1em 0;
+		margin: 0;
+		color: var(--text-muted);
+		font-size: 0.95em;
 	}
-	.footer-links {
+	.links {
 		display: flex;
-		justify-content: center;
-		gap: 1em;
+		gap: 1.25em;
 		flex-wrap: wrap;
-		margin-bottom: 1em;
+		justify-content: center;
 	}
-	.footer-links a {
+	.links a {
 		text-decoration: none;
-		color: rgb(var(--gray));
+		color: var(--text-muted);
+		font-size: 0.9em;
+		transition: 0.15s ease;
 	}
-	.footer-links a:hover {
-		color: var(--accent);
+	.links a:hover {
+		color: #c4b5fd;
 	}
 	.copy {
 		font-size: 0.85em;
+		color: var(--text-dim);
 		margin: 0;
 	}
 </style>

@@ -9,226 +9,131 @@ import { SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from '../consts';
 
 const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 8);
+	.slice(0, 6);
 ---
 
 <!doctype html>
 <html lang={SITE_LANG}>
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			.hero {
-				padding: 3em 1em 2em 1em;
-				text-align: center;
-			}
-			.hero h1 {
-				font-size: 2.5em;
-				line-height: 1.15;
-				margin-bottom: 0.5em;
-			}
-			.hero p.lead {
-				font-size: 1.15em;
-				color: rgb(var(--gray-dark));
-				max-width: 720px;
-				margin: 0 auto 1.5em auto;
-			}
-			.cta-row {
-				display: flex;
-				gap: 0.75em;
-				justify-content: center;
-				flex-wrap: wrap;
-			}
-			.btn {
-				display: inline-block;
-				padding: 0.7em 1.4em;
-				border-radius: 8px;
-				text-decoration: none;
-				font-weight: 700;
-				transition: 0.15s ease;
-			}
-			.btn-primary {
-				background: var(--accent);
-				color: white;
-			}
-			.btn-primary:hover {
-				background: var(--accent-dark);
-				color: white;
-			}
-			.btn-ghost {
-				background: rgb(var(--gray-light));
-				color: rgb(var(--gray-dark));
-			}
-			.btn-ghost:hover {
-				background: rgb(var(--gray));
-				color: white;
-			}
-			section.categories {
-				padding: 2em 1em;
-			}
-			.categories h2 {
-				text-align: center;
-				margin-bottom: 1em;
-			}
-			.cat-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-				gap: 1em;
-				max-width: 960px;
-				margin: 0 auto;
-			}
-			.cat-card {
-				display: block;
-				padding: 1.5em;
-				background: white;
-				border-radius: 12px;
-				box-shadow: 0 2px 8px rgba(var(--black), 4%);
-				text-decoration: none;
-				color: rgb(var(--gray-dark));
-				transition: 0.15s ease;
-			}
-			.cat-card:hover {
-				transform: translateY(-2px);
-				box-shadow: var(--box-shadow);
-				color: rgb(var(--gray-dark));
-			}
-			.cat-card h3 {
-				margin-top: 0;
-				font-size: 1.25em;
-			}
-			.cat-card p {
-				margin: 0;
-				font-size: 0.95em;
-				color: rgb(var(--gray));
-			}
-			.cat-emoji {
-				font-size: 2em;
-				display: block;
-				margin-bottom: 0.5em;
-			}
-			section.latest {
-				padding: 2em 1em 4em 1em;
-				max-width: 960px;
-				margin: 0 auto;
-			}
-			.latest h2 {
-				margin-bottom: 1em;
-			}
-			.post-list {
-				list-style: none;
-				padding: 0;
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-				gap: 1.25em;
-			}
-			.post-card {
-				background: white;
-				border-radius: 12px;
-				overflow: hidden;
-				box-shadow: 0 2px 8px rgba(var(--black), 4%);
-				transition: 0.15s ease;
-			}
-			.post-card:hover {
-				transform: translateY(-2px);
-				box-shadow: var(--box-shadow);
-			}
-			.post-card a {
-				text-decoration: none;
-				color: rgb(var(--gray-dark));
-				display: block;
-			}
-			.post-card img {
-				width: 100%;
-				height: 180px;
-				object-fit: cover;
-				display: block;
-				border-radius: 0;
-			}
-			.post-card .body {
-				padding: 1em;
-			}
-			.post-card h4 {
-				margin: 0 0 0.5em 0;
-				font-size: 1.1em;
-				line-height: 1.3;
-			}
-			.post-card .date {
-				font-size: 0.85em;
-				color: rgb(var(--gray));
-			}
-			.empty {
-				text-align: center;
-				padding: 2em;
-				color: rgb(var(--gray));
-			}
-			@media (max-width: 720px) {
-				.hero h1 {
-					font-size: 1.85em;
-				}
-			}
-		</style>
 	</head>
 	<body>
 		<Header />
-		<main style="width: 100%; max-width: 100%; padding: 0;">
+		<main class="home-main">
+			<!-- HERO -->
 			<section class="hero">
-				<h1>Yapay Zeka Araçlarını Türkçe Keşfet</h1>
-				<p class="lead">
-					ChatGPT, Claude, Gemini, Midjourney ve onlarca AI aracı için karşılaştırmalar,
-					Türkçe kullanım rehberleri ve dürüst incelemeler. Hangi araç senin için doğru,
-					burada öğren.
-				</p>
-				<div class="cta-row">
-					<a class="btn btn-primary" href="/blog">Tüm Yazılar</a>
-					<a class="btn btn-ghost" href="/about">Bu Site Nedir?</a>
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="hero-inner">
+					<a href="/blog/chatgpt-claude-gemini-karsilastirma-2026/" class="pill pill-glow announce">
+						<span class="dot"></span>
+						Yeni: ChatGPT vs Claude vs Gemini 2026 karşılaştırması
+						<span class="arrow">→</span>
+					</a>
+					<h1 class="hero-title">
+						Yapay zekayı <span class="gradient-text">Türkçe</span><br />
+						keşfet, kullan, ileri taşı.
+					</h1>
+					<p class="hero-sub">
+						ChatGPT, Claude, Gemini, Midjourney ve onlarca AI aracı için derinlikli
+						karşılaştırmalar, dürüst incelemeler ve adım adım Türkçe rehberler.
+					</p>
+					<div class="cta-row">
+						<a class="btn btn-primary" href="/blog">
+							Yazıları Keşfet
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+						</a>
+						<a class="btn btn-ghost" href="/about">AITR Nedir?</a>
+					</div>
+					<div class="brand-row" aria-label="Bu sitede ele aldığımız markalar">
+						<span class="brand-chip">ChatGPT</span>
+						<span class="brand-chip">Claude</span>
+						<span class="brand-chip">Gemini</span>
+						<span class="brand-chip">Midjourney</span>
+						<span class="brand-chip">Cursor</span>
+						<span class="brand-chip">Perplexity</span>
+						<span class="brand-chip">Notion AI</span>
+					</div>
 				</div>
 			</section>
 
-			<section class="categories">
-				<h2>Kategoriler</h2>
+			<!-- KATEGORİLER -->
+			<section class="section">
+				<header class="section-head">
+					<h2>Ne ararsan burada</h2>
+					<p>Dört ana kategoride üretiyoruz, hepsi Türkçe ve uygulamaya dönük.</p>
+				</header>
 				<div class="cat-grid">
 					<a class="cat-card" href="/blog">
-						<span class="cat-emoji">⚖️</span>
+						<div class="cat-emoji" style="--g: linear-gradient(135deg,#8b5cf6,#ec4899)">⚖️</div>
 						<h3>Karşılaştırmalar</h3>
-						<p>ChatGPT vs Claude, Midjourney vs DALL-E ve daha fazlası.</p>
+						<p>ChatGPT vs Claude, Midjourney vs DALL·E ve daha fazlası — yan yana, dürüstçe.</p>
 					</a>
 					<a class="cat-card" href="/blog">
-						<span class="cat-emoji">📘</span>
+						<div class="cat-emoji" style="--g: linear-gradient(135deg,#3b82f6,#8b5cf6)">📘</div>
 						<h3>Kullanım Rehberleri</h3>
-						<p>Adım adım Türkçe AI aracı kullanım rehberleri.</p>
+						<p>Sıfırdan başlayanlar için adım adım Türkçe AI aracı eğitimleri.</p>
 					</a>
 					<a class="cat-card" href="/blog">
-						<span class="cat-emoji">🔍</span>
+						<div class="cat-emoji" style="--g: linear-gradient(135deg,#06b6d4,#3b82f6)">🔍</div>
 						<h3>İncelemeler</h3>
-						<p>Detaylı, deneyimsel araç incelemeleri ve testler.</p>
+						<p>Hype'ın ötesinde gerçek artılar, gerçek eksiler. Test ettik, anlatıyoruz.</p>
 					</a>
 					<a class="cat-card" href="/blog">
-						<span class="cat-emoji">💼</span>
+						<div class="cat-emoji" style="--g: linear-gradient(135deg,#ec4899,#f97316)">💼</div>
 						<h3>Para Kazanma</h3>
-						<p>Yapay zeka ile gerçek gelir yaratmanın yolları.</p>
+						<p>Yapay zekayı işine ve cebine dokunan biçimde kullanmanın yolları.</p>
 					</a>
 				</div>
 			</section>
 
-			<section class="latest">
-				<h2>Son Yazılar</h2>
+			<!-- ÖNE ÇIKAN İSTATİSTİKLER (alanı dolu gösteriyor + güven) -->
+			<section class="stats">
+				<div class="stat">
+					<div class="stat-num gradient-text">30+</div>
+					<div class="stat-label">İncelenen AI aracı</div>
+				</div>
+				<div class="stat">
+					<div class="stat-num gradient-text">100%</div>
+					<div class="stat-label">Türkçe içerik</div>
+				</div>
+				<div class="stat">
+					<div class="stat-num gradient-text">0₺</div>
+					<div class="stat-label">Reklamsız okuma</div>
+				</div>
+				<div class="stat">
+					<div class="stat-num gradient-text">2026</div>
+					<div class="stat-label">Güncel veri</div>
+				</div>
+			</section>
+
+			<!-- SON YAZILAR -->
+			<section class="section">
+				<header class="section-head">
+					<h2>Son Yazılar</h2>
+					<p>En yeni karşılaştırmalar, rehberler ve incelemeler.</p>
+				</header>
 				{
 					posts.length === 0 ? (
-						<p class="empty">Yazılar yakında burada olacak.</p>
+						<div class="empty">Yazılar yakında burada olacak.</div>
 					) : (
-						<ul class="post-list">
-							{posts.map((post) => (
-								<li class="post-card">
+						<ul class="post-grid">
+							{posts.map((post, i) => (
+								<li class={`post-card ${i === 0 ? 'post-card-feature' : ''}`}>
 									<a href={`/blog/${post.id}/`}>
 										{post.data.heroImage && (
-											<Image
-												width={560}
-												height={280}
-												src={post.data.heroImage}
-												alt={post.data.title}
-											/>
+											<div class="img-wrap">
+												<Image
+													width={i === 0 ? 1100 : 560}
+													height={i === 0 ? 460 : 280}
+													src={post.data.heroImage}
+													alt={post.data.title}
+												/>
+											</div>
 										)}
 										<div class="body">
+											<span class="pill">Karşılaştırma</span>
 											<h4>{post.data.title}</h4>
+											<p class="excerpt">{post.data.description}</p>
 											<p class="date">
 												<FormattedDate date={post.data.pubDate} />
 											</p>
@@ -239,8 +144,343 @@ const posts = (await getCollection('blog'))
 						</ul>
 					)
 				}
+				<div class="see-all">
+					<a class="btn btn-ghost" href="/blog">Tüm yazılar →</a>
+				</div>
 			</section>
 		</main>
 		<Footer />
+
+		<style>
+			.home-main {
+				max-width: 100%;
+				padding: 0;
+			}
+
+			/* HERO */
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 6em 1.25em 5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.hero-inner {
+				position: relative;
+				z-index: 2;
+				max-width: 880px;
+				margin: 0 auto;
+				animation: fade-up 0.6s ease both;
+			}
+			.announce {
+				margin-bottom: 1.5em;
+				font-weight: 500;
+				text-decoration: none;
+				cursor: pointer;
+				transition: 0.2s ease;
+			}
+			.announce:hover {
+				transform: translateY(-1px);
+				box-shadow: var(--glow-violet);
+				color: white;
+			}
+			.announce .dot {
+				width: 7px;
+				height: 7px;
+				background: var(--accent-2);
+				border-radius: 50%;
+				box-shadow: 0 0 12px var(--accent-2);
+			}
+			.announce .arrow {
+				color: var(--text-muted);
+				transition: 0.2s ease;
+			}
+			.announce:hover .arrow {
+				transform: translateX(3px);
+				color: white;
+			}
+			.hero-title {
+				font-size: clamp(2.4em, 6vw, 4.2em);
+				line-height: 1.05;
+				margin: 0 0 0.5em 0;
+				letter-spacing: -0.035em;
+				font-weight: 700;
+			}
+			.hero-sub {
+				font-size: 1.2em;
+				color: var(--text-muted);
+				max-width: 680px;
+				margin: 0 auto 2em auto;
+				line-height: 1.6;
+			}
+			.cta-row {
+				display: flex;
+				gap: 0.75em;
+				justify-content: center;
+				flex-wrap: wrap;
+				margin-bottom: 3em;
+			}
+			.brand-row {
+				display: flex;
+				justify-content: center;
+				flex-wrap: wrap;
+				gap: 0.5em;
+				opacity: 0.85;
+			}
+			.brand-chip {
+				font-size: 0.82em;
+				color: var(--text-muted);
+				padding: 0.35em 0.85em;
+				border: 1px solid var(--border);
+				border-radius: 999px;
+				background: var(--surface);
+				font-weight: 500;
+				font-family: var(--font-display);
+			}
+
+			/* SECTIONS */
+			.section {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 5em 1.25em;
+			}
+			.section-head {
+				text-align: center;
+				margin-bottom: 2.5em;
+			}
+			.section-head h2 {
+				font-size: clamp(1.8em, 4vw, 2.5em);
+				margin-bottom: 0.4em;
+			}
+			.section-head p {
+				color: var(--text-muted);
+				max-width: 580px;
+				margin: 0 auto;
+				font-size: 1.05em;
+			}
+
+			/* CATEGORY GRID */
+			.cat-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+				gap: 1.25em;
+			}
+			.cat-card {
+				display: block;
+				padding: 1.75em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				text-decoration: none;
+				color: var(--text);
+				transition: 0.25s ease;
+				backdrop-filter: blur(12px);
+				position: relative;
+				overflow: hidden;
+			}
+			.cat-card::before {
+				content: '';
+				position: absolute;
+				inset: 0;
+				background: var(--g, var(--gradient-1));
+				opacity: 0;
+				transition: 0.25s ease;
+				border-radius: inherit;
+				z-index: 0;
+				filter: blur(40px);
+			}
+			.cat-card:hover {
+				border-color: var(--border-glow);
+				transform: translateY(-4px);
+				box-shadow: var(--shadow-card-hover);
+				color: var(--text);
+			}
+			.cat-card:hover::before {
+				opacity: 0.08;
+			}
+			.cat-card > * {
+				position: relative;
+				z-index: 1;
+			}
+			.cat-emoji {
+				display: inline-grid;
+				place-items: center;
+				width: 50px;
+				height: 50px;
+				background: var(--g, var(--gradient-1));
+				border-radius: 12px;
+				font-size: 1.4em;
+				margin-bottom: 1em;
+				box-shadow: var(--glow-violet);
+			}
+			.cat-card h3 {
+				margin: 0 0 0.4em 0;
+				font-size: 1.15em;
+			}
+			.cat-card p {
+				margin: 0;
+				font-size: 0.95em;
+				color: var(--text-muted);
+				line-height: 1.6;
+			}
+
+			/* STATS */
+			.stats {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+				gap: 1em;
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 2em 1.25em;
+				border-top: 1px solid var(--border);
+				border-bottom: 1px solid var(--border);
+				background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.03));
+			}
+			.stat {
+				text-align: center;
+				padding: 1em;
+			}
+			.stat-num {
+				font-family: var(--font-display);
+				font-size: 2.4em;
+				font-weight: 700;
+				letter-spacing: -0.04em;
+				line-height: 1;
+				margin-bottom: 0.3em;
+			}
+			.stat-label {
+				color: var(--text-muted);
+				font-size: 0.9em;
+			}
+
+			/* POST GRID */
+			.post-grid {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 1.5em;
+			}
+			.post-card {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				overflow: hidden;
+				transition: 0.25s ease;
+				backdrop-filter: blur(12px);
+			}
+			.post-card:hover {
+				border-color: var(--border-glow);
+				transform: translateY(-3px);
+				box-shadow: var(--shadow-card-hover);
+			}
+			.post-card a {
+				text-decoration: none;
+				color: var(--text);
+				display: block;
+				height: 100%;
+			}
+			.post-card-feature {
+				grid-column: 1 / -1;
+				display: grid;
+				grid-template-columns: 1.3fr 1fr;
+			}
+			.post-card-feature a {
+				display: contents;
+			}
+			.post-card-feature .img-wrap img {
+				height: 100%;
+				min-height: 320px;
+			}
+			.post-card-feature .body {
+				padding: 2em;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+			.post-card-feature h4 {
+				font-size: 1.7em;
+				margin-bottom: 0.5em;
+			}
+			.img-wrap {
+				overflow: hidden;
+				background: var(--bg-2);
+			}
+			.img-wrap img {
+				display: block;
+				width: 100%;
+				height: 200px;
+				object-fit: cover;
+				transition: transform 0.4s ease;
+				border-radius: 0;
+			}
+			.post-card:hover .img-wrap img {
+				transform: scale(1.04);
+			}
+			.body {
+				padding: 1.25em;
+			}
+			.body .pill {
+				margin-bottom: 0.85em;
+			}
+			.body h4 {
+				margin: 0 0 0.5em 0;
+				font-size: 1.15em;
+				line-height: 1.3;
+				color: var(--text);
+			}
+			.excerpt {
+				color: var(--text-muted);
+				font-size: 0.95em;
+				margin: 0 0 1em 0;
+				line-height: 1.55;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			.date {
+				font-size: 0.82em;
+				color: var(--text-dim);
+				margin: 0;
+			}
+			.empty {
+				text-align: center;
+				padding: 3em 1em;
+				color: var(--text-muted);
+				border: 1px dashed var(--border);
+				border-radius: 12px;
+			}
+			.see-all {
+				text-align: center;
+				margin-top: 2.5em;
+			}
+
+			@media (max-width: 760px) {
+				.hero {
+					padding: 3.5em 1em 3em;
+				}
+				.hero-sub {
+					font-size: 1.05em;
+				}
+				.section {
+					padding: 3em 1em;
+				}
+				.post-card-feature {
+					grid-template-columns: 1fr;
+				}
+				.post-card-feature .img-wrap img {
+					min-height: auto;
+					height: 220px;
+				}
+				.post-card-feature .body {
+					padding: 1.25em;
+				}
+				.post-card-feature h4 {
+					font-size: 1.25em;
+				}
+			}
+		</style>
 	</body>
 </html>
