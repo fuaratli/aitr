@@ -5,6 +5,39 @@ import { ClientRouter } from 'astro:transitions';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { SITE_TITLE, SITE_LOCALE, SITE_AUTHOR } from '../consts';
 
+const siteSchema = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Organization',
+			'@id': new URL('#organization', Astro.site).toString(),
+			name: 'AITR',
+			url: Astro.site?.toString() ?? '',
+			logo: {
+				'@type': 'ImageObject',
+				url: new URL('/favicon.svg', Astro.site).toString(),
+			},
+			sameAs: [] as string[],
+		},
+		{
+			'@type': 'WebSite',
+			'@id': new URL('#website', Astro.site).toString(),
+			name: SITE_TITLE,
+			url: Astro.site?.toString() ?? '',
+			inLanguage: 'tr-TR',
+			publisher: { '@id': new URL('#organization', Astro.site).toString() },
+			potentialAction: {
+				'@type': 'SearchAction',
+				target: {
+					'@type': 'EntryPoint',
+					urlTemplate: `${Astro.site?.toString() ?? ''}?q={search_term_string}`,
+				},
+				'query-input': 'required name=search_term_string',
+			},
+		},
+	],
+};
+
 interface Props {
 	title: string;
 	description: string;
@@ -31,7 +64,19 @@ const ogImageURL = new URL(image.src, Astro.url);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="theme-color" content="#07070d" />
-<meta name="color-scheme" content="dark" />
+<meta name="color-scheme" content="dark light" />
+<link rel="manifest" href="/manifest.webmanifest" />
+
+<script is:inline>
+	(function () {
+		try {
+			var t = localStorage.getItem('aitr-theme');
+			if (t === 'light' || t === 'dark') {
+				document.documentElement.setAttribute('data-theme', t);
+			}
+		} catch (e) {}
+	})();
+</script>
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="author" content={SITE_AUTHOR} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -75,7 +120,20 @@ const ogImageURL = new URL(image.src, Astro.url);
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={ogImageURL} />
 
+<script type="application/ld+json" set:html={JSON.stringify(siteSchema)} is:inline />
+
 <ClientRouter />
+
+{/* Google Analytics 4 — kayıt sonrası MEASUREMENT_ID'yi gir, yorum satırını aç */}
+{/*
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script is:inline>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-XXXXXXXXXX');
+</script>
+*/}
 
 {/* Google AdSense — onay sonrası açılacak.
 	1) https://www.google.com/adsense adresinden başvur (siteni canlıya aldıktan sonra)
@@ -110,5 +168,90 @@ const ogImageURL = new URL(image.src, Astro.url);
 			});
 		}
 		document.addEventListener('astro:page-load', setupReveal);
+	})();
+</script>
+
+<script is:inline>
+	(function () {
+		function setupCodeCopy() {
+			document.querySelectorAll('pre').forEach(function (pre) {
+				if (pre.parentElement && pre.parentElement.classList.contains('code-block-wrap')) return;
+				var wrap = document.createElement('div');
+				wrap.className = 'code-block-wrap';
+				pre.parentNode.insertBefore(wrap, pre);
+				wrap.appendChild(pre);
+				var btn = document.createElement('button');
+				btn.type = 'button';
+				btn.className = 'code-copy-btn';
+				btn.setAttribute('aria-label', 'Kodu kopyala');
+				btn.innerHTML =
+					'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Kopyala</span>';
+				btn.onclick = function () {
+					var code = pre.querySelector('code');
+					var text = code ? code.innerText : pre.innerText;
+					if (navigator.clipboard) {
+						navigator.clipboard.writeText(text).then(function () {
+							btn.classList.add('copied');
+							var label = btn.querySelector('span');
+							if (label) label.textContent = 'Kopyalandı!';
+							setTimeout(function () {
+								btn.classList.remove('copied');
+								if (label) label.textContent = 'Kopyala';
+							}, 1500);
+						});
+					}
+				};
+				wrap.appendChild(btn);
+			});
+		}
+		document.addEventListener('astro:page-load', setupCodeCopy);
+	})();
+</script>
+
+<script is:inline>
+	(function () {
+		function easeOut(t) {
+			return 1 - Math.pow(1 - t, 3);
+		}
+		function animateCount(el, target, suffix, duration) {
+			var start = 0;
+			var t0 = performance.now();
+			function tick(now) {
+				var p = Math.min(1, (now - t0) / duration);
+				var val = Math.floor(start + (target - start) * easeOut(p));
+				el.textContent = val + (suffix || '');
+				if (p < 1) requestAnimationFrame(tick);
+			}
+			requestAnimationFrame(tick);
+		}
+		function setupCounters() {
+			var nodes = document.querySelectorAll('[data-count]');
+			if (!nodes.length) return;
+			if (!('IntersectionObserver' in window)) {
+				nodes.forEach(function (el) {
+					el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || '');
+				});
+				return;
+			}
+			var io = new IntersectionObserver(
+				function (entries) {
+					entries.forEach(function (e) {
+						if (e.isIntersecting) {
+							var el = e.target;
+							var target = parseInt(el.getAttribute('data-count'), 10);
+							var suffix = el.getAttribute('data-suffix') || '';
+							animateCount(el, target, suffix, 1400);
+							io.unobserve(el);
+						}
+					});
+				},
+				{ threshold: 0.4 }
+			);
+			nodes.forEach(function (el) {
+				el.textContent = '0' + (el.getAttribute('data-suffix') || '');
+				io.observe(el);
+			});
+		}
+		document.addEventListener('astro:page-load', setupCounters);
 	})();
 </script>

@@ -1,0 +1,191 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE_LANG, SITE_TITLE } from '../../consts';
+import { CATEGORY_META, type CategoryKey } from '../../lib/categories';
+import { slugifyTag } from '../../lib/slug';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const tagMap = new Map<string, { label: string; posts: typeof posts }>();
+	for (const post of posts) {
+		for (const tag of post.data.tags ?? []) {
+			const slug = slugifyTag(tag);
+			if (!slug) continue;
+			if (!tagMap.has(slug)) tagMap.set(slug, { label: tag, posts: [] });
+			tagMap.get(slug)!.posts.push(post);
+		}
+	}
+	return Array.from(tagMap.entries()).map(([slug, data]) => ({
+		params: { tag: slug },
+		props: {
+			label: data.label,
+			posts: data.posts.sort(
+				(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+			),
+		},
+	}));
+}
+
+const { label, posts } = Astro.props;
+const pageTitle = `#${label} — ${SITE_TITLE}`;
+const pageDescription = `"${label}" etiketli tüm yapay zeka yazıları.`;
+
+const breadcrumbs = [
+	{ label: 'Anasayfa', href: '/' },
+	{ label: 'Yazılar', href: '/blog/' },
+	{ label: `#${label}` },
+];
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main class="tag-main">
+			<Breadcrumbs items={breadcrumbs} />
+			<header class="tag-hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<span class="pill pill-glow">Etiket</span>
+					<h1>#<span class="gradient-text">{label}</span></h1>
+					<p>{posts.length} yazı bulundu.</p>
+				</div>
+			</header>
+
+			<section class="list-wrap">
+				<AdSlot size="leaderboard" label="Reklam" slot="tag-top" />
+				<ul class="post-grid">
+					{posts.map((post) => {
+						const meta = CATEGORY_META[post.data.category as CategoryKey];
+						return (
+							<li class="post-card">
+								<a href={`/blog/${post.id}/`}>
+									{post.data.heroImage && (
+										<div class="img-wrap">
+											<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+										</div>
+									)}
+									<div class="body">
+										<span class="pill">{meta?.label ?? 'Yazı'}</span>
+										<h2>{post.data.title}</h2>
+										<p class="excerpt">{post.data.description}</p>
+										<p class="date">
+											<FormattedDate date={post.data.pubDate} />
+										</p>
+									</div>
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+				<AdSlot size="banner" label="Reklam" slot="tag-bottom" />
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.tag-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.tag-hero {
+				position: relative;
+				overflow: hidden;
+				padding: 3.5em 1.25em 2.5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.tag-hero .inner {
+				position: relative;
+				z-index: 2;
+			}
+			.tag-hero .pill {
+				margin-bottom: 0.85em;
+			}
+			.tag-hero h1 {
+				font-size: clamp(2em, 5vw, 3em);
+				margin: 0 0 0.4em 0;
+				letter-spacing: -0.03em;
+			}
+			.tag-hero p {
+				color: var(--text-muted);
+				margin: 0;
+			}
+			.list-wrap {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 3em 1.25em;
+			}
+			.post-grid {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 1.5em;
+			}
+			.post-card {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				overflow: hidden;
+				transition: 0.25s ease;
+				backdrop-filter: blur(12px);
+			}
+			.post-card:hover {
+				border-color: var(--border-glow);
+				transform: translateY(-3px);
+				box-shadow: var(--shadow-card-hover);
+			}
+			.post-card a {
+				text-decoration: none;
+				color: var(--text);
+				display: block;
+				height: 100%;
+			}
+			.img-wrap img {
+				display: block;
+				width: 100%;
+				height: 200px;
+				object-fit: cover;
+				border-radius: 0;
+			}
+			.body {
+				padding: 1.5em;
+			}
+			.body .pill {
+				margin-bottom: 0.85em;
+			}
+			.body h2 {
+				margin: 0 0 0.5em 0;
+				font-size: 1.2em;
+				line-height: 1.3;
+			}
+			.excerpt {
+				color: var(--text-muted);
+				font-size: 0.95em;
+				margin: 0 0 1em 0;
+				line-height: 1.55;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			.date {
+				font-size: 0.82em;
+				color: var(--text-dim);
+				margin: 0;
+			}
+		</style>
+	</body>
+</html>
