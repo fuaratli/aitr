@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aitr.pages.dev/sitemap-index.xml
+Sitemap: https://aitr.fuaratli.workers.dev/sitemap-index.xml
