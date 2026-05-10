@@ -8,7 +8,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import AdSlot from '../components/AdSlot.astro';
 import { SITE_LANG, SITE_TITLE, SITE_AUTHOR } from '../consts';
-import { CATEGORY_META, type CategoryKey } from '../content.config';
+import { CATEGORY_META, type CategoryKey } from '../lib/categories';
 
 type Props = CollectionEntry<'blog'>['data'] & {
 	headings?: MarkdownHeading[];
