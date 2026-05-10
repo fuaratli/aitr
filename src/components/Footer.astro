@@ -1,0 +1,50 @@
+---
+import { SITE_TITLE } from '../consts';
+const today = new Date();
+---
+
+<footer>
+	<p class="brand">{SITE_TITLE}</p>
+	<p class="tagline">Türkçe yapay zeka araçları rehberi.</p>
+	<nav class="footer-links">
+		<a href="/">Anasayfa</a>
+		<a href="/blog">Yazılar</a>
+		<a href="/about">Hakkında</a>
+		<a href="/rss.xml">RSS</a>
+	</nav>
+	<p class="copy">&copy; {today.getFullYear()} AITR. Tüm hakları saklıdır.</p>
+</footer>
+<style>
+	footer {
+		padding: 2em 1em 4em 1em;
+		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		color: rgb(var(--gray));
+		text-align: center;
+	}
+	.brand {
+		font-weight: 700;
+		color: rgb(var(--gray-dark));
+		margin: 0 0 0.25em 0;
+	}
+	.tagline {
+		margin: 0 0 1em 0;
+	}
+	.footer-links {
+		display: flex;
+		justify-content: center;
+		gap: 1em;
+		flex-wrap: wrap;
+		margin-bottom: 1em;
+	}
+	.footer-links a {
+		text-decoration: none;
+		color: rgb(var(--gray));
+	}
+	.footer-links a:hover {
+		color: var(--accent);
+	}
+	.copy {
+		font-size: 0.85em;
+		margin: 0;
+	}
+</style>
