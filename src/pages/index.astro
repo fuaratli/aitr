@@ -7,6 +7,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import AdSlot from '../components/AdSlot.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
+import HeroCover from '../components/HeroCover.astro';
 import { SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from '../consts';
 import { CATEGORY_META } from '../lib/categories';
 
@@ -127,18 +128,20 @@ const featured = posts[0];
 								<li class={`post-card ${i === 0 ? 'post-card-feature' : ''}`}>
 									<a href={`/blog/${post.id}/`}>
 										{i === 0 && <span class="badge-new badge-new-corner">YENİ</span>}
-										{post.data.heroImage && (
-											<div class="img-wrap">
+										<div class="img-wrap">
+											{post.data.heroImage ? (
 												<Image
 													width={i === 0 ? 1100 : 560}
 													height={i === 0 ? 460 : 280}
 													src={post.data.heroImage}
 													alt={post.data.title}
 												/>
-											</div>
-										)}
+											) : (
+												<HeroCover title={post.data.title} category={post.data.category} size={i === 0 ? 'large' : 'medium'} />
+											)}
+										</div>
 										<div class="body">
-											<span class="pill">Karşılaştırma</span>
+											<span class="pill">{CATEGORY_META[post.data.category]?.label ?? 'Yazı'}</span>
 											<h4>{post.data.title}</h4>
 											<p class="excerpt">{post.data.description}</p>
 											<p class="date">
@@ -427,7 +430,12 @@ const featured = posts[0];
 			.post-card-feature a {
 				display: contents;
 			}
-			.post-card-feature .img-wrap img {
+			.post-card-feature .img-wrap {
+				aspect-ratio: auto;
+				height: 100%;
+			}
+			.post-card-feature .img-wrap img,
+			.post-card-feature .img-wrap :global(.hcover) {
 				height: 100%;
 				min-height: 320px;
 			}
@@ -444,16 +452,19 @@ const featured = posts[0];
 			.img-wrap {
 				overflow: hidden;
 				background: var(--bg-2);
+				aspect-ratio: 16 / 9;
 			}
-			.img-wrap img {
+			.img-wrap img,
+			.img-wrap :global(.hcover) {
 				display: block;
 				width: 100%;
-				height: 200px;
+				height: 100%;
 				object-fit: cover;
 				transition: transform 0.4s ease;
 				border-radius: 0;
 			}
-			.post-card:hover .img-wrap img {
+			.post-card:hover .img-wrap img,
+			.post-card:hover .img-wrap :global(.hcover) {
 				transform: scale(1.04);
 			}
 			.body {

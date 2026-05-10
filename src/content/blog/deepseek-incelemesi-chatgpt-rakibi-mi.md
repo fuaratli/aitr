@@ -2,7 +2,6 @@
 title: 'DeepSeek Nedir? ChatGPT''ye Gerçek Rakip mi? (2026 İnceleme)'
 description: 'Çin merkezli DeepSeek''i 2 hafta yoğun kullandık. ChatGPT ile gerçek karşılaştırma, Türkçe performansı, gizlilik endişeleri, R1 modeli ve sana uygun mu — dürüst inceleme.'
 pubDate: 'May 6 2026'
-heroImage: '../../assets/blog-placeholder-5.jpg'
 category: 'inceleme'
 tags: ['deepseek', 'chatgpt', 'inceleme', 'çin ai', 'r1']
 ---

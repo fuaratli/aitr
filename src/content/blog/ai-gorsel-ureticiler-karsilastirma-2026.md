@@ -2,7 +2,6 @@
 title: 'AI Görsel Üreticiler 2026: Midjourney vs DALL·E vs Stable Diffusion vs Flux'
 description: 'En popüler 4 AI görsel üreticisini 100 prompt ile yan yana test ettik. Hangisi gerçekçi portre, hangisi sanatsal, hangisi yazılı görsel için en iyi — detaylı karşılaştırma.'
 pubDate: 'May 4 2026'
-heroImage: '../../assets/blog-placeholder-4.jpg'
 category: 'karsilastirma'
 tags: ['midjourney', 'dalle', 'stable diffusion', 'flux', 'görsel ai']
 ---

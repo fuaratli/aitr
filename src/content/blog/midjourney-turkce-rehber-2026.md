@@ -2,7 +2,6 @@
 title: 'Midjourney Türkçe Rehber 2026: Sıfırdan Profesyonele A''dan Z''ye'
 description: 'Midjourney''e nasıl kaydolunur, nasıl kullanılır, en iyi parametreler neler, Türkçe ipuçları, ücretler, alternatifleri ve gerçek kullanım örnekleri — hepsi tek rehberde.'
 pubDate: 'May 7 2026'
-heroImage: '../../assets/blog-placeholder-4.jpg'
 category: 'rehber'
 tags: ['midjourney', 'görsel ai', 'rehber', 'türkçe', 'tasarım']
 ---

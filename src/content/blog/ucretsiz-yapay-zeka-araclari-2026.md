@@ -2,7 +2,6 @@
 title: 'Ücretsiz Yapay Zeka Araçları 2026: En İyi 20 Seçim (Kategorize Liste)'
 description: 'ChatGPT alternatifinden görsel üreticilere, video düzenleyiciden ses kloncuya — 2026 için gerçekten ücretsiz, gerçekten işe yarayan 20 yapay zeka aracını kategorize ettik.'
 pubDate: 'May 9 2026'
-heroImage: '../../assets/blog-placeholder-1.jpg'
 category: 'rehber'
 tags: ['ücretsiz', 'araçlar', 'liste', 'chatgpt', 'midjourney', '2026']
 ---

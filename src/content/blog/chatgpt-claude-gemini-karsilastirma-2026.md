@@ -2,7 +2,6 @@
 title: 'ChatGPT Plus, Claude Pro, Gemini Advanced: 2026''da Hangisini Almalısın?'
 description: 'Üç popüler yapay zeka aboneliğini fiyat, Türkçe performansı, yazılım, görsel ve veri analizi başlıklarında karşılaştırdık. Hangisi senin için doğru, dürüst cevabı bu yazıda.'
 pubDate: 'May 10 2026'
-heroImage: '../../assets/blog-placeholder-2.jpg'
 category: 'karsilastirma'
 tags: ['chatgpt', 'claude', 'gemini', 'karşılaştırma', '2026']
 ---

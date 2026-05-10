@@ -2,7 +2,6 @@
 title: 'ChatGPT için 50 Hazır Prompt: Kopyala-Yapıştır Şablonlar (Türkçe)'
 description: 'İş, yazım, kod, eğitim, kişisel gelişim için kullanıma hazır 50 ChatGPT prompt''u. Kopyala, yapıştır, çalıştır. Her birinin nasıl uyarlanacağı açıklamasıyla.'
 pubDate: 'May 5 2026'
-heroImage: '../../assets/blog-placeholder-1.jpg'
 category: 'rehber'
 tags: ['chatgpt', 'prompt', 'şablon', 'verimlilik', 'iş']
 ---

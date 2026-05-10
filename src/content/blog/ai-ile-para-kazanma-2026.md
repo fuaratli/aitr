@@ -2,7 +2,6 @@
 title: 'AI ile Para Kazanmanın 12 Gerçek Yolu (2026): Yalansız Rehber'
 description: 'Yapay zeka ile gerçekten para kazandıran 12 yöntemi, başlangıç maliyetlerini, ilk gelir süresini ve gerçekçi aylık tutarları detaylandırdık. Hayalde değil, sahada olan yollar.'
 pubDate: 'May 8 2026'
-heroImage: '../../assets/blog-placeholder-3.jpg'
 category: 'para-kazanma'
 tags: ['para kazanma', 'gelir', 'freelance', 'içerik üretimi', 'ai iş']
 ---

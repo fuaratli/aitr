@@ -13,6 +13,7 @@ import SocialShare from '../components/SocialShare.astro';
 import AuthorCard from '../components/AuthorCard.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
+import HeroCover from '../components/HeroCover.astro';
 import { SITE_LANG, SITE_TITLE, SITE_AUTHOR } from '../consts';
 import { CATEGORY_META, type CategoryKey } from '../lib/categories';
 import { slugifyTag } from '../lib/slug';
@@ -123,13 +124,15 @@ const articleSchema = {
 					<p class="lede">{description}</p>
 				</header>
 
-				{
-					heroImage && (
-						<div class="hero-image">
+				<div class="hero-image">
+					{
+						heroImage ? (
 							<Image width={1200} height={600} src={heroImage} alt={title} />
-						</div>
-					)
-				}
+						) : (
+							<HeroCover title={title} category={category} size="large" />
+						)
+					}
+				</div>
 
 				<div class="ad-top">
 					<AdSlot size="leaderboard" label="Reklam" slot="post-top" />
