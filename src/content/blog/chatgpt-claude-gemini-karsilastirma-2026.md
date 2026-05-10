@@ -36,7 +36,7 @@ Türkçe'de dil bilgisi kuralları, akıcılık ve doğal cümle yapısı en ön
 
 - **Claude Pro** Türkçe yazımda en iyi. Cümle yapıları en doğal, kelime seçimleri en isabetli. Resmi dilekçe ve profesyonel iletişim için tercih edilir. Türkçe konusunda yapay durduğu çok az an oluyor.
 - **ChatGPT Plus** çok yakın ikinci. Bazen "translation-y" ya da hafif kalıplaşmış cümleler kurabilir, ama hızlı düzeltir. Yaratıcı yazımda iyi, mizah ve ton ayarı yapabiliyor.
-- **Gemini Advanced** Türkçe'de hala biraz daha mekanik. Anlam doğru, ama doğal akış arıyorsan diğer ikisinin gerisinde kalıyor. Son sürümlerle kapatıyor ama eşitlik gelmedi.
+- **Gemini Advanced** Türkçe'de hâlâ biraz daha mekanik. Anlam doğru, ama doğal akış arıyorsan diğer ikisinin gerisinde kalıyor. Son sürümlerle açığı kapatıyor ama tam eşitlik henüz gelmedi.
 
 **Sonuç:** Türkçe içerik üreticisi, çevirmen ya da yazar isen **Claude Pro** açık ara.
 
@@ -58,7 +58,7 @@ Geliştirici kullanımında üçünün de güçlü ve zayıf tarafları var.
 
 ### Gemini Advanced
 - Google'ın Colab entegrasyonu çok güçlü; veri bilimi ve makine öğrenimi çalışmaları için elverişli.
-- Çok uzun bağlam (2M token) sayesinde **kocaman bir kod tabanını** tek seferde verip soru sorabiliyorsun. Bu rakiplerinin hala gerisinde olduğu bir özellik.
+- Çok uzun bağlam (2M token) sayesinde **kocaman bir kod tabanını** tek seferde verip soru sorabiliyorsun. Bu, rakiplerinin hâlâ gerisinde olduğu bir özellik.
 - Gerçek-zamanlı kod yazımında bazen yüzeysel kalıyor.
 
 **Sonuç:** Tek başına yazılımcısan **Claude Pro**. Veri bilimi yapıyorsan **ChatGPT Plus** veya **Gemini Advanced**. Çok büyük kod tabanını analiz ettirmek için **Gemini Advanced**.
@@ -68,7 +68,7 @@ Geliştirici kullanımında üçünün de güçlü ve zayıf tarafları var.
 Hikaye, blog yazısı, pazarlama metni, senaryo gibi içerikler üretiyorsan:
 
 - **Claude Pro**, edebî tonu en iyi yakalayan model. "Esprili ama bilgilendirici" gibi nüanslı talepleri en doğru anlıyor. Uzun yazılarda tutarlılığı koruyor.
-- **ChatGPT Plus**, daha "trend-aware" — yani sosyal medyaya uygun, viral potansiyelli kısa içerikler üretirken oldukça başarılı. Memes, tweets, kısa video script'i yazımında öne çıkar.
+- **ChatGPT Plus**, daha "trend-aware" — yani sosyal medyaya uygun, viral potansiyelli kısa içerikler üretirken oldukça başarılı. Mem'ler, tweet'ler ve kısa video senaryoları yazımında öne çıkar.
 - **Gemini Advanced**, "Google Search'le güçlendirilmiş" yanıt veriyor. Yani güncel olaylara dayalı içerik istersen (haberler, yeni filmler, son ekonomi verileri) en taze bilgi onda. Yazım yumuşaklığı ise diğer ikisinin gerisinde.
 
 ## Görsel Üretimi
@@ -108,17 +108,17 @@ Telefonda ya da bilgisayarda gerçek sohbet yapabilmek artık standart bir özel
 ## Mobil Uygulama Deneyimi
 
 - **ChatGPT** ve **Gemini** mobil uygulamaları çok olgun. Hızlı, sorunsuz.
-- **Claude** mobil uygulaması çıktı ama hala bazı özellikler (sesli konuşma, görsel üretimi gibi) yok.
+- **Claude** mobil uygulaması çıktı ama hâlâ bazı özellikler (sesli konuşma, görsel üretimi gibi) yok.
 
 ## Üçüncü Taraf Entegrasyonlar
 
 - **ChatGPT Plus:** "Custom GPTs" ile sınırsız özel asistan yapabilirsin. GPT mağazasında binlerce hazır araç var.
 - **Claude Pro:** "Projects" özelliği ile içerikleri ve talimatları organize edebilirsin. Geliştiriciler için MCP (Model Context Protocol) desteği — bu büyük bir avantaj, kendi sistemlerine bağlanabiliyor.
-- **Gemini Advanced:** Google Workspace içine entegre. Gmail'de, Docs'ta, Sheets'te içeride çalışıyor. Eğer Google'ın ekosistemindesin, Gemini hayatına otomatik dahil oluyor.
+- **Gemini Advanced:** Google Workspace içine entegre. Gmail'de, Docs'ta, Sheets'te içeriden çalışıyor. Google ekosistemindeysen, Gemini hayatına otomatik dahil oluyor.
 
 ## Gizlilik ve Veri Politikası
 
-- **Claude (Anthropic):** Varsayılan olarak verilerinizi modelimizi eğitmek için kullanmaz. En şeffaf gizlilik politikalarından biri.
+- **Claude (Anthropic):** Varsayılan olarak verilerini modeli eğitmek için kullanmaz. En şeffaf gizlilik politikalarından biri.
 - **ChatGPT (OpenAI):** Ayarlardan "Improve the model" seçeneğini kapatabilirsin.
 - **Gemini (Google):** Geçmişteki sorgularını kaydeder ve eğitim verisi olarak kullanabilir; bu davranışı kapatabilirsin ama varsayılan açık.
 
@@ -150,7 +150,7 @@ Sana 5 saniyede karar verdireceğim:
 - Veri gizliliği önemliyse
 
 **Gemini Advanced al, eğer:**
-- Google ekosistemindesin (Gmail, Docs, Sheets, Drive)
+- Google ekosistemindeysen (Gmail, Docs, Sheets, Drive)
 - 2 TB depolama da ihtiyacınsa (planın içinde)
 - Çok uzun belgeleri analiz etmen gerekiyorsa
 - Güncel haberlere/internete entegre cevaplara ihtiyacın varsa
@@ -159,7 +159,7 @@ Sana 5 saniyede karar verdireceğim:
 
 Eğer profesyonel olarak AI kullanıyorsan (yazılımcı, içerik üretici, danışman), iki abonelik birden mantıklı olabilir. En iyi kombinasyon:
 
-- **Claude Pro + ChatGPT Plus** = en kapsamlı kapsama (kod + yazım + görsel + veri)
+- **Claude Pro + ChatGPT Plus** = en geniş kapsam (kod + yazım + görsel + veri)
 - Toplam aylık maliyet: ~40 USD (~1500 TL)
 
 İki tane almak istemezsen ve **karışık kullanıyorsan ChatGPT Plus** seç. Spesifik kullanım varsa o kategoride en güçlüsünü seç.
@@ -168,7 +168,7 @@ Eğer profesyonel olarak AI kullanıyorsan (yazılımcı, içerik üretici, dan�
 
 Açık konuşalım: hepsinin ücretsiz sürümleri var ve **çoğu kişiye yeterli**. Ücretli sürüme geçişin gerçek sebepleri:
 
-1. **Mesaj limiti yoksa**: Ücretsiz sürümlerde günlük belirli sayıda mesaj limiti var.
+1. **Mesaj limiti olmasın diye**: Ücretsiz sürümlerde günlük belirli sayıda mesaj limiti var.
 2. **En güçlü modele erişim**: Ücretsiz sürümlerde "küçük" modele erişiyorsun. Karmaşık iş istiyorsan ücretliye geçmek gerekir.
 3. **Özellik kilitleri**: Code Interpreter, görsel üretimi, voice mode gibi özellikler genelde Pro'ya kilitli.
 

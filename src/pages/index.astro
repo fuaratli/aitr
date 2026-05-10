@@ -57,7 +57,7 @@ const posts = (await getCollection('blog'))
 			</section>
 
 			<!-- KATEGORİLER -->
-			<section class="section">
+			<section class="section reveal">
 				<header class="section-head">
 					<h2>Ne ararsan burada</h2>
 					<p>Dört ana kategoride üretiyoruz, hepsi Türkçe ve uygulamaya dönük.</p>
@@ -87,7 +87,7 @@ const posts = (await getCollection('blog'))
 			</section>
 
 			<!-- ÖNE ÇIKAN İSTATİSTİKLER (alanı dolu gösteriyor + güven) -->
-			<section class="stats">
+			<section class="stats reveal">
 				<div class="stat">
 					<div class="stat-num gradient-text">30+</div>
 					<div class="stat-label">İncelenen AI aracı</div>
@@ -107,7 +107,7 @@ const posts = (await getCollection('blog'))
 			</section>
 
 			<!-- SON YAZILAR -->
-			<section class="section">
+			<section class="section reveal">
 				<header class="section-head">
 					<h2>Son Yazılar</h2>
 					<p>En yeni karşılaştırmalar, rehberler ve incelemeler.</p>
@@ -120,6 +120,7 @@ const posts = (await getCollection('blog'))
 							{posts.map((post, i) => (
 								<li class={`post-card ${i === 0 ? 'post-card-feature' : ''}`}>
 									<a href={`/blog/${post.id}/`}>
+										{i === 0 && <span class="badge-new badge-new-corner">YENİ</span>}
 										{post.data.heroImage && (
 											<div class="img-wrap">
 												<Image
@@ -185,11 +186,11 @@ const posts = (await getCollection('blog'))
 				color: white;
 			}
 			.announce .dot {
-				width: 7px;
-				height: 7px;
+				width: 8px;
+				height: 8px;
 				background: var(--accent-2);
 				border-radius: 50%;
-				box-shadow: 0 0 12px var(--accent-2);
+				animation: pulse-dot 1.6s ease-in-out infinite;
 			}
 			.announce .arrow {
 				color: var(--text-muted);
@@ -236,7 +237,21 @@ const posts = (await getCollection('blog'))
 				background: var(--surface);
 				font-weight: 500;
 				font-family: var(--font-display);
+				animation: float-tiny 4.5s ease-in-out infinite;
+				transition: 0.2s ease;
 			}
+			.brand-chip:hover {
+				color: var(--text);
+				border-color: var(--border-glow);
+				background: var(--surface-2);
+			}
+			.brand-chip:nth-child(1) { animation-delay: 0s; }
+			.brand-chip:nth-child(2) { animation-delay: -0.6s; }
+			.brand-chip:nth-child(3) { animation-delay: -1.2s; }
+			.brand-chip:nth-child(4) { animation-delay: -1.8s; }
+			.brand-chip:nth-child(5) { animation-delay: -2.4s; }
+			.brand-chip:nth-child(6) { animation-delay: -3s; }
+			.brand-chip:nth-child(7) { animation-delay: -3.6s; }
 
 			/* SECTIONS */
 			.section {
@@ -380,6 +395,13 @@ const posts = (await getCollection('blog'))
 				color: var(--text);
 				display: block;
 				height: 100%;
+				position: relative;
+			}
+			.badge-new-corner {
+				position: absolute;
+				top: 1em;
+				right: 1em;
+				z-index: 4;
 			}
 			.post-card-feature {
 				grid-column: 1 / -1;

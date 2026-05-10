@@ -15,9 +15,9 @@
 	--border-glow: rgba(139, 92, 246, 0.35);
 
 	/* Text */
-	--text: #f1f1f7;
-	--text-muted: #a8a8c0;
-	--text-dim: #6b6b85;
+	--text: #f5f5fa;
+	--text-muted: #cfcfe2;
+	--text-dim: #9b9bb5;
 
 	/* Accents */
 	--accent: #8b5cf6;
@@ -397,6 +397,148 @@ input:focus {
 @keyframes shimmer {
 	0% { background-position: -200% 0; }
 	100% { background-position: 200% 0; }
+}
+
+/* Gradient text with continuous shimmer */
+.gradient-text {
+	background: linear-gradient(
+		90deg,
+		#c4b5fd 0%,
+		#f9a8d4 25%,
+		#93c5fd 50%,
+		#f9a8d4 75%,
+		#c4b5fd 100%
+	);
+	background-size: 250% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: text-shimmer 9s linear infinite;
+}
+@keyframes text-shimmer {
+	0% { background-position: 250% 0; }
+	100% { background-position: -250% 0; }
+}
+
+/* Primary button breathing glow */
+.btn-primary {
+	position: relative;
+	isolation: isolate;
+}
+.btn-primary::before {
+	content: '';
+	position: absolute;
+	inset: -3px;
+	background: var(--gradient-1);
+	border-radius: inherit;
+	z-index: -1;
+	filter: blur(16px);
+	opacity: 0.5;
+	animation: btn-pulse 2.6s ease-in-out infinite;
+}
+@keyframes btn-pulse {
+	0%, 100% { opacity: 0.4; }
+	50% { opacity: 0.85; }
+}
+
+/* Card sheen sweep on hover */
+.cat-card,
+.post-card {
+	position: relative;
+	overflow: hidden;
+}
+.cat-card::after,
+.post-card::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -150%;
+	width: 80%;
+	height: 100%;
+	background: linear-gradient(
+		110deg,
+		transparent 0%,
+		transparent 30%,
+		rgba(255, 255, 255, 0.08) 50%,
+		transparent 70%,
+		transparent 100%
+	);
+	transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+	z-index: 3;
+	pointer-events: none;
+}
+.cat-card:hover::after,
+.post-card:hover::after {
+	left: 150%;
+}
+
+/* Pulsing dot used in announce pill */
+@keyframes pulse-dot {
+	0%, 100% {
+		box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.6), 0 0 14px rgba(236, 72, 153, 0.7);
+		transform: scale(1);
+	}
+	50% {
+		box-shadow: 0 0 0 8px rgba(236, 72, 153, 0), 0 0 22px rgba(236, 72, 153, 0.95);
+		transform: scale(1.2);
+	}
+}
+
+/* Tiny float for inline chips */
+@keyframes float-tiny {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-3px); }
+}
+
+/* Subtle scale-in on hero */
+@keyframes hero-pop {
+	from { opacity: 0; transform: translateY(12px) scale(0.98); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Reveal-on-scroll utility (used with IntersectionObserver) */
+.reveal {
+	opacity: 0;
+	transform: translateY(24px);
+	transition: opacity 0.7s ease, transform 0.7s ease;
+	will-change: opacity, transform;
+}
+.reveal.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* "NEW" attention badge */
+.badge-new {
+	display: inline-block;
+	padding: 0.2em 0.55em;
+	font-size: 0.7em;
+	font-weight: 700;
+	font-family: var(--font-display);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	background: var(--gradient-1);
+	color: white;
+	border-radius: 6px;
+	box-shadow: var(--glow-violet);
+	animation: badge-bounce 2s ease-in-out infinite;
+	vertical-align: middle;
+	margin-left: 0.5em;
+}
+@keyframes badge-bounce {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-3px); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
 }
 
 /* Selection */
