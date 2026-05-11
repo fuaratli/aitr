@@ -6,7 +6,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://aitr.fuaratli.workers.dev',
+	site: 'https://aitr.blog',
 	integrations: [
 		mdx(),
 		sitemap({

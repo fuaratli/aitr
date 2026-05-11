@@ -2,7 +2,7 @@
 	"name": "AITR — Türkçe Yapay Zeka Rehberi",
 	"short_name": "AITR",
 	"description": "Türkçe yapay zeka araçları rehberi. ChatGPT, Claude, Gemini, Midjourney karşılaştırmaları ve rehberleri.",
-	"start_url": "/",
+	"start_url": "https://aitr.blog/",
 	"display": "standalone",
 	"background_color": "#07070d",
 	"theme_color": "#8b5cf6",
