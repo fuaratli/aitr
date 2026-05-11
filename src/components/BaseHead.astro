@@ -124,16 +124,22 @@ const ogImageURL = new URL(image.src, Astro.url);
 
 <ClientRouter />
 
-{/* Google Analytics 4 — kayıt sonrası MEASUREMENT_ID'yi gir, yorum satırını aç */}
-{/*
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQYY849HYK"></script>
 <script is:inline>
 	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
+	function gtag() { dataLayer.push(arguments); }
 	gtag('js', new Date());
-	gtag('config', 'G-XXXXXXXXXX');
+	gtag('config', 'G-RQYY849HYK', { send_page_view: false });
+	// View Transitions ile uyumlu — her sayfa geçişinde manuel pageview
+	document.addEventListener('astro:page-load', function () {
+		gtag('event', 'page_view', {
+			page_location: window.location.href,
+			page_path: window.location.pathname,
+			page_title: document.title,
+		});
+	});
 </script>
-*/}
 
 {/* Google AdSense — onay sonrası açılacak.
 	1) https://www.google.com/adsense adresinden başvur (siteni canlıya aldıktan sonra)
