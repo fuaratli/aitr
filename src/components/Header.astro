@@ -49,7 +49,18 @@ import RandomArticle from './RandomArticle.astro';
 					<a href="/blog/kategori/para-kazanma/">💼 Para Kazanma</a>
 				</div>
 			</div>
-			<HeaderLink href="/araclar">Araçlar</HeaderLink>
+			<div class="dropdown">
+				<button class="dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+					Araçlar
+					<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+				</button>
+				<div class="dropdown-menu">
+					<a href="/araclar">🛠️ Araç Dizini (30+)</a>
+					<a href="/maliyet-hesaplayici">🧮 Maliyet Hesaplayıcı</a>
+					<a href="/sozluk">📖 AI Sözlüğü</a>
+					<a href="/yer-imlerim">📑 Yer İmlerim</a>
+				</div>
+			</div>
 			<HeaderLink href="/about">Hakkında</HeaderLink>
 		</div>
 
