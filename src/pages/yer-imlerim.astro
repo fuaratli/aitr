@@ -1,0 +1,215 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE_LANG, SITE_TITLE } from '../consts';
+
+const pageTitle = `Yer İmlerim — ${SITE_TITLE}`;
+const pageDescription = 'Kaydettiğin yapay zeka yazılarının listesi.';
+const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Yer İmlerim' }];
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main class="bookmarks-main">
+			<Breadcrumbs items={breadcrumbs} />
+			<header class="hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<span class="pill pill-glow">📑 Kaydettiklerin</span>
+					<h1>Yer <span class="gradient-text">İmlerim</span></h1>
+					<p>Daha sonra okumak için kaydettiğin yazılar burada. Sadece bu tarayıcıda saklanır.</p>
+				</div>
+			</header>
+
+			<section class="container">
+				<div id="bookmarks-list" class="list" aria-live="polite">
+					<p class="empty" id="bookmarks-empty">
+						🌙 Henüz kaydettiğin yazı yok.
+						<br />
+						<a href="/blog" class="btn btn-primary" style="margin-top:1.25em">Yazılara göz at →</a>
+					</p>
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.bookmarks-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 3.5em 1.25em 2.5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.hero .inner {
+				position: relative;
+				z-index: 2;
+				max-width: 720px;
+				margin: 0 auto;
+			}
+			.hero .pill {
+				margin-bottom: 1em;
+			}
+			.hero h1 {
+				font-size: clamp(2em, 5vw, 3em);
+				margin: 0 0 0.5em 0;
+				letter-spacing: -0.03em;
+			}
+			.hero p {
+				color: var(--text-muted);
+				margin: 0;
+			}
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 3em 1.25em;
+			}
+			.list {
+				display: flex;
+				flex-direction: column;
+				gap: 0.85em;
+			}
+			.empty {
+				text-align: center;
+				padding: 3em 1em;
+				color: var(--text-muted);
+				border: 1px dashed var(--border);
+				border-radius: 12px;
+				margin: 0;
+			}
+			.bookmark-item {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 1em;
+				padding: 1.1em 1.25em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				transition: 0.18s ease;
+			}
+			.bookmark-item:hover {
+				border-color: var(--border-glow);
+				transform: translateY(-1px);
+				box-shadow: var(--shadow-card-hover);
+			}
+			.bookmark-item .info {
+				flex: 1;
+				min-width: 0;
+			}
+			.bookmark-item h3 {
+				margin: 0 0 0.25em 0;
+				font-size: 1.05em;
+				line-height: 1.3;
+			}
+			.bookmark-item h3 a {
+				color: var(--text);
+				text-decoration: none;
+			}
+			.bookmark-item h3 a:hover {
+				color: #c4b5fd;
+			}
+			.bookmark-item .date {
+				color: var(--text-dim);
+				font-size: 0.82em;
+				margin: 0;
+			}
+			.bookmark-item button {
+				flex-shrink: 0;
+				background: var(--surface-2);
+				border: 1px solid var(--border);
+				color: var(--text-muted);
+				width: 36px;
+				height: 36px;
+				border-radius: 8px;
+				cursor: pointer;
+				display: grid;
+				place-items: center;
+				transition: 0.15s ease;
+			}
+			.bookmark-item button:hover {
+				color: #f9a8d4;
+				border-color: rgba(236, 72, 153, 0.4);
+			}
+		</style>
+
+		<script is:inline>
+			(function () {
+				function setupBookmarksPage() {
+					var container = document.getElementById('bookmarks-list');
+					var empty = document.getElementById('bookmarks-empty');
+					if (!container) return;
+
+					function format(dateStr) {
+						try {
+							var d = new Date(dateStr);
+							return d.toLocaleDateString('tr-TR', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							});
+						} catch (e) {
+							return '';
+						}
+					}
+
+					function render() {
+						var marks = [];
+						try {
+							marks = JSON.parse(localStorage.getItem('aitr-bookmarks') || '[]');
+						} catch (e) {}
+						if (!marks.length) {
+							if (empty) empty.style.display = '';
+							container.querySelectorAll('.bookmark-item').forEach(function (n) { n.remove(); });
+							return;
+						}
+						if (empty) empty.style.display = 'none';
+						container.querySelectorAll('.bookmark-item').forEach(function (n) { n.remove(); });
+						marks.forEach(function (m) {
+							var item = document.createElement('div');
+							item.className = 'bookmark-item';
+							item.innerHTML =
+								'<div class="info">' +
+								'<h3><a href="/blog/' + m.slug + '/">' + escapeHtml(m.title) + '</a></h3>' +
+								'<p class="date">' + format(m.date) + ' tarihinde kaydedildi</p>' +
+								'</div>' +
+								'<button data-remove="' + m.slug + '" aria-label="Kaldır">' +
+								'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"></path></svg>' +
+								'</button>';
+							container.appendChild(item);
+						});
+						container.querySelectorAll('[data-remove]').forEach(function (b) {
+							b.addEventListener('click', function () {
+								var slug = b.getAttribute('data-remove');
+								var marks = JSON.parse(localStorage.getItem('aitr-bookmarks') || '[]');
+								var filtered = marks.filter(function (m) { return m.slug !== slug; });
+								localStorage.setItem('aitr-bookmarks', JSON.stringify(filtered));
+								render();
+							});
+						});
+					}
+
+					function escapeHtml(s) {
+						return s.replace(/[&<>"']/g, function (c) {
+							return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+						});
+					}
+
+					render();
+				}
+				document.addEventListener('astro:page-load', setupBookmarksPage);
+			})();
+		</script>
+	</body>
+</html>

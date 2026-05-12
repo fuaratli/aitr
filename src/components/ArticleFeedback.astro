@@ -1,0 +1,139 @@
+---
+interface Props {
+	slug: string;
+}
+const { slug } = Astro.props;
+---
+
+<section class="feedback" data-feedback-slug={slug} aria-label="Geri bildirim">
+	<div class="inner">
+		<h3>Bu yazı sana faydalı oldu mu?</h3>
+		<p>Geri bildirim, içeriği daha da iyileştirmemizi sağlar.</p>
+		<div class="buttons">
+			<button data-feedback="up" type="button" aria-label="Faydalı buldum">
+				<span class="emoji">👍</span>
+				<span>Faydalı buldum</span>
+			</button>
+			<button data-feedback="meh" type="button" aria-label="İdare eder">
+				<span class="emoji">😐</span>
+				<span>İdare eder</span>
+			</button>
+			<button data-feedback="down" type="button" aria-label="İyileştirilebilir">
+				<span class="emoji">🤔</span>
+				<span>İyileştirilebilir</span>
+			</button>
+		</div>
+		<p class="thanks" hidden>✨ Teşekkürler, geri bildirimin kaydedildi.</p>
+	</div>
+</section>
+
+<style>
+	.feedback {
+		max-width: 760px;
+		margin: 2.5em auto;
+		padding: 0 1.25em;
+	}
+	.inner {
+		background: linear-gradient(135deg, rgba(139, 92, 246, 0.06), rgba(236, 72, 153, 0.04));
+		border: 1px solid var(--border);
+		border-radius: 16px;
+		padding: 1.5em 1.75em;
+		text-align: center;
+	}
+	.feedback h3 {
+		margin: 0 0 0.35em 0;
+		font-size: 1.15em;
+	}
+	.feedback p {
+		margin: 0 0 1.1em 0;
+		color: var(--text-muted);
+		font-size: 0.95em;
+	}
+	.buttons {
+		display: flex;
+		gap: 0.5em;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.buttons button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		padding: 0.6em 1.1em;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: 0.9em;
+		color: var(--text);
+		transition: 0.18s ease;
+	}
+	.buttons button:hover {
+		border-color: var(--border-glow);
+		transform: translateY(-1px);
+		background: var(--surface-2);
+	}
+	.buttons button.selected {
+		background: var(--gradient-1);
+		color: white;
+		border-color: transparent;
+	}
+	.buttons button .emoji {
+		font-size: 1.1em;
+	}
+	.thanks {
+		margin-top: 1em !important;
+		color: #4ade80;
+		font-weight: 600;
+		font-size: 0.95em !important;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function setupFeedback() {
+			document.querySelectorAll('[data-feedback-slug]').forEach(function (root) {
+				if (root.dataset.bound) return;
+				root.dataset.bound = '1';
+				var slug = root.getAttribute('data-feedback-slug');
+				var thanks = root.querySelector('.thanks');
+				var buttons = root.querySelectorAll('[data-feedback]');
+				// Check existing
+				try {
+					var stored = JSON.parse(localStorage.getItem('aitr-feedback') || '{}');
+					if (stored[slug]) {
+						buttons.forEach(function (b) {
+							if (b.getAttribute('data-feedback') === stored[slug]) {
+								b.classList.add('selected');
+							}
+						});
+						if (thanks) thanks.hidden = false;
+					}
+				} catch (e) {}
+
+				buttons.forEach(function (btn) {
+					btn.addEventListener('click', function () {
+						var value = btn.getAttribute('data-feedback');
+						buttons.forEach(function (b) { b.classList.remove('selected'); });
+						btn.classList.add('selected');
+						if (thanks) thanks.hidden = false;
+						try {
+							var stored = JSON.parse(localStorage.getItem('aitr-feedback') || '{}');
+							stored[slug] = value;
+							localStorage.setItem('aitr-feedback', JSON.stringify(stored));
+						} catch (e) {}
+						// Send to GA4 if available
+						if (typeof gtag === 'function') {
+							gtag('event', 'article_feedback', {
+								article_slug: slug,
+								feedback_value: value,
+							});
+						}
+					});
+				});
+			});
+		}
+		document.addEventListener('astro:page-load', setupFeedback);
+	})();
+</script>

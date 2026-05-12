@@ -1,0 +1,133 @@
+---
+import type { MarkdownHeading } from 'astro';
+interface Props {
+	headings: MarkdownHeading[];
+}
+const { headings } = Astro.props;
+const h2s = headings.filter((h) => h.depth === 2);
+---
+
+{
+	h2s.length > 2 && (
+		<aside class="sticky-toc" aria-label="İçindekiler navigasyonu">
+			<div class="inner">
+				<h4>İçindekiler</h4>
+				<ol>
+					{h2s.map((h) => (
+						<li>
+							<a href={`#${h.slug}`} data-toc-link={h.slug}>
+								{h.text}
+							</a>
+						</li>
+					))}
+				</ol>
+			</div>
+		</aside>
+	)
+}
+
+<style>
+	.sticky-toc {
+		position: fixed;
+		top: 110px;
+		right: max(1em, calc((100vw - 1100px) / 2 - 240px));
+		width: 220px;
+		max-height: calc(100vh - 140px);
+		overflow-y: auto;
+		z-index: 5;
+		display: none;
+		font-size: 0.85em;
+	}
+	.inner {
+		padding: 1em 1.1em;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		backdrop-filter: blur(8px);
+	}
+	.sticky-toc h4 {
+		margin: 0 0 0.65em 0;
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--text-dim);
+		font-family: var(--font-display);
+		font-weight: 700;
+	}
+	.sticky-toc ol {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		counter-reset: toc;
+	}
+	.sticky-toc li {
+		counter-increment: toc;
+		margin: 0;
+	}
+	.sticky-toc a {
+		display: block;
+		padding: 0.35em 0 0.35em 1.3em;
+		color: var(--text-muted);
+		text-decoration: none;
+		font-size: 0.9em;
+		line-height: 1.45;
+		position: relative;
+		border-left: 2px solid transparent;
+		transition: 0.15s ease;
+	}
+	.sticky-toc a::before {
+		content: counter(toc, decimal-leading-zero);
+		position: absolute;
+		left: 0;
+		color: var(--text-dim);
+		font-family: var(--font-mono);
+		font-size: 0.7em;
+		top: 0.6em;
+	}
+	.sticky-toc a:hover {
+		color: var(--text);
+		padding-left: 1.45em;
+	}
+	.sticky-toc a.toc-active {
+		color: #c4b5fd;
+		border-left-color: #c4b5fd;
+		padding-left: 1.45em;
+	}
+	/* Sadece geniş ekranlarda göster */
+	@media (min-width: 1280px) {
+		.sticky-toc {
+			display: block;
+		}
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function setupTocScroll() {
+			var links = document.querySelectorAll('[data-toc-link]');
+			if (!links.length) return;
+			var sections = Array.from(links)
+				.map(function (l) {
+					var id = l.getAttribute('data-toc-link');
+					var el = document.getElementById(id);
+					return el ? { id: id, el: el, link: l } : null;
+				})
+				.filter(Boolean);
+			if (!sections.length) return;
+
+			function update() {
+				var scrollY = window.scrollY + 120;
+				var current = sections[0];
+				for (var i = 0; i < sections.length; i++) {
+					if (sections[i].el.offsetTop <= scrollY) current = sections[i];
+				}
+				sections.forEach(function (s) {
+					s.link.classList.toggle('toc-active', s === current);
+				});
+			}
+			window.addEventListener('scroll', update, { passive: true });
+			update();
+		}
+		document.addEventListener('astro:page-load', setupTocScroll);
+	})();
+</script>

@@ -1,0 +1,241 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE_LANG, SITE_TITLE } from '../consts';
+
+const pageTitle = `Yapay Zeka Sözlüğü — ${SITE_TITLE}`;
+const pageDescription =
+	'Yapay zeka dünyasının terimlerini Türkçe açıklamalarıyla, anlaşılır biçimde. 30+ kavram tek sayfada.';
+const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'AI Sözlüğü' }];
+
+type Term = { term: string; en?: string; def: string; tags?: string[] };
+type Group = { letter: string; terms: Term[] };
+
+const terms: Term[] = [
+	{ term: 'Yapay Zeka', en: 'AI / Artificial Intelligence', def: 'Bir makinenin insan benzeri zeki davranışlar sergilemesini sağlayan teknolojilerin tümü. Sohbet botlarından otonom araçlara kadar geniş bir yelpaze.' },
+	{ term: 'Yapay Zeka Ajanı', en: 'AI Agent', def: 'Bir hedef verildiğinde plan yapan, araçları kullanan, eylem alan otonom AI sistemi. Detay için "AI Agents Nedir?" yazımıza bak.', tags: ['agent'] },
+	{ term: 'Akıl Yürütme', en: 'Reasoning', def: 'AI''nın bir cevap üretmeden önce adım adım düşünme süreci. DeepSeek-R1 ve OpenAI o-serisi bu özelliği görünür yapan modellerdir.' },
+	{ term: 'API', en: 'Application Programming Interface', def: 'AI modellerini başka uygulamalardan kullanmaya yarayan programatik arayüz. ChatGPT API''si gibi.' },
+	{ term: 'Bağlam Penceresi', en: 'Context Window', def: 'AI modelin tek seferde işleyebileceği maksimum metin miktarı (token cinsinden). Gemini 2.5 Pro 2M token destekler.' },
+	{ term: 'Benchmark', en: 'Benchmark', def: 'AI modellerin performansını ölçmek için kullanılan standart test setleri. MMLU, HumanEval, GPQA en bilinenleri.' },
+	{ term: 'ChatGPT', def: 'OpenAI''nin sohbet asistanı. GPT model ailesinin ürünleştirilmiş hali. 2022''de patlama yaratan AI ürünü.' },
+	{ term: 'Claude', def: 'Anthropic''in AI asistanı. Profesyonel yazım, uzun belge analizi ve kod üretiminde güçlü. Türkçe kalitesi rakipler arasında en üstte.' },
+	{ term: 'Custom GPT', def: 'OpenAI''nin Custom GPTs özelliği ile kullanıcıların kendi talimatlarıyla özelleştirdiği ChatGPT versiyonları.' },
+	{ term: 'DALL·E', def: 'OpenAI''nin görsel üretim modeli. ChatGPT Plus içinde dahil; Microsoft Designer üzerinden de ücretsiz kullanılabilir.' },
+	{ term: 'Deepfake', def: 'AI ile üretilmiş, gerçek bir kişiyi taklit eden video veya ses. Dolandırıcılık ve iftira için kötü amaçla kullanılabilir.' },
+	{ term: 'DeepSeek', def: 'Çinli AI start-up''ı. Açık kaynak modelleri ve düşük API maliyetiyle 2025''te öne çıktı. R1 modeli reasoning konusunda iddialı.' },
+	{ term: 'Derin Öğrenme', en: 'Deep Learning', def: 'Çok katmanlı yapay sinir ağlarıyla yapılan makine öğrenmesi yöntemi. Modern AI''ların temelinde bu var.' },
+	{ term: 'Embedding', def: 'Metin/görsel/sesi sayısal vektöre dönüştürme. Anlam benzerliği hesaplaması, arama, öneri sistemleri için temel.' },
+	{ term: 'Fine-tuning', def: 'Mevcut bir AI modelini özel veri setiyle yeniden eğiterek belirli bir göreve uyarlama süreci.' },
+	{ term: 'Gemini', def: 'Google''ın AI modeli. Google ekosistemine bütünleşik, çok uzun bağlam penceresiyle öne çıkıyor.' },
+	{ term: 'Generative AI', en: 'Generative AI', def: 'Yeni içerik (metin, görsel, ses, video) üreten AI türü. ChatGPT, Midjourney, Suno hepsi generative AI.' },
+	{ term: 'GPT', en: 'Generative Pre-trained Transformer', def: 'OpenAI''nin temel model mimarisi. GPT-4, GPT-4o, GPT-5 gibi nesilleri var.' },
+	{ term: 'Halüsinasyon', en: 'Hallucination', def: 'AI''nın gerçeklik kontrolü yapmadan, kendinden emin şekilde yanlış bilgi üretmesi. AI''nın bilinen ve hâlâ sorun olan zaafı.' },
+	{ term: 'İnference', def: 'Eğitilmiş bir AI modelin kullanım sırasında cevap üretmesi. Eğitim (training) ile karşıt kavram.' },
+	{ term: 'LLM', en: 'Large Language Model', def: 'Büyük dil modeli. Milyarlarca parametreyle eğitilmiş, doğal dili anlayıp üreten AI sistemleri. GPT-4, Claude, Gemini birer LLM.' },
+	{ term: 'Midjourney', def: 'AI görsel üretim aracı. Estetik kalite olarak rakipleri önde, özellikle illüstrasyon ve konsept sanat için tercih edilir.' },
+	{ term: 'Multimodal', def: 'Birden fazla veri tipini (metin, görsel, ses, video) işleyebilen AI. GPT-4o, Gemini, Claude 3+ multimodal.' },
+	{ term: 'Open Source', def: 'Açık kaynak. Modelin parametreleri ve mimarisi herkese açık. Llama, Mistral, DeepSeek açık kaynak örnekleri.' },
+	{ term: 'Prompt', def: 'AI''ya verdiğin metin talimatı. "Bana bir hikaye yaz" basit bir prompt''tur.' },
+	{ term: 'Prompt Engineering', def: 'AI''dan en iyi sonucu almak için prompt''u optimize etme sanatı. Hazır şablonlar için "ChatGPT 50 Prompt" yazımıza bak.' },
+	{ term: 'RAG', en: 'Retrieval Augmented Generation', def: 'AI''nın cevap üretirken harici bilgi tabanından çekme yöntemi. Halüsinasyonu azaltır, güncel bilgi sağlar.' },
+	{ term: 'Reasoning Trace', def: 'Reasoning yapan modelin görünür düşünce zinciri. Cevap öncesinde "şöyle düşünüyorum..." şeklinde adımları gösterir.' },
+	{ term: 'RLHF', en: 'Reinforcement Learning from Human Feedback', def: 'İnsan geri bildirimiyle pekiştirmeli öğrenme. ChatGPT''nin "yardımcı ve zararsız" hale gelmesinde kullanılan yöntem.' },
+	{ term: 'Ses Kloncuma', en: 'Voice Cloning', def: 'Bir kişinin sesini AI ile taklit etme. ElevenLabs gibi araçlar 60 saniyelik örnekle yapabiliyor.' },
+	{ term: 'Stable Diffusion', def: 'Stability AI''nın açık kaynak görsel üretim modeli. Kendi sunucunda çalıştırılabilir, sınırsız üretim.' },
+	{ term: 'Suno', def: 'AI müzik üretim platformu. Şarkı sözü + tarz verince 2 dakikalık tam şarkı üretiyor. Türkçe destekli.' },
+	{ term: 'Temperature', def: 'AI''nın yaratıcılık/rastgelelik parametresi. 0 = deterministik, 2 = çok yaratıcı/dağınık.' },
+	{ term: 'Token', def: 'AI''nın işlediği en küçük metin parçası. Yaklaşık 0.75 kelime = 1 token. Maliyet ve sınırlar token üzerinden ölçülür.' },
+	{ term: 'Transformer', def: '2017''de Google''ın yayınladığı, modern AI''ları mümkün kılan sinir ağı mimarisi. GPT''deki "T" bunu temsil ediyor.' },
+	{ term: 'TTS', en: 'Text-to-Speech', def: 'Metni sese çevirme. ElevenLabs, Google TTS, OpenAI TTS bu kategoride.' },
+	{ term: 'Vector Database', def: 'Embeddings''leri saklayan ve anlamsal arama yapan veritabanı. Pinecone, Weaviate, Qdrant örnekleri.' },
+];
+
+// A-Z grupla
+const grouped: Group[] = [];
+const sorted = [...terms].sort((a, b) =>
+	a.term.localeCompare(b.term, 'tr', { sensitivity: 'base' }),
+);
+for (const t of sorted) {
+	const letter = t.term[0].toUpperCase();
+	let group = grouped.find((g) => g.letter === letter);
+	if (!group) {
+		group = { letter, terms: [] };
+		grouped.push(group);
+	}
+	group.terms.push(t);
+}
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main class="glossary-main">
+			<Breadcrumbs items={breadcrumbs} />
+			<header class="hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<span class="pill pill-glow">📖 Sözlük</span>
+					<h1>Yapay Zeka <span class="gradient-text">Sözlüğü</span></h1>
+					<p>
+						AI dünyasında geçen {terms.length} terim, anlaşılır Türkçe ile. Bir kavram okurken
+						takıldığında buraya gel.
+					</p>
+				</div>
+			</header>
+
+			<nav class="alpha-nav" aria-label="Harf navigasyonu">
+				{grouped.map((g) => <a href={`#h-${g.letter}`}>{g.letter}</a>)}
+			</nav>
+
+			<section class="container">
+				{
+					grouped.map((g) => (
+						<div class="group">
+							<h2 id={`h-${g.letter}`}>{g.letter}</h2>
+							<dl>
+								{g.terms.map((t) => (
+									<div class="entry">
+										<dt>
+											{t.term}
+											{t.en && <span class="en">({t.en})</span>}
+										</dt>
+										<dd set:html={t.def.replace(/"([^"]+)"/g, '<em>"$1"</em>')} />
+									</div>
+								))}
+							</dl>
+						</div>
+					))
+				}
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.glossary-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 3.5em 1.25em 2.5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.hero .inner {
+				position: relative;
+				z-index: 2;
+				max-width: 720px;
+				margin: 0 auto;
+			}
+			.hero .pill {
+				margin-bottom: 1em;
+			}
+			.hero h1 {
+				font-size: clamp(2em, 5vw, 3em);
+				margin: 0 0 0.5em 0;
+				letter-spacing: -0.03em;
+			}
+			.hero p {
+				color: var(--text-muted);
+				margin: 0;
+			}
+			.alpha-nav {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 0.4em;
+				padding: 1.5em 1.25em;
+				max-width: 1100px;
+				margin: 0 auto;
+				border-bottom: 1px solid var(--border);
+				position: sticky;
+				top: 60px;
+				background: rgba(7, 7, 13, 0.85);
+				backdrop-filter: blur(12px);
+				z-index: 10;
+			}
+			:global([data-theme='light']) .alpha-nav {
+				background: rgba(255, 255, 255, 0.85);
+			}
+			.alpha-nav a {
+				display: grid;
+				place-items: center;
+				width: 32px;
+				height: 32px;
+				border-radius: 8px;
+				background: var(--surface);
+				color: var(--text-muted);
+				text-decoration: none;
+				font-weight: 600;
+				font-family: var(--font-display);
+				font-size: 0.85em;
+				transition: 0.15s ease;
+				border: 1px solid var(--border);
+			}
+			.alpha-nav a:hover {
+				color: white;
+				background: var(--gradient-1);
+				border-color: transparent;
+			}
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 2em 1.25em 4em;
+			}
+			.group {
+				margin-bottom: 2.5em;
+			}
+			.group h2 {
+				font-size: 2em;
+				margin: 0 0 0.5em 0;
+				color: var(--text);
+				padding-bottom: 0.25em;
+				border-bottom: 1px solid var(--border);
+				scroll-margin-top: 120px;
+				font-family: var(--font-display);
+			}
+			dl {
+				margin: 0;
+			}
+			.entry {
+				padding: 1em 0;
+				border-bottom: 1px solid var(--border);
+			}
+			.entry:last-child {
+				border-bottom: none;
+			}
+			dt {
+				font-weight: 700;
+				color: var(--text);
+				font-family: var(--font-display);
+				font-size: 1.05em;
+				margin-bottom: 0.35em;
+				letter-spacing: -0.01em;
+			}
+			.en {
+				color: var(--text-dim);
+				font-weight: 500;
+				font-size: 0.85em;
+				margin-left: 0.4em;
+				font-family: var(--font-sans);
+			}
+			dd {
+				margin: 0;
+				color: var(--text-muted);
+				line-height: 1.65;
+			}
+			dd em {
+				color: var(--text);
+				font-style: normal;
+			}
+		</style>
+	</body>
+</html>

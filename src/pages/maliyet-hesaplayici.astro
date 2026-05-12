@@ -1,0 +1,442 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE_LANG, SITE_TITLE } from '../consts';
+
+const pageTitle = `AI Maliyet Hesaplayıcı — ${SITE_TITLE}`;
+const pageDescription =
+	'Aylık AI kullanım maliyetini hesapla. ChatGPT, Claude, Gemini, DeepSeek için karşılaştırmalı tahminler. Hangisi senin için en uygun?';
+const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Maliyet Hesaplayıcı' }];
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main class="calc-main">
+			<Breadcrumbs items={breadcrumbs} />
+			<header class="hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<span class="pill pill-glow">🧮 Hesaplayıcı</span>
+					<h1>AI Aylık <span class="gradient-text">Maliyet</span> Hesaplayıcı</h1>
+					<p>
+						Kullanım tipini ve hacmini gir, hangi AI sağlayıcının senin için en uygun olduğunu
+						gör. Tüm fiyatlar Mayıs 2026 itibarıyla geçerli.
+					</p>
+				</div>
+			</header>
+
+			<section class="container">
+				<form class="calc-form" id="calc-form">
+					<div class="field">
+						<label>Hangi tür AI kullanacaksın?</label>
+						<div class="seg" role="radiogroup">
+							<label><input type="radio" name="usage" value="chat" checked /><span>💬 Sohbet</span></label>
+							<label><input type="radio" name="usage" value="code" /><span>💻 Kod</span></label>
+							<label><input type="radio" name="usage" value="image" /><span>🎨 Görsel</span></label>
+						</div>
+					</div>
+
+					<div class="field" id="messages-field">
+						<label for="messages">Aylık mesaj/istek sayısı tahmini</label>
+						<input
+							type="range"
+							id="messages"
+							min="50"
+							max="5000"
+							step="50"
+							value="500"
+						/>
+						<output id="messages-val">500 mesaj/ay</output>
+						<p class="hint">Günde ~17 mesaj = 500 aylık</p>
+					</div>
+
+					<div class="field" id="length-field">
+						<label>Ortalama mesaj uzunluğu</label>
+						<div class="seg" role="radiogroup">
+							<label><input type="radio" name="length" value="short" /><span>Kısa (1-2 cümle)</span></label>
+							<label><input type="radio" name="length" value="medium" checked /><span>Orta (1 paragraf)</span></label>
+							<label><input type="radio" name="length" value="long" /><span>Uzun (sayfa+)</span></label>
+						</div>
+					</div>
+
+					<div class="field" id="images-field" style="display:none">
+						<label for="images">Aylık görsel sayısı</label>
+						<input type="range" id="images" min="10" max="2000" step="10" value="100" />
+						<output id="images-val">100 görsel/ay</output>
+					</div>
+
+					<button type="button" class="btn btn-primary" id="calc-btn">
+						Maliyetimi Hesapla
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+					</button>
+				</form>
+
+				<div class="results" id="results" hidden>
+					<h2>Aylık Tahmini Maliyet</h2>
+					<p class="info">USD cinsinden. TL'de bunları **35 ile çarp**.</p>
+					<div class="result-grid" id="result-grid"></div>
+					<div class="rec" id="rec"></div>
+				</div>
+
+				<div class="notes">
+					<h3>Notlar</h3>
+					<ul>
+						<li>Subscription planlar sabit, kullanım ne kadar olursa olsun değişmez.</li>
+						<li>API fiyatları gerçek token tüketimine göre değişir; tahminler ortalama kullanıma dayalıdır.</li>
+						<li>Görsel üretimi sayıları varsayılan kalite/çözünürlüğe göredir.</li>
+						<li>TL/$ kuru için 35 kullandık. Güncel kura göre tekrar hesapla.</li>
+						<li>
+							Daha detay için <a href="/blog/chatgpt-claude-gemini-karsilastirma-2026/">ChatGPT vs Claude vs Gemini karşılaştırması</a>
+							ve <a href="/blog/deepseek-vs-gemini-vs-claude-kod-benchmark/">DeepSeek vs Gemini vs Claude (kod)</a> yazılarımıza bak.
+						</li>
+					</ul>
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.calc-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 3.5em 1.25em 2.5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.hero .inner {
+				position: relative;
+				z-index: 2;
+				max-width: 760px;
+				margin: 0 auto;
+			}
+			.hero .pill {
+				margin-bottom: 1em;
+			}
+			.hero h1 {
+				font-size: clamp(2em, 5vw, 3em);
+				margin: 0 0 0.5em 0;
+				letter-spacing: -0.03em;
+			}
+			.hero p {
+				color: var(--text-muted);
+				margin: 0;
+				font-size: 1.05em;
+			}
+			.container {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 3em 1.25em;
+			}
+			.calc-form {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				padding: 1.75em;
+				margin-bottom: 2em;
+			}
+			.field {
+				margin-bottom: 1.5em;
+			}
+			.field > label {
+				display: block;
+				margin-bottom: 0.6em;
+				font-weight: 600;
+				color: var(--text);
+				font-size: 0.95em;
+			}
+			.hint {
+				color: var(--text-dim);
+				font-size: 0.82em;
+				margin: 0.35em 0 0 0;
+			}
+			.seg {
+				display: flex;
+				gap: 0.4em;
+				flex-wrap: wrap;
+			}
+			.seg label {
+				cursor: pointer;
+			}
+			.seg input {
+				position: absolute;
+				opacity: 0;
+				pointer-events: none;
+			}
+			.seg span {
+				display: inline-block;
+				padding: 0.55em 1em;
+				background: var(--surface-2);
+				border: 1px solid var(--border);
+				border-radius: 999px;
+				font-size: 0.9em;
+				color: var(--text-muted);
+				transition: 0.15s ease;
+			}
+			.seg input:checked + span {
+				background: var(--gradient-1);
+				color: white;
+				border-color: transparent;
+			}
+			.seg span:hover {
+				color: var(--text);
+			}
+			input[type='range'] {
+				width: 100%;
+				background: transparent;
+				accent-color: var(--accent);
+			}
+			output {
+				display: block;
+				font-weight: 700;
+				color: var(--text);
+				margin-top: 0.35em;
+				font-family: var(--font-display);
+			}
+			.btn-primary {
+				width: 100%;
+				justify-content: center;
+				font-size: 1em;
+			}
+			.results {
+				margin-top: 2em;
+				padding: 1.5em 1.75em;
+				background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.06));
+				border: 1px solid var(--border);
+				border-radius: 16px;
+			}
+			.results h2 {
+				margin: 0 0 0.25em 0;
+				font-size: 1.5em;
+			}
+			.info {
+				color: var(--text-muted);
+				margin: 0 0 1.25em 0;
+				font-size: 0.92em;
+			}
+			.result-grid {
+				display: grid;
+				gap: 0.6em;
+				margin-bottom: 1.25em;
+			}
+			.r-row {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 0.85em 1em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 10px;
+			}
+			.r-row.best {
+				border-color: rgba(34, 197, 94, 0.4);
+				background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), transparent);
+			}
+			.r-name {
+				font-weight: 600;
+			}
+			.r-name .badge {
+				display: inline-block;
+				margin-left: 0.5em;
+				padding: 0.15em 0.5em;
+				background: #22c55e;
+				color: white;
+				font-size: 0.7em;
+				border-radius: 999px;
+				font-weight: 700;
+			}
+			.r-cost {
+				font-family: var(--font-display);
+				font-weight: 700;
+				font-size: 1.05em;
+				color: #c4b5fd;
+			}
+			.rec {
+				padding: 1em 1.25em;
+				background: var(--surface);
+				border-left: 3px solid var(--accent);
+				border-radius: 0 10px 10px 0;
+				color: var(--text);
+				font-size: 0.95em;
+				line-height: 1.6;
+			}
+			.notes {
+				margin-top: 2.5em;
+				padding: 1.5em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+			}
+			.notes h3 {
+				margin: 0 0 0.5em 0;
+				font-size: 1em;
+				color: var(--text-dim);
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+			}
+			.notes ul {
+				padding-left: 1.25em;
+				margin: 0;
+				color: var(--text-muted);
+				font-size: 0.92em;
+				line-height: 1.7;
+			}
+			.notes a {
+				color: #c4b5fd;
+			}
+		</style>
+
+		<script is:inline>
+			(function () {
+				function setupCalc() {
+					var form = document.getElementById('calc-form');
+					if (!form || form.dataset.bound) return;
+					form.dataset.bound = '1';
+
+					var messagesField = document.getElementById('messages-field');
+					var lengthField = document.getElementById('length-field');
+					var imagesField = document.getElementById('images-field');
+					var messagesInput = document.getElementById('messages');
+					var messagesVal = document.getElementById('messages-val');
+					var imagesInput = document.getElementById('images');
+					var imagesVal = document.getElementById('images-val');
+					var btn = document.getElementById('calc-btn');
+					var results = document.getElementById('results');
+					var grid = document.getElementById('result-grid');
+					var rec = document.getElementById('rec');
+
+					messagesInput.oninput = function () {
+						messagesVal.textContent = messagesInput.value + ' mesaj/ay';
+					};
+					imagesInput.oninput = function () {
+						imagesVal.textContent = imagesInput.value + ' görsel/ay';
+					};
+
+					form.querySelectorAll('input[name=usage]').forEach(function (r) {
+						r.addEventListener('change', function () {
+							var u = r.value;
+							if (u === 'image') {
+								messagesField.style.display = 'none';
+								lengthField.style.display = 'none';
+								imagesField.style.display = '';
+							} else {
+								messagesField.style.display = '';
+								lengthField.style.display = '';
+								imagesField.style.display = 'none';
+							}
+						});
+					});
+
+					function calc() {
+						var usage = form.querySelector('input[name=usage]:checked').value;
+						var msgs = parseInt(messagesInput.value, 10);
+						var lengthMap = { short: 250, medium: 750, long: 2500 };
+						var lengthVal = form.querySelector('input[name=length]:checked').value;
+						var tokensPerMsg = lengthMap[lengthVal];
+						var imgs = parseInt(imagesInput.value, 10);
+
+						var rows = [];
+
+						if (usage === 'chat' || usage === 'code') {
+							// Subscription estimates
+							rows.push({ name: 'ChatGPT Plus', cost: 20, note: 'Aylık sabit, ~limit içinde' });
+							rows.push({ name: 'Claude Pro', cost: 20, note: 'Aylık sabit, ~limit içinde' });
+							rows.push({ name: 'Gemini Advanced', cost: 22, note: 'Google One AI Premium' });
+
+							// API estimates (use 1:1 input/output ratio)
+							var totalTokens = msgs * tokensPerMsg * 2; // input + output
+							rows.push({
+								name: 'OpenAI GPT-4o (API)',
+								cost: ((totalTokens / 1e6) * (usage === 'code' ? 6 : 6)).toFixed(2),
+								note: 'gerçek kullanıma göre',
+							});
+							rows.push({
+								name: 'Claude Sonnet 4.5 (API)',
+								cost: ((totalTokens / 1e6) * 9).toFixed(2),
+								note: 'gerçek kullanıma göre',
+							});
+							rows.push({
+								name: 'DeepSeek-V3 (API)',
+								cost: ((totalTokens / 1e6) * 1.37).toFixed(2),
+								note: 'en ucuz API seçeneği',
+							});
+							rows.push({
+								name: 'Gemini 2.5 Pro (API)',
+								cost: ((totalTokens / 1e6) * 6.25).toFixed(2),
+								note: 'gerçek kullanıma göre',
+							});
+						} else if (usage === 'image') {
+							rows.push({ name: 'Midjourney Basic', cost: 10, note: '~200 görsel hızlı mode' });
+							rows.push({ name: 'Midjourney Standard', cost: 30, note: '~900 görsel hızlı + sınırsız relax' });
+							rows.push({ name: 'Midjourney Pro', cost: 60, note: '~1800 görsel hızlı + sınırsız relax' });
+							rows.push({
+								name: 'DALL·E 3 API',
+								cost: (imgs * 0.04).toFixed(2),
+								note: '$0.04 per görsel (standart)',
+							});
+							rows.push({
+								name: 'Flux Pro API',
+								cost: (imgs * 0.05).toFixed(2),
+								note: '$0.05 per görsel',
+							});
+							rows.push({ name: 'Microsoft Designer', cost: 0, note: 'DALL·E 3 ücretsiz (limitle)' });
+							rows.push({ name: 'Leonardo.ai Free', cost: 0, note: 'Günde 150 kredi' });
+						}
+
+						// Find best (cheapest non-zero)
+						var best = rows.reduce(function (acc, r) {
+							var c = parseFloat(r.cost);
+							if (c === 0) return acc;
+							if (!acc || c < parseFloat(acc.cost)) return r;
+							return acc;
+						}, null);
+
+						// Render
+						grid.innerHTML = rows
+							.map(function (r) {
+								var isBest = best && r.name === best.name;
+								return (
+									'<div class="r-row' + (isBest ? ' best' : '') + '">' +
+									'<div class="r-name">' + r.name + (isBest ? '<span class="badge">EN UYGUN</span>' : '') + '<br><small style="color:var(--text-dim);font-weight:400;font-size:0.82em">' + r.note + '</small></div>' +
+									'<div class="r-cost">$' + r.cost + '/ay</div>' +
+									'</div>'
+								);
+							})
+							.join('');
+
+						// Recommendation
+						var recText = '';
+						if (usage === 'chat') {
+							recText = 'Genel sohbet için <strong>ChatGPT Plus veya Claude Pro</strong> ($20/ay) çoğu kullanıcıya yetiyor. Aylık 1.000+ mesaj atıyorsan veya program içinden API üzerinden çağırıyorsan <strong>DeepSeek-V3 API</strong> ile %80''e kadar tasarruf edersin.';
+						} else if (usage === 'code') {
+							recText = 'Yazılım için en iyi denge: <strong>Cursor + Claude Sonnet 4.5 API</strong>. Bütçe sıkıysa <strong>DeepSeek-V3</strong>. Bkz <a href="/blog/cursor-ide-turkce-rehber-2026/">Cursor rehberi</a>.';
+						} else if (usage === 'image') {
+							recText = 'Estetik kalite için <strong>Midjourney Standard ($30)</strong>. Bütçe sıkıysa <strong>Microsoft Designer (ücretsiz, DALL·E 3)</strong>. Bkz <a href="/blog/ai-gorsel-ureticiler-karsilastirma-2026/">Görsel üreticiler karşılaştırma</a>.';
+						}
+						rec.innerHTML = '💡 ' + recText;
+
+						results.hidden = false;
+						results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+						if (typeof gtag === 'function') {
+							gtag('event', 'cost_calc', { usage: usage });
+						}
+					}
+
+					btn.onclick = calc;
+				}
+				document.addEventListener('astro:page-load', setupCalc);
+			})();
+		</script>
+	</body>
+</html>

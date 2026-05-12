@@ -28,6 +28,6 @@ const related = all
 	.slice(0, 3);
 ---
 
-<BlogPost {...post.data} headings={headings} minutes={minutes} related={related}>
+<BlogPost {...post.data} slug={post.id} headings={headings} minutes={minutes} related={related}>
 	<Content />
 </BlogPost>

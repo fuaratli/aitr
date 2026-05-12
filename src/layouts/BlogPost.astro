@@ -14,11 +14,15 @@ import AuthorCard from '../components/AuthorCard.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
 import HeroCover from '../components/HeroCover.astro';
+import StickyToc from '../components/StickyToc.astro';
+import ArticleFeedback from '../components/ArticleFeedback.astro';
+import BookmarkButton from '../components/BookmarkButton.astro';
 import { SITE_LANG, SITE_TITLE, SITE_AUTHOR } from '../consts';
 import { CATEGORY_META, type CategoryKey } from '../lib/categories';
 import { slugifyTag } from '../lib/slug';
 
 type Props = CollectionEntry<'blog'>['data'] & {
+	slug?: string;
 	headings?: MarkdownHeading[];
 	minutes?: number;
 	related?: CollectionEntry<'blog'>[];
@@ -32,6 +36,7 @@ const {
 	heroImage,
 	category,
 	tags = [],
+	slug = '',
 	headings = [],
 	minutes,
 	related = [],
@@ -122,6 +127,11 @@ const articleSchema = {
 					</div>
 					<h1>{title}</h1>
 					<p class="lede">{description}</p>
+					{slug && (
+						<div class="header-actions">
+							<BookmarkButton slug={slug} title={title} variant="inline" />
+						</div>
+					)}
 				</header>
 
 				<div class="hero-image">
@@ -153,6 +163,8 @@ const articleSchema = {
 					)
 				}
 
+				<StickyToc headings={headings} />
+
 				<div class="prose">
 					<slot />
 				</div>
@@ -177,6 +189,8 @@ const articleSchema = {
 				<div class="ad-bottom">
 					<AdSlot size="banner" label="Reklam" slot="post-bottom" />
 				</div>
+
+				{slug && <ArticleFeedback slug={slug} />}
 
 				<AuthorCard />
 
@@ -340,6 +354,13 @@ const articleSchema = {
 				margin: 1em auto;
 				padding: 0 1.25em;
 				text-align: center;
+			}
+			.header-actions {
+				margin-top: 1em;
+				display: flex;
+				justify-content: center;
+				gap: 0.5em;
+				flex-wrap: wrap;
 			}
 			.tags-row {
 				max-width: 760px;

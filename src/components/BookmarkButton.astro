@@ -1,0 +1,129 @@
+---
+interface Props {
+	slug: string;
+	title: string;
+	variant?: 'inline' | 'corner';
+}
+const { slug, title, variant = 'inline' } = Astro.props;
+---
+
+<button
+	class={`bookmark-btn bookmark-btn-${variant}`}
+	data-bookmark-slug={slug}
+	data-bookmark-title={title}
+	type="button"
+	aria-label="Yer imine ekle"
+>
+	<svg class="icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+	</svg>
+	<svg class="icon-on" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+		<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+	</svg>
+	<span class="bookmark-label">Kaydet</span>
+</button>
+
+<style>
+	.bookmark-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		padding: 0.45em 0.85em;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 10px;
+		color: var(--text-muted);
+		font-family: inherit;
+		font-size: 0.85em;
+		cursor: pointer;
+		transition: 0.18s ease;
+		position: relative;
+	}
+	.bookmark-btn:hover {
+		color: var(--text);
+		border-color: var(--border-glow);
+		background: var(--surface-2);
+	}
+	.bookmark-btn .icon-on {
+		display: none;
+	}
+	.bookmark-btn.saved {
+		background: rgba(236, 72, 153, 0.15);
+		border-color: rgba(236, 72, 153, 0.4);
+		color: #f9a8d4;
+	}
+	.bookmark-btn.saved .icon-off {
+		display: none;
+	}
+	.bookmark-btn.saved .icon-on {
+		display: inline-block;
+	}
+	.bookmark-btn-corner {
+		position: absolute;
+		top: 0.65em;
+		right: 0.65em;
+		z-index: 5;
+		padding: 0.4em;
+		background: rgba(7, 7, 13, 0.65);
+		backdrop-filter: blur(6px);
+		border-color: rgba(255, 255, 255, 0.15);
+	}
+	.bookmark-btn-corner .bookmark-label {
+		display: none;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function getBookmarks() {
+			try {
+				return JSON.parse(localStorage.getItem('aitr-bookmarks') || '[]');
+			} catch (e) {
+				return [];
+			}
+		}
+		function setBookmarks(list) {
+			try {
+				localStorage.setItem('aitr-bookmarks', JSON.stringify(list));
+			} catch (e) {}
+		}
+		function setupBookmarks() {
+			document.querySelectorAll('[data-bookmark-slug]').forEach(function (btn) {
+				if (btn.dataset.bound) return;
+				btn.dataset.bound = '1';
+				var slug = btn.getAttribute('data-bookmark-slug');
+				var title = btn.getAttribute('data-bookmark-title');
+				var label = btn.querySelector('.bookmark-label');
+
+				function refresh() {
+					var marks = getBookmarks();
+					var saved = marks.some(function (m) { return m.slug === slug; });
+					btn.classList.toggle('saved', saved);
+					if (label) label.textContent = saved ? 'Kaydedildi' : 'Kaydet';
+					btn.setAttribute('aria-label', saved ? 'Yer iminden kaldır' : 'Yer imine ekle');
+				}
+				refresh();
+
+				btn.addEventListener('click', function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+					var marks = getBookmarks();
+					var idx = marks.findIndex(function (m) { return m.slug === slug; });
+					if (idx >= 0) {
+						marks.splice(idx, 1);
+					} else {
+						marks.unshift({ slug: slug, title: title, date: new Date().toISOString() });
+					}
+					setBookmarks(marks);
+					refresh();
+					if (typeof gtag === 'function') {
+						gtag('event', idx >= 0 ? 'bookmark_remove' : 'bookmark_add', {
+							article_slug: slug,
+						});
+					}
+				});
+			});
+		}
+		document.addEventListener('astro:page-load', setupBookmarks);
+	})();
+</script>
