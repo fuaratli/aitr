@@ -123,6 +123,11 @@ const { slug } = Astro.props;
 							stored[slug] = value;
 							localStorage.setItem('aitr-feedback', JSON.stringify(stored));
 						} catch (e) {}
+						// Pozitif geri bildirimde konfeti at
+						if (value === 'up' && typeof window.aitrConfetti === 'function') {
+							var rect = btn.getBoundingClientRect();
+							window.aitrConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+						}
 						// Send to GA4 if available
 						if (typeof gtag === 'function') {
 							gtag('event', 'article_feedback', {
