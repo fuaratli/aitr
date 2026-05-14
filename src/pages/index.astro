@@ -8,6 +8,7 @@ import Header from '../components/Header.astro';
 import AdSlot from '../components/AdSlot.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import HeroCover from '../components/HeroCover.astro';
+import FloatingParticles from '../components/FloatingParticles.astro';
 import { SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from '../consts';
 import { CATEGORY_META } from '../lib/categories';
 
@@ -29,6 +30,7 @@ const featured = posts[0];
 			<!-- HERO -->
 			<section class="hero">
 				<div class="mesh-bg" aria-hidden="true"></div>
+				<FloatingParticles count={22} />
 				<div class="hero-inner">
 					<a href="/blog/chatgpt-claude-gemini-karsilastirma-2026/" class="pill pill-glow announce">
 						<span class="dot"></span>

@@ -3,50 +3,64 @@ interface Props {
 	slug: string;
 }
 const { slug } = Astro.props;
-/*
-	GISCUS KURULUM (5 dakika, bedava):
-	1. https://github.com/fuaratli/aitr/settings → "Features" altında "Discussions" işaretle
-	2. https://github.com/apps/giscus → "Install" → aitr repo'sunu seç
-	3. https://giscus.app → "fuaratli/aitr" repo'sunu yaz, "Use Discussion Category Matching" → "General"
-	4. Aşağıdaki data-* değerlerini giscus.app'in verdikleriyle değiştir (özellikle data-repo-id ve data-category-id)
-	5. Push et, yorumlar sayfa altında çıkacak
-*/
+
+// GISCUS yapılandırması
+// Aktif etmek için:
+//   1) GitHub repo'da Discussions'ı aç (Settings → Features → Discussions)
+//   2) github.com/apps/giscus → Install → aitr repo'sunu seç
+//   3) giscus.app → "fuaratli/aitr" ve "General" kategorisi seç
+//   4) Aşağıdaki REPO_ID ve CATEGORY_ID değerlerini giscus.app'in verdikleriyle değiştir
+const REPO = 'fuaratli/aitr';
+const REPO_ID = '';
+const CATEGORY = 'General';
+const CATEGORY_ID = '';
+const giscusReady = REPO_ID && CATEGORY_ID;
 ---
 
 <section class="comments-wrap" aria-label="Yorumlar">
 	<header class="comments-head">
 		<h2>💬 Yorumlar</h2>
 		<p>
-			Düşüncelerini paylaş, başkalarının yorumlarını oku. GitHub hesabınla giriş yap (mail gerek
-			değil).
+			Düşüncelerini paylaş, başkalarının yorumlarını oku. GitHub hesabınla giriş yapman yeterli.
 		</p>
 	</header>
 
-	<div class="giscus-container">
-		<script
-			src="https://giscus.app/client.js"
-			data-repo="fuaratli/aitr"
-			data-repo-id="REPLACE_WITH_REPO_ID"
-			data-category="General"
-			data-category-id="REPLACE_WITH_CATEGORY_ID"
-			data-mapping="pathname"
-			data-strict="0"
-			data-reactions-enabled="1"
-			data-emit-metadata="0"
-			data-input-position="top"
-			data-theme="dark"
-			data-lang="tr"
-			data-loading="lazy"
-			crossorigin="anonymous"
-			async></script>
-	</div>
-
-	<div class="comments-fallback" id="giscus-fallback">
-		<p>
-			Yorumlar yüklenmiyor mu? GitHub'a giriş yapmış olduğundan emin ol veya
-			<a href="/iletisim/">iletişim formundan</a> bize yaz.
-		</p>
-	</div>
+	{
+		giscusReady ? (
+			<div class="giscus-container">
+				<script
+					src="https://giscus.app/client.js"
+					data-repo={REPO}
+					data-repo-id={REPO_ID}
+					data-category={CATEGORY}
+					data-category-id={CATEGORY_ID}
+					data-mapping="pathname"
+					data-strict="0"
+					data-reactions-enabled="1"
+					data-emit-metadata="0"
+					data-input-position="top"
+					data-theme="dark"
+					data-lang="tr"
+					data-loading="lazy"
+					crossorigin="anonymous"
+					async
+				/>
+			</div>
+		) : (
+			<div class="comments-placeholder">
+				<div class="ph-icon" aria-hidden="true">💬</div>
+				<h3>Yorumlar yakında aktif</h3>
+				<p>
+					Yorum sistemi kurulum aşamasında. Şu an için fikirlerini
+					<a href="/iletisim/">iletişim formu</a> üzerinden paylaşabilirsin.
+				</p>
+				<div class="ph-actions">
+					<a href="/iletisim/" class="btn btn-ghost">Bize Yaz</a>
+					<a href={`https://twitter.com/intent/tweet?text=AITR'da%20yeni%20bir%20yaz%C4%B1%20okudum&url=${encodeURIComponent('https://aitr.blog/blog/' + slug + '/')}`} target="_blank" rel="noopener" class="btn btn-ghost">X'te Paylaş</a>
+				</div>
+			</div>
+		)
+	}
 </section>
 
 <style>
@@ -75,14 +89,34 @@ const { slug } = Astro.props;
 		border-radius: 14px;
 		padding: 1.25em;
 	}
-	.comments-fallback {
+	.comments-placeholder {
+		background: linear-gradient(135deg, rgba(139, 92, 246, 0.06), rgba(236, 72, 153, 0.04));
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		padding: 2.5em 1.5em;
 		text-align: center;
-		color: var(--text-dim);
-		font-size: 0.85em;
-		margin-top: 1em;
 	}
-	.comments-fallback a {
+	.ph-icon {
+		font-size: 3em;
+		margin-bottom: 0.4em;
+	}
+	.comments-placeholder h3 {
+		margin: 0 0 0.4em 0;
+		font-size: 1.2em;
+	}
+	.comments-placeholder p {
+		color: var(--text-muted);
+		margin: 0 0 1.25em 0;
+		font-size: 0.95em;
+	}
+	.comments-placeholder a {
 		color: #c4b5fd;
+	}
+	.ph-actions {
+		display: flex;
+		gap: 0.6em;
+		justify-content: center;
+		flex-wrap: wrap;
 	}
 </style>
 
@@ -97,7 +131,6 @@ const { slug } = Astro.props;
 		document.addEventListener('astro:page-load', function () {
 			setTimeout(syncGiscusTheme, 1500);
 		});
-		// Theme değişince güncelle
 		var observer = new MutationObserver(syncGiscusTheme);
 		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 	})();

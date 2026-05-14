@@ -441,6 +441,29 @@ const ogImageURL = new URL(image.src, Astro.url);
 </script>
 
 <script is:inline>
+	/* === CLICK RIPPLE === */
+	(function () {
+		function setupRipple() {
+			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			if (document.body.dataset.rippleBound) return;
+			document.body.dataset.rippleBound = '1';
+			document.addEventListener('click', function (e) {
+				// Sadece interactive elementlerde
+				var target = e.target.closest('a, button, .post-card, .cat-card, .tool-card');
+				if (!target) return;
+				var ripple = document.createElement('div');
+				ripple.className = 'click-ripple';
+				ripple.style.left = e.clientX + 'px';
+				ripple.style.top = e.clientY + 'px';
+				document.body.appendChild(ripple);
+				setTimeout(function () { ripple.remove(); }, 700);
+			});
+		}
+		document.addEventListener('astro:page-load', setupRipple);
+	})();
+</script>
+
+<script is:inline>
 	/* === SCROLL PARALLAX === */
 	(function () {
 		function setupParallax() {

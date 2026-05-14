@@ -1,9 +1,11 @@
 <div class="cursor-dot" id="aitr-cursor-dot" aria-hidden="true"></div>
 <div class="cursor-ring" id="aitr-cursor-ring" aria-hidden="true"></div>
+<canvas class="cursor-trail" id="aitr-cursor-trail" aria-hidden="true"></canvas>
 
 <style>
 	.cursor-dot,
-	.cursor-ring {
+	.cursor-ring,
+	.cursor-trail {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -13,12 +15,17 @@
 		opacity: 0;
 		will-change: transform;
 	}
+	.cursor-trail {
+		width: 100vw;
+		height: 100vh;
+		opacity: 0.6;
+	}
 	.cursor-dot {
 		width: 6px;
 		height: 6px;
 		background: linear-gradient(135deg, #c4b5fd, #f9a8d4);
 		border-radius: 50%;
-		box-shadow: 0 0 10px rgba(196, 181, 253, 0.6);
+		box-shadow: 0 0 12px rgba(196, 181, 253, 0.7);
 		transform: translate3d(-50%, -50%, 0);
 	}
 	.cursor-ring {
@@ -27,22 +34,35 @@
 		border: 1.5px solid rgba(196, 181, 253, 0.5);
 		border-radius: 50%;
 		transform: translate3d(-50%, -50%, 0);
-		transition: opacity 0.2s ease, width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+		transition: opacity 0.2s ease, width 0.25s ease, height 0.25s ease, border-color 0.25s ease,
+			background 0.25s ease;
 	}
 	.cursor-ring.hover {
 		width: 56px;
 		height: 56px;
-		border-color: rgba(249, 168, 212, 0.8);
-		background: rgba(139, 92, 246, 0.08);
+		border-color: rgba(249, 168, 212, 0.85);
+		background: rgba(139, 92, 246, 0.1);
 	}
 	.cursor-ring.click {
 		width: 24px;
 		height: 24px;
-		border-color: rgba(139, 92, 246, 0.9);
+		border-color: rgba(139, 92, 246, 0.95);
+		background: rgba(139, 92, 246, 0.15);
 	}
-	@media (hover: none), (prefers-reduced-motion: reduce) {
+	html.has-custom-cursor,
+	html.has-custom-cursor * {
+		cursor: none !important;
+	}
+	html.has-custom-cursor a,
+	html.has-custom-cursor button,
+	html.has-custom-cursor input,
+	html.has-custom-cursor textarea {
+		cursor: none !important;
+	}
+	@media (hover: none), (prefers-reduced-motion: reduce), (max-width: 980px) {
 		.cursor-dot,
-		.cursor-ring {
+		.cursor-ring,
+		.cursor-trail {
 			display: none !important;
 		}
 	}
@@ -53,31 +73,73 @@
 		function setupCursor() {
 			if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
 			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			if (window.innerWidth < 980) return;
 			var dot = document.getElementById('aitr-cursor-dot');
 			var ring = document.getElementById('aitr-cursor-ring');
-			if (!dot || !ring) return;
+			var trail = document.getElementById('aitr-cursor-trail');
+			if (!dot || !ring || !trail) return;
 			if (document.body.dataset.cursorBound) return;
 			document.body.dataset.cursorBound = '1';
+			document.documentElement.classList.add('has-custom-cursor');
 
-			var mouseX = 0, mouseY = 0;
-			var ringX = 0, ringY = 0;
+			// Canvas setup for trail
+			var ctx = trail.getContext('2d');
+			function resizeTrail() {
+				trail.width = window.innerWidth * window.devicePixelRatio;
+				trail.height = window.innerHeight * window.devicePixelRatio;
+				ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+			}
+			resizeTrail();
+			window.addEventListener('resize', resizeTrail);
+
+			var mouseX = 0,
+				mouseY = 0;
+			var ringX = 0,
+				ringY = 0;
 			var visible = false;
+			var trailPoints = [];
 
 			function move(e) {
 				mouseX = e.clientX;
 				mouseY = e.clientY;
-				dot.style.transform = 'translate3d(' + (mouseX - 3) + 'px, ' + (mouseY - 3) + 'px, 0)';
+				dot.style.transform =
+					'translate3d(' + (mouseX - 3) + 'px, ' + (mouseY - 3) + 'px, 0)';
 				if (!visible) {
 					dot.style.opacity = '1';
 					ring.style.opacity = '1';
+					trail.style.opacity = '0.6';
 					visible = true;
 				}
+				trailPoints.push({ x: mouseX, y: mouseY, life: 1 });
+				if (trailPoints.length > 25) trailPoints.shift();
+			}
+
+			function drawTrail() {
+				ctx.clearRect(0, 0, trail.width, trail.height);
+				for (var i = 0; i < trailPoints.length; i++) {
+					var p = trailPoints[i];
+					var alpha = (i / trailPoints.length) * 0.5 * p.life;
+					var radius = (i / trailPoints.length) * 5 + 1;
+					var gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 3);
+					gradient.addColorStop(0, 'rgba(196, 181, 253, ' + alpha + ')');
+					gradient.addColorStop(1, 'rgba(249, 168, 212, 0)');
+					ctx.beginPath();
+					ctx.arc(p.x, p.y, radius * 3, 0, Math.PI * 2);
+					ctx.fillStyle = gradient;
+					ctx.fill();
+					p.life *= 0.96;
+				}
+				trailPoints = trailPoints.filter(function (p) {
+					return p.life > 0.05;
+				});
 			}
 
 			function animateRing() {
 				ringX += (mouseX - ringX) * 0.18;
 				ringY += (mouseY - ringY) * 0.18;
-				ring.style.transform = 'translate3d(' + (ringX - 16) + 'px, ' + (ringY - 16) + 'px, 0)';
+				ring.style.transform =
+					'translate3d(' + (ringX - 16) + 'px, ' + (ringY - 16) + 'px, 0)';
+				drawTrail();
 				requestAnimationFrame(animateRing);
 			}
 
@@ -85,6 +147,7 @@
 			document.addEventListener('mouseleave', function () {
 				dot.style.opacity = '0';
 				ring.style.opacity = '0';
+				trail.style.opacity = '0';
 				visible = false;
 			});
 			document.addEventListener('mousedown', function () {
@@ -97,16 +160,28 @@
 			function isHoverable(el) {
 				if (!el || !el.tagName) return false;
 				var tag = el.tagName.toLowerCase();
-				if (tag === 'a' || tag === 'button' || tag === 'input' || tag === 'textarea' || tag === 'select') return true;
-				if (el.classList && (el.classList.contains('post-card') || el.classList.contains('cat-card') || el.classList.contains('tool-card') || el.classList.contains('clickable'))) return true;
+				if (
+					tag === 'a' ||
+					tag === 'button' ||
+					tag === 'input' ||
+					tag === 'textarea' ||
+					tag === 'select' ||
+					tag === 'label'
+				)
+					return true;
+				if (
+					el.classList &&
+					(el.classList.contains('post-card') ||
+						el.classList.contains('cat-card') ||
+						el.classList.contains('tool-card') ||
+						el.classList.contains('clickable'))
+				)
+					return true;
 				return false;
 			}
 			document.addEventListener('mouseover', function (e) {
-				if (isHoverable(e.target) || isHoverable(e.target.parentElement)) {
-					ring.classList.add('hover');
-				} else {
-					ring.classList.remove('hover');
-				}
+				var hover = isHoverable(e.target) || isHoverable(e.target.parentElement);
+				ring.classList.toggle('hover', hover);
 			});
 
 			animateRing();
