@@ -17,6 +17,9 @@ import HeroCover from '../components/HeroCover.astro';
 import StickyToc from '../components/StickyToc.astro';
 import ArticleFeedback from '../components/ArticleFeedback.astro';
 import BookmarkButton from '../components/BookmarkButton.astro';
+import Comments from '../components/Comments.astro';
+import UpNext from '../components/UpNext.astro';
+import StickyCta from '../components/StickyCta.astro';
 import { SITE_LANG, SITE_TITLE, SITE_AUTHOR } from '../consts';
 import { CATEGORY_META, type CategoryKey } from '../lib/categories';
 import { slugifyTag } from '../lib/slug';
@@ -26,6 +29,7 @@ type Props = CollectionEntry<'blog'>['data'] & {
 	headings?: MarkdownHeading[];
 	minutes?: number;
 	related?: CollectionEntry<'blog'>[];
+	upNext?: CollectionEntry<'blog'>;
 };
 
 const {
@@ -40,6 +44,7 @@ const {
 	headings = [],
 	minutes,
 	related = [],
+	upNext,
 } = Astro.props;
 
 const categoryMeta = category ? CATEGORY_META[category as CategoryKey] : null;
@@ -208,8 +213,12 @@ const articleSchema = {
 				</footer>
 			</article>
 
+			{slug && <Comments slug={slug} />}
+
 			<RelatedArticles posts={related} />
 		</main>
+		{upNext && <UpNext post={upNext} />}
+		<StickyCta />
 		<Footer />
 
 		<style>

@@ -1,0 +1,184 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HeroCover from './HeroCover.astro';
+import { CATEGORY_META, type CategoryKey } from '../lib/categories';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+const { post } = Astro.props;
+const meta = CATEGORY_META[post.data.category as CategoryKey];
+---
+
+<aside class="up-next" id="aitr-up-next" aria-label="Sıradaki yazı" hidden>
+	<a href={`/blog/${post.id}/`} class="up-next-link">
+		<div class="up-next-cover">
+			<HeroCover title={post.data.title} category={post.data.category} size="small" />
+		</div>
+		<div class="up-next-info">
+			<span class="up-next-label">⏭ Sıradaki yazı</span>
+			<h3>{post.data.title}</h3>
+			<p>{post.data.description}</p>
+			<span class="up-next-cta">Hemen oku →</span>
+		</div>
+	</a>
+	<button class="up-next-dismiss" id="up-next-dismiss" aria-label="Kapat" type="button">
+		<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+	</button>
+</aside>
+
+<style>
+	.up-next {
+		position: fixed;
+		right: 1.5em;
+		bottom: 1.5em;
+		max-width: 380px;
+		background: rgba(12, 12, 24, 0.92);
+		border: 1px solid var(--border-2);
+		border-radius: 16px;
+		overflow: hidden;
+		z-index: 80;
+		backdrop-filter: blur(16px);
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(139, 92, 246, 0.2);
+		animation: up-next-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+	}
+	:global([data-theme='light']) .up-next {
+		background: rgba(255, 255, 255, 0.96);
+		box-shadow: 0 20px 60px rgba(15, 15, 40, 0.15), 0 0 30px rgba(139, 92, 246, 0.18);
+	}
+	@keyframes up-next-in {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	.up-next-link {
+		display: grid;
+		grid-template-columns: 140px 1fr;
+		gap: 0;
+		text-decoration: none;
+		color: var(--text);
+		transition: 0.2s ease;
+	}
+	.up-next-cover {
+		overflow: hidden;
+	}
+	.up-next-cover :global(.hcover) {
+		height: 100%;
+		min-height: 130px;
+		border-radius: 0;
+	}
+	.up-next-info {
+		padding: 0.85em 1em;
+	}
+	.up-next-label {
+		display: inline-block;
+		font-size: 0.7em;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: #c4b5fd;
+		font-weight: 700;
+		font-family: var(--font-display);
+		margin-bottom: 0.4em;
+	}
+	.up-next-info h3 {
+		font-size: 0.95em;
+		line-height: 1.3;
+		margin: 0 0 0.35em 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	.up-next-info p {
+		font-size: 0.78em;
+		color: var(--text-muted);
+		margin: 0 0 0.5em 0;
+		line-height: 1.45;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	.up-next-cta {
+		font-size: 0.78em;
+		color: #f9a8d4;
+		font-weight: 600;
+	}
+	.up-next-link:hover .up-next-cta {
+		color: #c4b5fd;
+	}
+	.up-next-dismiss {
+		position: absolute;
+		top: 0.45em;
+		right: 0.45em;
+		width: 26px;
+		height: 26px;
+		background: rgba(7, 7, 13, 0.6);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		color: var(--text-muted);
+		border-radius: 6px;
+		cursor: pointer;
+		display: grid;
+		place-items: center;
+		transition: 0.15s ease;
+	}
+	.up-next-dismiss:hover {
+		color: var(--text);
+		background: rgba(7, 7, 13, 0.8);
+	}
+	@media (max-width: 640px) {
+		.up-next {
+			right: 0.75em;
+			left: 0.75em;
+			bottom: 0.75em;
+			max-width: none;
+		}
+		.up-next-link {
+			grid-template-columns: 100px 1fr;
+		}
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function setupUpNext() {
+			var box = document.getElementById('aitr-up-next');
+			var dismiss = document.getElementById('up-next-dismiss');
+			if (!box || box.dataset.bound) return;
+			box.dataset.bound = '1';
+
+			// localStorage'da gizlenmiş mi kontrol et (oturum bazlı)
+			try {
+				if (sessionStorage.getItem('aitr-up-next-dismissed') === '1') return;
+			} catch (e) {}
+
+			function update() {
+				var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+				if (docHeight <= 0) return;
+				var progress = window.scrollY / docHeight;
+				if (progress > 0.65) {
+					box.hidden = false;
+					window.removeEventListener('scroll', update);
+				}
+			}
+
+			dismiss.addEventListener('click', function (e) {
+				e.preventDefault();
+				e.stopPropagation();
+				box.hidden = true;
+				try {
+					sessionStorage.setItem('aitr-up-next-dismissed', '1');
+				} catch (e) {}
+			});
+
+			window.addEventListener('scroll', update, { passive: true });
+			update();
+		}
+		document.addEventListener('astro:page-load', setupUpNext);
+	})();
+</script>

@@ -1,0 +1,104 @@
+---
+interface Props {
+	slug: string;
+}
+const { slug } = Astro.props;
+/*
+	GISCUS KURULUM (5 dakika, bedava):
+	1. https://github.com/fuaratli/aitr/settings → "Features" altında "Discussions" işaretle
+	2. https://github.com/apps/giscus → "Install" → aitr repo'sunu seç
+	3. https://giscus.app → "fuaratli/aitr" repo'sunu yaz, "Use Discussion Category Matching" → "General"
+	4. Aşağıdaki data-* değerlerini giscus.app'in verdikleriyle değiştir (özellikle data-repo-id ve data-category-id)
+	5. Push et, yorumlar sayfa altında çıkacak
+*/
+---
+
+<section class="comments-wrap" aria-label="Yorumlar">
+	<header class="comments-head">
+		<h2>💬 Yorumlar</h2>
+		<p>
+			Düşüncelerini paylaş, başkalarının yorumlarını oku. GitHub hesabınla giriş yap (mail gerek
+			değil).
+		</p>
+	</header>
+
+	<div class="giscus-container">
+		<script
+			src="https://giscus.app/client.js"
+			data-repo="fuaratli/aitr"
+			data-repo-id="REPLACE_WITH_REPO_ID"
+			data-category="General"
+			data-category-id="REPLACE_WITH_CATEGORY_ID"
+			data-mapping="pathname"
+			data-strict="0"
+			data-reactions-enabled="1"
+			data-emit-metadata="0"
+			data-input-position="top"
+			data-theme="dark"
+			data-lang="tr"
+			data-loading="lazy"
+			crossorigin="anonymous"
+			async></script>
+	</div>
+
+	<div class="comments-fallback" id="giscus-fallback">
+		<p>
+			Yorumlar yüklenmiyor mu? GitHub'a giriş yapmış olduğundan emin ol veya
+			<a href="/iletisim/">iletişim formundan</a> bize yaz.
+		</p>
+	</div>
+</section>
+
+<style>
+	.comments-wrap {
+		max-width: 760px;
+		margin: 3em auto 2em;
+		padding: 0 1.25em;
+	}
+	.comments-head {
+		margin-bottom: 1.5em;
+		text-align: center;
+	}
+	.comments-head h2 {
+		margin: 0 0 0.3em 0;
+		font-size: 1.6em;
+	}
+	.comments-head p {
+		color: var(--text-muted);
+		margin: 0;
+		font-size: 0.95em;
+	}
+	.giscus-container {
+		min-height: 200px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		padding: 1.25em;
+	}
+	.comments-fallback {
+		text-align: center;
+		color: var(--text-dim);
+		font-size: 0.85em;
+		margin-top: 1em;
+	}
+	.comments-fallback a {
+		color: #c4b5fd;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function syncGiscusTheme() {
+			var frame = document.querySelector('iframe.giscus-frame');
+			if (!frame) return;
+			var theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+			frame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
+		}
+		document.addEventListener('astro:page-load', function () {
+			setTimeout(syncGiscusTheme, 1500);
+		});
+		// Theme değişince güncelle
+		var observer = new MutationObserver(syncGiscusTheme);
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+	})();
+</script>

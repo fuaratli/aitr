@@ -1,0 +1,56 @@
+<div class="sticky-cta" id="aitr-sticky-cta" role="dialog" aria-label="Bülten kaydı önerisi">
+	<span class="icon" aria-hidden="true">📬</span>
+	<div class="text">
+		<strong>Hoşuna gidiyor mu?</strong>
+		<span>Haftalık AI bültenine katıl, kaçırma.</span>
+	</div>
+	<a class="btn-cta" href="#newsletter-anchor">Abone ol →</a>
+	<button class="sticky-cta-close" id="sticky-cta-close" aria-label="Kapat" type="button">
+		<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+	</button>
+</div>
+
+<script is:inline>
+	(function () {
+		function setupStickyCta() {
+			var cta = document.getElementById('aitr-sticky-cta');
+			var close = document.getElementById('sticky-cta-close');
+			if (!cta || cta.dataset.bound) return;
+			cta.dataset.bound = '1';
+
+			try {
+				if (sessionStorage.getItem('aitr-cta-dismissed') === '1') {
+					cta.remove();
+					return;
+				}
+				if (localStorage.getItem('aitr-newsletter-pending')) {
+					cta.remove();
+					return;
+				}
+			} catch (e) {}
+
+			function update() {
+				var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+				if (docHeight <= 0) return;
+				var progress = window.scrollY / docHeight;
+				if (progress > 0.35 && progress < 0.85) {
+					cta.classList.add('show');
+				} else {
+					cta.classList.remove('show');
+				}
+			}
+
+			close.addEventListener('click', function () {
+				cta.classList.remove('show');
+				try {
+					sessionStorage.setItem('aitr-cta-dismissed', '1');
+				} catch (e) {}
+				setTimeout(function () { cta.remove(); }, 600);
+			});
+
+			window.addEventListener('scroll', update, { passive: true });
+			update();
+		}
+		document.addEventListener('astro:page-load', setupStickyCta);
+	})();
+</script>

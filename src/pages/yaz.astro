@@ -1,0 +1,483 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE_LANG, SITE_TITLE } from '../consts';
+
+const pageTitle = `AITR'da Yazar Ol — ${SITE_TITLE}`;
+const pageDescription =
+	'AITR misafir yazar başvurusu. Yapay zeka, teknoloji, üretkenlik konularında yazıyorsan bize katıl. Bağımsız platformda sesini duyur.';
+const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Yazar Ol' }];
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main class="yaz-main">
+			<Breadcrumbs items={breadcrumbs} />
+			<header class="hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<span class="pill pill-glow">✍️ Misafir Yazar</span>
+					<h1>
+						AITR'da <span class="gradient-text">yazını</span> yayınla
+					</h1>
+					<p class="lede">
+						Türkçe yapay zeka topluluğuna sesini duyur. Düşüncelerin, deneyimlerin ve
+						rehberlerin için açık bir platform. Yazımız onaylanırsa biyo bağlantın + sosyal
+						medya linkin yayınlanır.
+					</p>
+				</div>
+			</header>
+
+			<section class="benefits">
+				<div class="b-grid">
+					<div class="b-card">
+						<div class="b-icon" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">🎯</div>
+						<h3>Geniş Kitle</h3>
+						<p>AITR Türkçe yapay zeka pazarında hızla büyüyor. Yazıların binlerce kişiye ulaşır.</p>
+					</div>
+					<div class="b-card">
+						<div class="b-icon" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">🔗</div>
+						<h3>Profil + Linkler</h3>
+						<p>Yazının altında biyo + LinkedIn/X/web sitesi linkin görünür. Kendi markanı büyüt.</p>
+					</div>
+					<div class="b-card">
+						<div class="b-icon" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">🛡️</div>
+						<h3>Editöryel Destek</h3>
+						<p>Yazının dil, akış ve SEO açısından düzenlenmesinde yardımcı oluyoruz.</p>
+					</div>
+					<div class="b-card">
+						<div class="b-icon" style="background:linear-gradient(135deg,#ec4899,#f97316)">💼</div>
+						<h3>Profesyonel Vitrin</h3>
+						<p>Yazıların portfolyona ekleyebileceğin yayınlar haline gelir. Kariyer için altın.</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="how-it-works">
+				<h2>Süreç Nasıl İşliyor?</h2>
+				<ol class="steps">
+					<li>
+						<div class="num">1</div>
+						<div>
+							<h4>Konunu öner</h4>
+							<p>Yazmak istediğin konuyu aşağıdaki formla bize gönder. Konuyu onaylar veya birlikte rafine ederiz.</p>
+						</div>
+					</li>
+					<li>
+						<div class="num">2</div>
+						<div>
+							<h4>Taslağını yaz</h4>
+							<p>1.500-3.000 kelime arası, kendi tarzında. Hazır olduğunda taslağı bize ilet.</p>
+						</div>
+					</li>
+					<li>
+						<div class="num">3</div>
+						<div>
+							<h4>Birlikte düzenleriz</h4>
+							<p>Editör notlarımızla 1-2 düzeltme turu. Senin sesin korunur, biz sadece akış ve SEO ekleriz.</p>
+						</div>
+					</li>
+					<li>
+						<div class="num">4</div>
+						<div>
+							<h4>Yayında!</h4>
+							<p>Yazın AITR'da yayımlanır + biyo + linklerin görünür + sosyal medyada paylaşılır.</p>
+						</div>
+					</li>
+				</ol>
+			</section>
+
+			<section class="who-for">
+				<h2>Kimler Yazabilir?</h2>
+				<div class="who-grid">
+					<div class="who-item">
+						<span class="check">✓</span>
+						<div>
+							<strong>Yazılım geliştiriciler</strong> — AI ile günlük deneyimlerini paylaşan
+						</div>
+					</div>
+					<div class="who-item">
+						<span class="check">✓</span>
+						<div>
+							<strong>İçerik üreticiler</strong> — YouTuber, podcaster, blogger — AI'ı işine entegre eden
+						</div>
+					</div>
+					<div class="who-item">
+						<span class="check">✓</span>
+						<div>
+							<strong>Profesyoneller</strong> — AI'ı sektöründe kullanan avukat, doktor, mühendis, öğretmen
+						</div>
+					</div>
+					<div class="who-item">
+						<span class="check">✓</span>
+						<div>
+							<strong>Öğrenciler</strong> — AI ile öğrenme/araştırma deneyimini anlatan
+						</div>
+					</div>
+					<div class="who-item">
+						<span class="check">✓</span>
+						<div>
+							<strong>Girişimciler</strong> — AI ile iş kuran, deneme yapan herkes
+						</div>
+					</div>
+					<div class="who-item">
+						<span class="cross">×</span>
+						<div>
+							<strong>Spam / Reklam içerikleri</strong> — ürün satışı odaklı, AI-üretimi otomatik yazılar kabul edilmez
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="basvuru">
+				<h2>Başvuru Formu</h2>
+				<p class="form-intro">
+					Aşağıdaki alanları doldur, **3-5 iş günü** içinde dönüş yapıyoruz. Tüm başvurular
+					editör ekibimizce incelenir.
+				</p>
+				<form class="form" data-yaz-form>
+					<label>
+						<span>Ad Soyad <em>*</em></span>
+						<input type="text" name="name" required placeholder="Adın Soyadın" autocomplete="name" />
+					</label>
+					<label>
+						<span>E-posta <em>*</em></span>
+						<input type="email" name="email" required placeholder="senin@email.com" autocomplete="email" />
+					</label>
+					<label>
+						<span>LinkedIn / X / Web sitesi (opsiyonel)</span>
+						<input type="url" name="profile" placeholder="https://linkedin.com/in/sen" autocomplete="url" />
+					</label>
+					<label>
+						<span>Hakkında — kısa biyo <em>*</em></span>
+						<textarea name="bio" rows="3" required placeholder="Kim olduğunu 2-3 cümlede anlat. Yazıyla ilgili uzmanlığını/deneyimini de belirt."></textarea>
+					</label>
+					<label>
+						<span>Yazmak istediğin konu <em>*</em></span>
+						<input type="text" name="topic" required placeholder="Örn: Cursor IDE ile Next.js geliştirme deneyimim" />
+					</label>
+					<label>
+						<span>Yazı taslağı veya plan <em>*</em></span>
+						<textarea name="draft" rows="8" required placeholder="Tam taslak gönderebilirsin VEYA detaylı bir plan (ana başlıklar + her birinde ne anlatacağın). Minimum 200 kelime."></textarea>
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" name="agree" required />
+						<span>
+							<a href="/yayin-ilkelerimiz/">Yayın ilkelerini</a> okudum ve kabul ediyorum.
+							Yazımın editör düzenlemelerinden geçeceğini biliyorum.
+						</span>
+					</label>
+					<p class="privacy">
+						Form bilgilerin yalnızca başvuru değerlendirmesi için kullanılır.
+						<a href="/gizlilik/">Gizlilik Politikası</a>.
+					</p>
+					<button type="submit" class="btn btn-primary">
+						Başvuruyu Gönder
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+					</button>
+				</form>
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.yaz-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 3.5em 1.25em 2.5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.hero .inner {
+				position: relative;
+				z-index: 2;
+				max-width: 760px;
+				margin: 0 auto;
+			}
+			.hero .pill {
+				margin-bottom: 1em;
+			}
+			.hero h1 {
+				font-size: clamp(2em, 5vw, 3.2em);
+				margin: 0 0 0.4em 0;
+				letter-spacing: -0.03em;
+			}
+			.lede {
+				color: var(--text-muted);
+				font-size: 1.08em;
+				line-height: 1.65;
+				max-width: 600px;
+				margin: 0 auto;
+			}
+			.benefits {
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 3em 1.25em;
+			}
+			.b-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+				gap: 1.25em;
+			}
+			.b-card {
+				padding: 1.5em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 14px;
+				transition: 0.2s ease;
+			}
+			.b-card:hover {
+				border-color: var(--border-glow);
+				transform: translateY(-3px);
+			}
+			.b-icon {
+				display: inline-grid;
+				place-items: center;
+				width: 48px;
+				height: 48px;
+				border-radius: 12px;
+				font-size: 1.3em;
+				margin-bottom: 0.85em;
+				box-shadow: var(--glow-violet);
+			}
+			.b-card h3 {
+				margin: 0 0 0.4em 0;
+				font-size: 1.05em;
+			}
+			.b-card p {
+				margin: 0;
+				color: var(--text-muted);
+				font-size: 0.92em;
+				line-height: 1.55;
+			}
+			.how-it-works {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 2em 1.25em;
+			}
+			.how-it-works h2 {
+				text-align: center;
+				margin-bottom: 1.5em;
+				font-size: clamp(1.6em, 4vw, 2.2em);
+			}
+			.steps {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+			}
+			.steps li {
+				display: flex;
+				gap: 1.25em;
+				padding: 1.25em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+			}
+			.num {
+				flex-shrink: 0;
+				width: 36px;
+				height: 36px;
+				background: var(--gradient-1);
+				color: white;
+				border-radius: 50%;
+				display: grid;
+				place-items: center;
+				font-weight: 700;
+				font-family: var(--font-display);
+				box-shadow: var(--glow-violet);
+			}
+			.steps h4 {
+				margin: 0 0 0.3em 0;
+				font-size: 1em;
+			}
+			.steps p {
+				margin: 0;
+				color: var(--text-muted);
+				font-size: 0.92em;
+				line-height: 1.55;
+			}
+			.who-for {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 2em 1.25em;
+			}
+			.who-for h2 {
+				text-align: center;
+				margin-bottom: 1.5em;
+				font-size: clamp(1.6em, 4vw, 2.2em);
+			}
+			.who-grid {
+				display: grid;
+				gap: 0.75em;
+			}
+			.who-item {
+				display: flex;
+				gap: 0.85em;
+				padding: 0.85em 1em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 10px;
+			}
+			.check {
+				color: #4ade80;
+				font-size: 1.2em;
+				font-weight: 700;
+				flex-shrink: 0;
+			}
+			.cross {
+				color: #ef4444;
+				font-size: 1.2em;
+				font-weight: 700;
+				flex-shrink: 0;
+			}
+			.who-item div {
+				color: var(--text-muted);
+				font-size: 0.95em;
+				line-height: 1.5;
+			}
+			.who-item strong {
+				color: var(--text);
+			}
+			.form-section {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 2em 1.25em 4em;
+			}
+			.form-section h2 {
+				text-align: center;
+				margin-bottom: 0.5em;
+				font-size: clamp(1.6em, 4vw, 2.2em);
+			}
+			.form-intro {
+				text-align: center;
+				color: var(--text-muted);
+				margin-bottom: 1.5em;
+			}
+			.form {
+				display: flex;
+				flex-direction: column;
+				gap: 1.1em;
+				padding: 1.75em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+			}
+			.form label {
+				display: flex;
+				flex-direction: column;
+				gap: 0.4em;
+				font-size: 0.9em;
+				color: var(--text-muted);
+				font-weight: 500;
+			}
+			.form label em {
+				color: #ec4899;
+				font-style: normal;
+			}
+			.form label.checkbox {
+				flex-direction: row;
+				align-items: flex-start;
+				gap: 0.6em;
+				font-size: 0.88em;
+				color: var(--text-muted);
+				cursor: pointer;
+			}
+			.form label.checkbox input {
+				margin-top: 0.25em;
+				accent-color: var(--accent);
+			}
+			.form label.checkbox a {
+				color: #c4b5fd;
+			}
+			.form input,
+			.form textarea {
+				width: 100%;
+				padding: 0.85em 1em;
+				background: rgba(7, 7, 13, 0.5);
+				border: 1px solid var(--border-2);
+				border-radius: 10px;
+				color: var(--text);
+				font-size: 0.95em;
+				font-family: inherit;
+				resize: vertical;
+			}
+			:global([data-theme='light']) .form input,
+			:global([data-theme='light']) .form textarea {
+				background: rgba(255, 255, 255, 0.7);
+			}
+			.form input:focus,
+			.form textarea:focus {
+				outline: none;
+				border-color: var(--accent);
+				box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+			}
+			.privacy {
+				font-size: 0.78em;
+				color: var(--text-dim);
+				margin: 0;
+			}
+			.privacy a {
+				color: #c4b5fd;
+			}
+			.success-msg {
+				background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+				border: 1px solid rgba(34, 197, 94, 0.4);
+				color: #4ade80;
+				padding: 1.25em 1.5em;
+				border-radius: 12px;
+				margin: 0;
+				text-align: center;
+			}
+		</style>
+
+		<script is:inline>
+			(function () {
+				function setupForm() {
+					document.querySelectorAll('[data-yaz-form]').forEach(function (form) {
+						if (form.dataset.bound) return;
+						form.dataset.bound = '1';
+						form.addEventListener('submit', function (e) {
+							e.preventDefault();
+							var subject = encodeURIComponent('[AITR Yazar Başvurusu] ' + (form.topic.value || ''));
+							var body = encodeURIComponent(
+								'Ad: ' + form.name.value + '\n' +
+								'E-posta: ' + form.email.value + '\n' +
+								'Profil: ' + (form.profile.value || '-') + '\n\n' +
+								'Biyo:\n' + form.bio.value + '\n\n' +
+								'Konu: ' + form.topic.value + '\n\n' +
+								'Taslak / Plan:\n' + form.draft.value + '\n\n' +
+								'---\nGönderim tarihi: ' + new Date().toLocaleString('tr-TR')
+							);
+							window.location.href = 'mailto:merhaba@aitr.example?subject=' + subject + '&body=' + body;
+							setTimeout(function () {
+								form.innerHTML =
+									'<p class="success-msg">✨ Teşekkürler! E-posta uygulaman açıldı. Mesajını gönderdiğin anda başvurun bize ulaşacak. 3-5 iş günü içinde döneceğiz.</p>';
+								if (typeof window.aitrConfetti === 'function') {
+									window.aitrConfetti(window.innerWidth / 2, window.innerHeight / 3);
+								}
+							}, 600);
+							if (typeof gtag === 'function') {
+								gtag('event', 'guest_writer_submit', { topic: form.topic.value });
+							}
+						});
+					});
+				}
+				document.addEventListener('astro:page-load', setupForm);
+			})();
+		</script>
+	</body>
+</html>
