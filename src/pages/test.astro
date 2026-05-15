@@ -1,0 +1,507 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE_LANG, SITE_TITLE } from '../consts';
+
+const pageTitle = `Hangi AI Aracı Sana Uygun? — ${SITE_TITLE}`;
+const pageDescription =
+	'6 sorudan oluşan AI araç seçim testi. Cevapla, sana uygun yapay zeka aracı önerisi al. ChatGPT mi, Claude mu, Midjourney mi — bilimsel değil, pratik.';
+const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana Uygun?' }];
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main class="quiz-main">
+			<Breadcrumbs items={breadcrumbs} />
+			<header class="hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<span class="pill pill-glow">🎯 Hızlı Test</span>
+					<h1>Hangi AI Aracı <span class="gradient-text">Sana Uygun?</span></h1>
+					<p class="lede">
+						6 soru, 2 dakika. AI dünyasında onlarca araç var — sana uygun olanı bulmak
+						konfüzyondan kurtulmanın en hızlı yolu.
+					</p>
+				</div>
+			</header>
+
+			<section class="container">
+				<div class="quiz-progress" id="quiz-progress">
+					<div class="bar" id="quiz-bar"></div>
+				</div>
+
+				<div class="quiz" id="quiz">
+					<!-- JS doldurur -->
+				</div>
+
+				<div class="quiz-result" id="quiz-result" hidden>
+					<!-- JS doldurur -->
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.quiz-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 3.5em 1.25em 2.5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.hero .inner {
+				position: relative;
+				z-index: 2;
+				max-width: 760px;
+				margin: 0 auto;
+			}
+			.hero .pill {
+				margin-bottom: 1em;
+			}
+			.hero h1 {
+				font-size: clamp(2em, 5vw, 3em);
+				margin: 0 0 0.5em 0;
+				letter-spacing: -0.03em;
+			}
+			.lede {
+				color: var(--text-muted);
+				font-size: 1.05em;
+				line-height: 1.65;
+				margin: 0;
+			}
+			.container {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 2em 1.25em 4em;
+			}
+			.quiz-progress {
+				height: 6px;
+				background: var(--surface);
+				border-radius: 999px;
+				margin-bottom: 2em;
+				overflow: hidden;
+			}
+			.quiz-progress .bar {
+				height: 100%;
+				width: 0%;
+				background: var(--gradient-1);
+				border-radius: inherit;
+				transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+				box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+			}
+			.quiz {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				padding: 2em;
+				min-height: 320px;
+			}
+			.question {
+				animation: q-in 0.4s ease both;
+			}
+			@keyframes q-in {
+				from {
+					opacity: 0;
+					transform: translateY(15px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			.q-num {
+				color: var(--text-dim);
+				font-size: 0.85em;
+				margin: 0 0 0.4em 0;
+				font-family: var(--font-display);
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+			}
+			.q-text {
+				font-size: 1.4em;
+				margin: 0 0 1.5em 0;
+				font-family: var(--font-display);
+				letter-spacing: -0.02em;
+				line-height: 1.3;
+			}
+			.options {
+				display: flex;
+				flex-direction: column;
+				gap: 0.6em;
+			}
+			.option {
+				display: flex;
+				align-items: center;
+				gap: 0.75em;
+				padding: 1em 1.25em;
+				background: var(--surface-2);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				cursor: pointer;
+				transition: 0.18s ease;
+				font-size: 1em;
+				color: var(--text);
+				font-family: inherit;
+				text-align: left;
+				width: 100%;
+			}
+			.option:hover {
+				border-color: var(--border-glow);
+				transform: translateX(4px);
+				background: var(--surface-3);
+			}
+			.option .emoji {
+				font-size: 1.3em;
+				flex-shrink: 0;
+			}
+			.option:focus-visible {
+				outline: 2px solid #c4b5fd;
+				outline-offset: 2px;
+			}
+			.quiz-result {
+				background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.05));
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				padding: 2em;
+				text-align: center;
+				animation: q-in 0.5s ease both;
+			}
+			.result-badge {
+				display: inline-block;
+				font-size: 0.8em;
+				padding: 0.4em 0.95em;
+				background: rgba(139, 92, 246, 0.15);
+				border: 1px solid rgba(139, 92, 246, 0.4);
+				border-radius: 999px;
+				color: #c4b5fd;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.1em;
+				margin-bottom: 1em;
+			}
+			.result-icon {
+				display: inline-grid;
+				place-items: center;
+				width: 80px;
+				height: 80px;
+				background: var(--gradient-1);
+				border-radius: 20px;
+				font-size: 2.4em;
+				margin: 0 auto 1em;
+				box-shadow: var(--glow-violet);
+			}
+			.result-name {
+				font-size: 2em;
+				margin: 0 0 0.4em 0;
+				font-family: var(--font-display);
+				letter-spacing: -0.03em;
+			}
+			.result-tagline {
+				color: #c4b5fd;
+				margin: 0 0 1em 0;
+				font-weight: 600;
+			}
+			.result-desc {
+				color: var(--text-muted);
+				margin: 0 0 1.5em 0;
+				line-height: 1.6;
+			}
+			.result-actions {
+				display: flex;
+				gap: 0.75em;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+			.result-actions a {
+				text-decoration: none;
+			}
+			.share-share {
+				margin-top: 1.5em;
+				padding-top: 1.5em;
+				border-top: 1px solid var(--border);
+			}
+			.share-share p {
+				color: var(--text-dim);
+				font-size: 0.9em;
+				margin: 0 0 0.6em 0;
+			}
+			.restart-btn {
+				background: transparent;
+				border: 1px solid var(--border-2);
+				color: var(--text-muted);
+				padding: 0.6em 1.2em;
+				border-radius: 10px;
+				cursor: pointer;
+				font-size: 0.9em;
+				margin-top: 1em;
+				font-family: inherit;
+			}
+			.restart-btn:hover {
+				color: var(--text);
+				border-color: var(--border-glow);
+			}
+		</style>
+
+		<script is:inline>
+			(function () {
+				var QUIZ = {
+					questions: [
+						{
+							text: '🎯 Yapay zekayı en çok ne için kullanmayı düşünüyorsun?',
+							options: [
+								{ emoji: '💬', text: 'Genel sohbet, fikir alma, gündelik soru-cevap', tag: 'chat' },
+								{ emoji: '💻', text: 'Kod yazma, yazılım geliştirme', tag: 'code' },
+								{ emoji: '✍️', text: 'Yazı yazma — blog, e-posta, makale', tag: 'write' },
+								{ emoji: '🎨', text: 'Görsel/grafik üretme', tag: 'image' },
+								{ emoji: '🎙️', text: 'Ses, müzik, podcast üretme', tag: 'audio' },
+								{ emoji: '🎬', text: 'Video üretme', tag: 'video' },
+							],
+						},
+						{
+							text: '💸 Aylık bütçen ne kadar?',
+							options: [
+								{ emoji: '🆓', text: 'Bedava — tek kuruş istemiyorum', tag: 'free' },
+								{ emoji: '🪙', text: '~20 USD (700 TL) — bir araç için', tag: 'low' },
+								{ emoji: '💼', text: '~50 USD (1.700 TL) — birkaç araç', tag: 'mid' },
+								{ emoji: '🚀', text: '100+ USD — profesyonel kullanım', tag: 'high' },
+							],
+						},
+						{
+							text: '🇹🇷 Türkçe kalitesi senin için ne kadar kritik?',
+							options: [
+								{ emoji: '⭐', text: 'Mutlaka mükemmel olmalı', tag: 'tr_critical' },
+								{ emoji: '✅', text: 'İyi olsun, %100 olmasa olur', tag: 'tr_ok' },
+								{ emoji: '🌍', text: 'İngilizce kullanmaya açığım', tag: 'tr_no' },
+							],
+						},
+						{
+							text: '🧠 Teknik seviyen nasıl?',
+							options: [
+								{ emoji: '🐣', text: 'Yeni başlıyorum — kolay olsun', tag: 'beginner' },
+								{ emoji: '👤', text: 'Orta — biraz prompt mühendisliği biliyorum', tag: 'intermediate' },
+								{ emoji: '🧙', text: 'İleri — API ile bile çalışabilirim', tag: 'advanced' },
+							],
+						},
+						{
+							text: '🎯 Asıl hedefin ne?',
+							options: [
+								{ emoji: '💼', text: 'İşimi hızlandırmak / daha çok iş yapmak', tag: 'productivity' },
+								{ emoji: '💰', text: 'AI ile para kazanmak', tag: 'income' },
+								{ emoji: '🎓', text: 'Yeni şeyler öğrenmek', tag: 'learn' },
+								{ emoji: '🎭', text: 'Yaratıcı işler / hobi', tag: 'creative' },
+							],
+						},
+						{
+							text: '⏱️ AI\'yı günde yaklaşık kaç saat kullanacaksın?',
+							options: [
+								{ emoji: '🕰️', text: '15 dakikadan az — arada sırada', tag: 'light' },
+								{ emoji: '🕐', text: '30 dakika - 1 saat — düzenli', tag: 'regular' },
+								{ emoji: '⏰', text: '2-4 saat — günlük araç', tag: 'heavy' },
+								{ emoji: '🔥', text: '4+ saat — işimin merkezi', tag: 'extreme' },
+							],
+						},
+					],
+					tools: {
+						chatgpt: {
+							name: 'ChatGPT Plus',
+							icon: '🤖',
+							gradient: 'linear-gradient(135deg,#10a37f,#1a7f64)',
+							tagline: 'En dengeli AI asistan',
+							desc: "Genel kullanım için en geniş kapsamlı seçenek. Türkçe iyi, görsel üretebiliyor, sesli sohbet var. $20/ay (~700 TL).",
+							link: '/blog/chatgpt-claude-gemini-karsilastirma-2026/',
+						},
+						claude: {
+							name: 'Claude Pro',
+							icon: '🧠',
+							gradient: 'linear-gradient(135deg,#d97757,#a85a3f)',
+							tagline: 'En iyi yazım + kod',
+							desc: 'Profesyonel yazım, uzun belge analizi, kod üretimi konusunda lider. Türkçe kalitesi en üst seviyede. $20/ay.',
+							link: '/blog/chatgpt-claude-gemini-karsilastirma-2026/',
+						},
+						gemini: {
+							name: 'Gemini Advanced',
+							icon: '💎',
+							gradient: 'linear-gradient(135deg,#4285f4,#ea4335)',
+							tagline: 'Google ekosistemine bütünleşik',
+							desc: 'Çok uzun bağlam (2M token), Google Workspace entegrasyonu, ücretsiz Google AI Pro içinde. $22/ay.',
+							link: '/blog/chatgpt-claude-gemini-karsilastirma-2026/',
+						},
+						midjourney: {
+							name: 'Midjourney',
+							icon: '🎨',
+							gradient: 'linear-gradient(135deg,#8b5cf6,#ec4899)',
+							tagline: 'En estetik görsel üretici',
+							desc: 'Estetik kalite olarak rakipsiz. İllüstrasyon, konsept sanat, atmosferik görsel için ideal. $10-60/ay.',
+							link: '/blog/midjourney-turkce-rehber-2026/',
+						},
+						cursor: {
+							name: 'Cursor IDE',
+							icon: '💻',
+							gradient: 'linear-gradient(135deg,#3b82f6,#1e40af)',
+							tagline: 'AI ile kod yazımının standardı',
+							desc: 'VS Code üzerine inşa edilmiş, AI ile derin entegrasyon. Yazılımcılar için yeni standart. $20/ay.',
+							link: '/blog/cursor-ide-turkce-rehber-2026/',
+						},
+						elevenlabs: {
+							name: 'ElevenLabs',
+							icon: '🎙️',
+							gradient: 'linear-gradient(135deg,#06b6d4,#3b82f6)',
+							tagline: 'Profesyonel ses üretimi',
+							desc: 'Endüstri standardı ses kloncuma + TTS. Türkçe sesleri çok doğal. $5-22/ay.',
+							link: '/blog/elevenlabs-turkce-ses-kloncuma-rehberi/',
+						},
+						suno: {
+							name: 'Suno AI',
+							icon: '🎵',
+							gradient: 'linear-gradient(135deg,#f97316,#ec4899)',
+							tagline: 'AI ile şarkı üretimi',
+							desc: 'Şarkı sözü + stil verince tam şarkı üretiyor. Türkçe destekli. $0-24/ay.',
+							link: '/blog/suno-ai-turkce-sarki-uretme-rehberi/',
+						},
+						sora: {
+							name: 'Sora 2 / Veo 3',
+							icon: '🎬',
+							gradient: 'linear-gradient(135deg,#dc2626,#7c2d12)',
+							tagline: 'AI video üretimi',
+							desc: 'OpenAI Sora 2 ve Google Veo 3 — sinematik AI video. $20-249/ay.',
+							link: '/blog/sora-2-vs-veo-3-ai-video-karsilastirma/',
+						},
+						free: {
+							name: 'Ücretsiz Kombo',
+							icon: '🆓',
+							gradient: 'linear-gradient(135deg,#22c55e,#16a34a)',
+							tagline: 'Sıfır bütçe, maksimum değer',
+							desc: 'ChatGPT Free + Claude Free + Microsoft Designer (DALL·E) + NotebookLM + Suno. Hepsi bedava.',
+							link: '/blog/ucretsiz-yapay-zeka-araclari-2026/',
+						},
+					},
+					decide: function (answers) {
+						// answers: { q1: 'chat', q2: 'low', q3: 'tr_ok', ... }
+						var purpose = answers[0];
+						var budget = answers[1];
+						var tr = answers[2];
+
+						// Bütçe sıfır ise → free combo
+						if (budget === 'free') return 'free';
+
+						// Amaca göre eşle
+						if (purpose === 'code') return 'cursor';
+						if (purpose === 'image') return 'midjourney';
+						if (purpose === 'audio') return budget === 'low' ? 'suno' : 'elevenlabs';
+						if (purpose === 'video') return 'sora';
+
+						// Chat veya write — TR kritik mi?
+						if (purpose === 'write' || purpose === 'chat') {
+							if (tr === 'tr_critical') return 'claude';
+							if (budget === 'high') return 'claude';
+							return 'chatgpt';
+						}
+
+						return 'chatgpt';
+					},
+				};
+
+				function setupQuiz() {
+					var quiz = document.getElementById('quiz');
+					var result = document.getElementById('quiz-result');
+					var bar = document.getElementById('quiz-bar');
+					if (!quiz || quiz.dataset.bound) return;
+					quiz.dataset.bound = '1';
+
+					var answers = [];
+					var step = 0;
+
+					function renderQuestion() {
+						var q = QUIZ.questions[step];
+						quiz.innerHTML =
+							'<div class="question">' +
+							'<p class="q-num">Soru ' + (step + 1) + ' / ' + QUIZ.questions.length + '</p>' +
+							'<h2 class="q-text">' + q.text + '</h2>' +
+							'<div class="options">' +
+							q.options
+								.map(function (o, i) {
+									return (
+										'<button class="option" data-i="' + i + '" type="button">' +
+										'<span class="emoji">' + o.emoji + '</span>' +
+										'<span>' + o.text + '</span>' +
+										'</button>'
+									);
+								})
+								.join('') +
+							'</div>' +
+							'</div>';
+						quiz.querySelectorAll('.option').forEach(function (btn) {
+							btn.addEventListener('click', function () {
+								var idx = parseInt(btn.getAttribute('data-i'), 10);
+								answers.push(q.options[idx].tag);
+								step++;
+								bar.style.width = ((step / QUIZ.questions.length) * 100) + '%';
+								if (step >= QUIZ.questions.length) {
+									renderResult();
+								} else {
+									renderQuestion();
+								}
+							});
+						});
+					}
+
+					function renderResult() {
+						var key = QUIZ.decide(answers);
+						var tool = QUIZ.tools[key];
+						quiz.hidden = true;
+						result.hidden = false;
+						result.innerHTML =
+							'<span class="result-badge">Senin Önerin</span>' +
+							'<div class="result-icon" style="background:' + tool.gradient + '">' + tool.icon + '</div>' +
+							'<h2 class="result-name">' + tool.name + '</h2>' +
+							'<p class="result-tagline">' + tool.tagline + '</p>' +
+							'<p class="result-desc">' + tool.desc + '</p>' +
+							'<div class="result-actions">' +
+							'<a class="btn btn-primary" href="' + tool.link + '">Detaylı Rehberi Oku →</a>' +
+							'<a class="btn btn-ghost" href="/araclar">Tüm Araçlar</a>' +
+							'</div>' +
+							'<button class="restart-btn" id="quiz-restart" type="button">↻ Testi Tekrar Çöz</button>';
+
+						bar.style.width = '100%';
+
+						// Confetti — pozitif sonuç!
+						if (typeof window.aitrConfetti === 'function') {
+							setTimeout(function () {
+								window.aitrConfetti(window.innerWidth / 2, window.innerHeight / 3);
+							}, 200);
+						}
+
+						// Restart
+						document.getElementById('quiz-restart').addEventListener('click', function () {
+							answers = [];
+							step = 0;
+							bar.style.width = '0%';
+							quiz.hidden = false;
+							result.hidden = true;
+							renderQuestion();
+						});
+
+						// Track
+						if (typeof gtag === 'function') {
+							gtag('event', 'quiz_complete', { recommendation: key });
+						}
+					}
+
+					renderQuestion();
+				}
+				document.addEventListener('astro:page-load', setupQuiz);
+			})();
+		</script>
+	</body>
+</html>
