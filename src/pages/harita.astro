@@ -1,0 +1,283 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE_LANG, SITE_TITLE } from '../consts';
+import { CATEGORY_META, type CategoryKey } from '../lib/categories';
+import { slugifyTag } from '../lib/slug';
+
+const pageTitle = `Site Haritası — ${SITE_TITLE}`;
+const pageDescription = 'AITR sitesindeki tüm sayfalar, kategoriler ve makaleler tek listede.';
+const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Site Haritası' }];
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const byCategory = new Map<string, typeof posts>();
+for (const p of posts) {
+	const cat = p.data.category;
+	if (!byCategory.has(cat)) byCategory.set(cat, []);
+	byCategory.get(cat)!.push(p);
+}
+
+const allTags = new Set<string>();
+for (const p of posts) {
+	(p.data.tags ?? []).forEach((t) => allTags.add(t));
+}
+const sortedTags = Array.from(allTags).sort((a, b) => a.localeCompare(b, 'tr'));
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main class="map-main">
+			<Breadcrumbs items={breadcrumbs} />
+			<header class="hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<span class="pill pill-glow">🗺️ Site Haritası</span>
+					<h1>AITR <span class="gradient-text">Site Haritası</span></h1>
+					<p class="lede">
+						Tüm makaleler, kategoriler, etiketler ve sayfalar bir arada. Aradığını bulamadıysan
+						bu sayfa kurtaracak.
+					</p>
+				</div>
+			</header>
+
+			<section class="container">
+				<div class="grid">
+					<div class="col">
+						<h2>📚 Ana Sayfalar</h2>
+						<ul>
+							<li><a href="/">Anasayfa</a></li>
+							<li><a href="/blog">Tüm Yazılar ({posts.length})</a></li>
+							<li><a href="/araclar">AI Araçları Dizini</a></li>
+							<li><a href="/test">🎯 Hangi AI Sana Uygun? (Test)</a></li>
+							<li><a href="/sozluk">📖 AI Sözlüğü</a></li>
+							<li><a href="/maliyet-hesaplayici">🧮 Maliyet Hesaplayıcı</a></li>
+							<li><a href="/yer-imlerim">📑 Yer İmlerim</a></li>
+						</ul>
+					</div>
+
+					<div class="col">
+						<h2>🏢 Kurumsal</h2>
+						<ul>
+							<li><a href="/about">Hakkında</a></li>
+							<li><a href="/yayin-ilkelerimiz/">Yayın İlkelerimiz</a></li>
+							<li><a href="/basin/">📰 Basın Kiti</a></li>
+							<li><a href="/yaz/">✍️ Yazar Ol</a></li>
+							<li><a href="/iletisim/">İletişim</a></li>
+							<li><a href="/gizlilik/">Gizlilik Politikası</a></li>
+							<li><a href="/kullanim-kosullari/">Kullanım Koşulları</a></li>
+						</ul>
+					</div>
+
+					<div class="col">
+						<h2>🔗 Beslemeler</h2>
+						<ul>
+							<li><a href="/rss.xml">RSS Feed</a></li>
+							<li><a href="/sitemap-index.xml">XML Sitemap (Google için)</a></li>
+							<li><a href="/search.json">JSON Search Index</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<h2 class="section-title">📂 Kategorilere Göre</h2>
+				{
+					(Object.entries(CATEGORY_META) as [CategoryKey, (typeof CATEGORY_META)[CategoryKey]][]).map(
+						([key, meta]) => {
+							const items = byCategory.get(key) ?? [];
+							return (
+								<div class="cat-section">
+									<h3>
+										<span class="cat-icon" style={`background:${meta.gradient}`}>{meta.emoji}</span>
+										<a href={`/blog/kategori/${meta.slug}/`}>{meta.label}</a>
+										<span class="count">({items.length})</span>
+									</h3>
+									<ul>
+										{items.map((p) => (
+											<li>
+												<a href={`/blog/${p.id}/`}>{p.data.title}</a>
+											</li>
+										))}
+									</ul>
+								</div>
+							);
+						}
+					)
+				}
+
+				<h2 class="section-title">🏷️ Etiket Bulutu</h2>
+				<div class="tag-cloud">
+					{
+						sortedTags.map((tag) => (
+							<a href={`/etiket/${slugifyTag(tag)}/`} class="tag">
+								#{tag}
+							</a>
+						))
+					}
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.map-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 3.5em 1.25em 2.5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.hero .inner {
+				position: relative;
+				z-index: 2;
+				max-width: 760px;
+				margin: 0 auto;
+			}
+			.hero .pill {
+				margin-bottom: 1em;
+			}
+			.hero h1 {
+				font-size: clamp(2em, 5vw, 3em);
+				margin: 0 0 0.5em 0;
+				letter-spacing: -0.03em;
+			}
+			.lede {
+				color: var(--text-muted);
+				font-size: 1.05em;
+				margin: 0;
+			}
+			.container {
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 3em 1.25em;
+			}
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+				gap: 2em;
+				margin-bottom: 2em;
+			}
+			.col h2 {
+				font-size: 1.1em;
+				margin: 0 0 0.85em 0;
+				color: var(--text);
+				font-family: var(--font-display);
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
+			.col ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.col li {
+				margin-bottom: 0.45em;
+			}
+			.col a {
+				color: var(--text-muted);
+				text-decoration: none;
+				transition: 0.15s ease;
+				font-size: 0.95em;
+			}
+			.col a:hover {
+				color: #c4b5fd;
+				padding-left: 4px;
+			}
+			.section-title {
+				margin-top: 2.5em;
+				margin-bottom: 1em;
+				font-size: 1.5em;
+				padding-bottom: 0.5em;
+				border-bottom: 1px solid var(--border);
+			}
+			.cat-section {
+				margin-bottom: 2em;
+			}
+			.cat-section h3 {
+				display: flex;
+				align-items: center;
+				gap: 0.65em;
+				font-size: 1.15em;
+				margin: 0 0 0.75em 0;
+			}
+			.cat-icon {
+				display: inline-grid;
+				place-items: center;
+				width: 32px;
+				height: 32px;
+				border-radius: 8px;
+				font-size: 1em;
+				box-shadow: var(--glow-violet);
+			}
+			.cat-section h3 a {
+				color: var(--text);
+				text-decoration: none;
+			}
+			.cat-section h3 a:hover {
+				color: #c4b5fd;
+			}
+			.cat-section .count {
+				color: var(--text-dim);
+				font-size: 0.85em;
+				font-weight: 400;
+			}
+			.cat-section ul {
+				list-style: none;
+				padding-left: 2.5em;
+				margin: 0;
+			}
+			.cat-section li {
+				margin: 0.35em 0;
+			}
+			.cat-section li::before {
+				content: '→';
+				margin-right: 0.5em;
+				color: var(--text-dim);
+			}
+			.cat-section a {
+				color: var(--text-muted);
+				text-decoration: none;
+				transition: 0.15s ease;
+			}
+			.cat-section a:hover {
+				color: #c4b5fd;
+			}
+			.tag-cloud {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5em;
+				margin-bottom: 2em;
+			}
+			.tag {
+				display: inline-block;
+				padding: 0.4em 0.95em;
+				background: var(--surface);
+				color: var(--text-muted);
+				border: 1px solid var(--border);
+				border-radius: 999px;
+				text-decoration: none;
+				font-size: 0.88em;
+				transition: 0.15s ease;
+			}
+			.tag:hover {
+				background: var(--gradient-1);
+				color: white;
+				border-color: transparent;
+				transform: translateY(-1px);
+			}
+		</style>
+	</body>
+</html>

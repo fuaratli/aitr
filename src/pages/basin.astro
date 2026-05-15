@@ -1,0 +1,354 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE_LANG, SITE_TITLE } from '../consts';
+
+const pageTitle = `Basın Kiti — ${SITE_TITLE}`;
+const pageDescription =
+	'AITR için basın bilgileri, logo, marka kimliği, demografik bilgiler. Gazetecilerin ve marka ortaklarının ihtiyaç duyduğu her şey.';
+const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Basın Kiti' }];
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body>
+		<Header />
+		<main class="press-main">
+			<Breadcrumbs items={breadcrumbs} />
+			<header class="hero">
+				<div class="mesh-bg" aria-hidden="true"></div>
+				<div class="inner">
+					<span class="pill pill-glow">📰 Basın Kiti</span>
+					<h1>AITR <span class="gradient-text">Basın Kiti</span></h1>
+					<p class="lede">
+						Gazetecilerin, podcast yapımcılarının ve marka ortaklarının ihtiyacı olan her şey
+						burada. Sorularınız için <a href="/iletisim/">iletişim sayfamızı</a> kullanabilirsiniz.
+					</p>
+				</div>
+			</header>
+
+			<section class="container">
+				<h2>📝 Bir Cümlede AITR</h2>
+				<blockquote class="quote">
+					"AITR, Türkçe konuşan kullanıcılar için yapay zeka araçlarını derinlikli, dürüst ve
+					uygulamalı biçimde inceleyen bağımsız bir rehber yayın platformudur."
+				</blockquote>
+
+				<h2>🎯 Temel Bilgiler</h2>
+				<div class="info-grid">
+					<div class="info-item">
+						<dt>Site adı</dt>
+						<dd>AITR — Türkçe Yapay Zeka Rehberi</dd>
+					</div>
+					<div class="info-item">
+						<dt>URL</dt>
+						<dd><a href="https://aitr.blog">aitr.blog</a></dd>
+					</div>
+					<div class="info-item">
+						<dt>Kuruluş</dt>
+						<dd>2026</dd>
+					</div>
+					<div class="info-item">
+						<dt>Konum</dt>
+						<dd>İstanbul, Türkiye</dd>
+					</div>
+					<div class="info-item">
+						<dt>Dil</dt>
+						<dd>Türkçe (İngilizce versiyonu yakında)</dd>
+					</div>
+					<div class="info-item">
+						<dt>Ana kategoriler</dt>
+						<dd>Karşılaştırmalar, Rehberler, İncelemeler, Para Kazanma</dd>
+					</div>
+					<div class="info-item">
+						<dt>İçerik sayısı</dt>
+						<dd>30+ derinlikli makale (haftalık artıyor)</dd>
+					</div>
+					<div class="info-item">
+						<dt>Hedef kitle</dt>
+						<dd>Türkçe konuşan profesyoneller, öğrenciler, geliştiriciler, içerik üreticileri</dd>
+					</div>
+				</div>
+
+				<h2>🎨 Marka Kimliği</h2>
+				<p>
+					AITR'ın görsel kimliği <strong>mor (#8b5cf6)</strong>, <strong>pembe (#ec4899)</strong>
+					ve <strong>mavi (#3b82f6)</strong> gradient'i üzerine kurulu. Tipografi olarak:
+					<strong>Inter</strong> (UI) ve <strong>Space Grotesk</strong> (başlık) kullanılır.
+				</p>
+				<div class="brand-tiles">
+					<div class="brand-tile" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">
+						<span>#8b5cf6 → #ec4899</span>
+					</div>
+					<div class="brand-tile" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">
+						<span>#3b82f6 → #8b5cf6</span>
+					</div>
+					<div class="brand-tile" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">
+						<span>#06b6d4 → #3b82f6</span>
+					</div>
+					<div class="brand-tile" style="background:linear-gradient(135deg,#ec4899,#f97316)">
+						<span>#ec4899 → #f97316</span>
+					</div>
+				</div>
+				<p>
+					Logo (SVG): <a href="/favicon.svg" target="_blank">favicon.svg</a>. Yüksek
+					çözünürlüklü kullanım için <a href="/iletisim/">bize yaz</a>.
+				</p>
+
+				<h2>📰 Editöryel İlkeler</h2>
+				<ol class="principles">
+					<li><strong>Bağımsızlık</strong> — Hiçbir AI şirketiyle organik bağ yok.</li>
+					<li><strong>Test edilmiş</strong> — Her araç en az 1 hafta gerçek kullanım.</li>
+					<li><strong>Dürüstlük</strong> — Eksiklikleri açıkça söyleriz.</li>
+					<li><strong>Affiliate şeffaflığı</strong> — Komisyon alıyorsak belirtiriz, içerik etkilenmez.</li>
+					<li><strong>Sponsored belirtir</strong> — Sponsorlu içerikleri açıkça etiketleriz.</li>
+				</ol>
+				<p>Detay için <a href="/yayin-ilkelerimiz/">Yayın İlkelerimiz</a>'e bak.</p>
+
+				<h2>💼 İş Birlikleri</h2>
+				<p>
+					AITR, etik sınırlarda iş birliklerine açıktır:
+				</p>
+				<ul class="collab-list">
+					<li><strong>Sponsorlu yazı</strong> — "Sponsorlu" etiketiyle, editörel kararı koruyarak</li>
+					<li><strong>Ürün incelemesi</strong> — Editörel bağımsızlık şartıyla, ücretli/ücretsiz</li>
+					<li><strong>Affiliate ortaklığı</strong> — AI tool şirketleri için</li>
+					<li><strong>Konuşmacı / röportaj</strong> — Podcast, konferans, panel</li>
+					<li><strong>Bültende reklam</strong> — Newsletter aktif olduktan sonra</li>
+				</ul>
+				<p>
+					Teklif için <a href="/iletisim/">iletişim formundan</a> "İş birliği / reklam" seçeneğini
+					kullanın.
+				</p>
+
+				<h2>📊 Hedef Demografi</h2>
+				<table class="demo-table">
+					<tr><th>Yaş</th><td>22-45 yoğunluk</td></tr>
+					<tr><th>Dil</th><td>Türkçe ana</td></tr>
+					<tr><th>Konum</th><td>%85 Türkiye, %15 Avrupa Türk diasporası</td></tr>
+					<tr><th>Cihaz</th><td>%55 mobil, %45 masaüstü</td></tr>
+					<tr><th>İlgi alanları</th><td>Teknoloji, üretkenlik, kariyer, içerik üretimi, girişimcilik</td></tr>
+					<tr><th>Meslek dağılımı</th><td>Yazılımcı (%30), İçerik üretici (%25), Beyaz yaka (%20), Öğrenci (%15), Diğer (%10)</td></tr>
+				</table>
+				<p class="note">Not: Demografi tahminidir, ilk 6 ay verisi olgunlaştıkça güncellenecek.</p>
+
+				<h2>🗣️ Sıkça Sorulanlar</h2>
+				<details>
+					<summary>AITR kimin tarafından kuruldu?</summary>
+					<p>AITR, bağımsız bir editör ekibi tarafından 2026'da Türkiye'de kuruldu. Detaylı bilgi için <a href="/about/">Hakkında</a> sayfası.</p>
+				</details>
+				<details>
+					<summary>Yazılar tamamen AI mı?</summary>
+					<p>Hayır. AI destekli üretimden geçer, ama her yazı bir insan editör tarafından gözden geçirilir, doğrulanır, kişiselleştirilir. Tamamen AI ürünü yazı yayımlanmaz.</p>
+				</details>
+				<details>
+					<summary>Reklam alıyor musunuz?</summary>
+					<p>Evet — Google AdSense ve seyrek sponsorlu içerikler. Affiliate komisyonu da var. Her gelir kaynağı şeffaftır.</p>
+				</details>
+				<details>
+					<summary>Yazılarınızı yeniden yayımlayabilir miyim?</summary>
+					<p>Kısa alıntılar (15 kelime altı) kaynak göstererek serbest. Tam yazı yeniden yayını için <a href="/iletisim/">bizimle iletişime geç</a>.</p>
+				</details>
+				<details>
+					<summary>Bir AI aracı hakkında inceleme yazılır mı?</summary>
+					<p>Ürününü inceletmek istiyorsan, "İş birliği / reklam" formuyla başvur. Şu önemli: <strong>editörel bağımsızlığımızı koruruz</strong> — eksiklikleri yazarız, hype yapmayız.</p>
+				</details>
+				<details>
+					<summary>Bültene nasıl abone olunur?</summary>
+					<p>Sitenin alt kısmındaki bülten formu üzerinden. Şu an pilot aşamada, ilk gönderim yakında.</p>
+				</details>
+
+				<h2>📞 İletişim</h2>
+				<ul>
+					<li>Genel iletişim: <a href="/iletisim/">iletişim formu</a></li>
+					<li>Basın talepleri: <a href="/iletisim/">iletişim → "İş birliği / reklam"</a></li>
+					<li>Misafir yazar: <a href="/yaz/">/yaz</a></li>
+					<li>Hata bildirimi: <a href="/iletisim/">iletişim → "Hata bildirimi"</a></li>
+				</ul>
+			</section>
+		</main>
+		<Footer />
+
+		<style>
+			.press-main {
+				max-width: 100%;
+				padding: 0;
+			}
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 3.5em 1.25em 2.5em;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+			}
+			.hero .inner {
+				position: relative;
+				z-index: 2;
+				max-width: 760px;
+				margin: 0 auto;
+			}
+			.hero .pill {
+				margin-bottom: 1em;
+			}
+			.hero h1 {
+				font-size: clamp(2em, 5vw, 3em);
+				margin: 0 0 0.5em 0;
+				letter-spacing: -0.03em;
+			}
+			.lede {
+				color: var(--text-muted);
+				font-size: 1.05em;
+				margin: 0;
+				line-height: 1.6;
+			}
+			.lede a {
+				color: #c4b5fd;
+			}
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 3em 1.25em;
+			}
+			.container h2 {
+				font-size: 1.5em;
+				margin-top: 2em;
+				margin-bottom: 0.5em;
+			}
+			.container p {
+				color: var(--text-muted);
+				line-height: 1.7;
+			}
+			.container ul,
+			.container ol {
+				color: var(--text-muted);
+				line-height: 1.7;
+			}
+			.container a {
+				color: #c4b5fd;
+			}
+			.quote {
+				font-size: 1.2em;
+				font-family: var(--font-display);
+				background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), transparent);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				padding: 1.25em 1.5em;
+				margin: 1.5em 0;
+				color: var(--text);
+				font-style: italic;
+			}
+			.info-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+				gap: 0.5em;
+				margin: 1em 0 2em;
+			}
+			.info-item {
+				display: flex;
+				flex-direction: column;
+				padding: 1em 1.25em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 10px;
+			}
+			.info-item dt {
+				font-size: 0.75em;
+				text-transform: uppercase;
+				letter-spacing: 0.1em;
+				color: var(--text-dim);
+				font-family: var(--font-display);
+				font-weight: 700;
+				margin-bottom: 0.3em;
+			}
+			.info-item dd {
+				margin: 0;
+				color: var(--text);
+				font-weight: 500;
+			}
+			.brand-tiles {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+				gap: 0.75em;
+				margin: 1em 0 2em;
+			}
+			.brand-tile {
+				padding: 1.5em 1em;
+				border-radius: 12px;
+				color: white;
+				font-family: var(--font-mono);
+				font-size: 0.85em;
+				text-align: center;
+				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+			}
+			.principles {
+				background: var(--surface);
+				padding: 1em 1.5em 1em 2.5em;
+				border-radius: 12px;
+				border: 1px solid var(--border);
+				margin: 1em 0;
+			}
+			.principles li {
+				margin: 0.5em 0;
+			}
+			.collab-list li {
+				margin: 0.5em 0;
+			}
+			.demo-table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1em 0 2em;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				overflow: hidden;
+			}
+			.demo-table th,
+			.demo-table td {
+				padding: 0.85em 1.25em;
+				text-align: left;
+				border-bottom: 1px solid var(--border);
+			}
+			.demo-table th {
+				background: var(--surface-2);
+				color: var(--text);
+				font-family: var(--font-display);
+				font-weight: 600;
+				width: 35%;
+			}
+			.demo-table tr:last-child td,
+			.demo-table tr:last-child th {
+				border-bottom: none;
+			}
+			.note {
+				font-size: 0.85em;
+				color: var(--text-dim);
+				font-style: italic;
+			}
+			details {
+				margin: 0.6em 0;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 10px;
+				padding: 0.85em 1.25em;
+			}
+			details summary {
+				font-weight: 600;
+				cursor: pointer;
+				color: var(--text);
+				font-family: var(--font-display);
+			}
+			details[open] summary {
+				margin-bottom: 0.5em;
+			}
+			details p {
+				margin: 0;
+				font-size: 0.95em;
+			}
+		</style>
+	</body>
+</html>
