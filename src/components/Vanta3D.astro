@@ -1,0 +1,114 @@
+---
+// 3D Animated Hero Background using Vanta.js (Three.js based)
+// Adds animated 3D mesh network in the background
+---
+
+<div class="vanta-host" id="aitr-vanta" aria-hidden="true"></div>
+
+<style>
+	.vanta-host {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.8s ease;
+	}
+	.vanta-host.ready {
+		opacity: 1;
+	}
+	@media (max-width: 720px), (prefers-reduced-motion: reduce) {
+		.vanta-host {
+			display: none;
+		}
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function loadScript(src) {
+			return new Promise(function (resolve, reject) {
+				var existing = document.querySelector('script[src="' + src + '"]');
+				if (existing) {
+					if (existing.dataset.loaded) return resolve();
+					existing.addEventListener('load', resolve);
+					existing.addEventListener('error', reject);
+					return;
+				}
+				var script = document.createElement('script');
+				script.src = src;
+				script.async = true;
+				script.onload = function () {
+					script.dataset.loaded = '1';
+					resolve();
+				};
+				script.onerror = reject;
+				document.head.appendChild(script);
+			});
+		}
+
+		function setupVanta() {
+			var host = document.getElementById('aitr-vanta');
+			if (!host || host.dataset.bound) return;
+			if (window.innerWidth < 720) return;
+			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			host.dataset.bound = '1';
+
+			// Three.js + Vanta.js NET sahnesini lazy yükle
+			loadScript('https://cdn.jsdelivr.net/npm/three@0.134/build/three.min.js')
+				.then(function () {
+					return loadScript('https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js');
+				})
+				.then(function () {
+					if (typeof VANTA === 'undefined' || !VANTA.NET) return;
+					var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+					host.vantaEffect = VANTA.NET({
+						el: host,
+						mouseControls: true,
+						touchControls: false,
+						gyroControls: false,
+						minHeight: 200,
+						minWidth: 200,
+						scale: 1.0,
+						scaleMobile: 1.0,
+						color: 0x8b5cf6,
+						backgroundColor: isLight ? 0xfafafd : 0x07070d,
+						points: 12.0,
+						maxDistance: 22.0,
+						spacing: 18.0,
+						showDots: false,
+					});
+					setTimeout(function () { host.classList.add('ready'); }, 50);
+
+					// Tema değişikliğine reaksiyon
+					var observer = new MutationObserver(function () {
+						if (!host.vantaEffect) return;
+						var isLightNow = document.documentElement.getAttribute('data-theme') === 'light';
+						host.vantaEffect.setOptions({
+							backgroundColor: isLightNow ? 0xfafafd : 0x07070d,
+						});
+					});
+					observer.observe(document.documentElement, {
+						attributes: true,
+						attributeFilter: ['data-theme'],
+					});
+				})
+				.catch(function (e) {
+					console.warn('Vanta yüklenemedi:', e);
+				});
+		}
+
+		document.addEventListener('astro:page-load', setupVanta);
+		document.addEventListener('astro:before-swap', function () {
+			// Sayfa geçişinde temizle
+			var host = document.getElementById('aitr-vanta');
+			if (host && host.vantaEffect) {
+				try {
+					host.vantaEffect.destroy();
+				} catch (e) {}
+				host.vantaEffect = null;
+				host.dataset.bound = '';
+			}
+		});
+	})();
+</script>

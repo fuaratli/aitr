@@ -17,6 +17,7 @@ import HeroCover from '../components/HeroCover.astro';
 import StickyToc from '../components/StickyToc.astro';
 import ArticleFeedback from '../components/ArticleFeedback.astro';
 import BookmarkButton from '../components/BookmarkButton.astro';
+import FontSizer from '../components/FontSizer.astro';
 import Comments from '../components/Comments.astro';
 import UpNext from '../components/UpNext.astro';
 import StickyCta from '../components/StickyCta.astro';
@@ -135,6 +136,7 @@ const articleSchema = {
 					{slug && (
 						<div class="header-actions">
 							<BookmarkButton slug={slug} title={title} variant="inline" />
+							<FontSizer />
 						</div>
 					)}
 				</header>

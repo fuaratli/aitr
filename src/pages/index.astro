@@ -9,6 +9,7 @@ import AdSlot from '../components/AdSlot.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import HeroCover from '../components/HeroCover.astro';
 import FloatingParticles from '../components/FloatingParticles.astro';
+import Vanta3D from '../components/Vanta3D.astro';
 import { SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from '../consts';
 import { CATEGORY_META } from '../lib/categories';
 
@@ -29,6 +30,7 @@ const featured = posts[0];
 		<main class="home-main">
 			<!-- HERO -->
 			<section class="hero">
+				<Vanta3D />
 				<div class="mesh-bg" aria-hidden="true"></div>
 				<FloatingParticles count={22} />
 				<div class="hero-inner">

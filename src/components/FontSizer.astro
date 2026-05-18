@@ -1,0 +1,80 @@
+<div class="font-sizer" role="group" aria-label="Yazı boyutu">
+	<button data-fs="-1" aria-label="Yazıyı küçült" type="button" title="A-">
+		<span class="small">A</span>
+	</button>
+	<button data-fs="0" aria-label="Varsayılan boyut" type="button" title="A">
+		<span class="med">A</span>
+	</button>
+	<button data-fs="1" aria-label="Yazıyı büyüt" type="button" title="A+">
+		<span class="big">A</span>
+	</button>
+</div>
+
+<style>
+	.font-sizer {
+		display: inline-flex;
+		gap: 0.25em;
+		padding: 0.25em;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 10px;
+	}
+	.font-sizer button {
+		display: grid;
+		place-items: center;
+		width: 30px;
+		height: 30px;
+		background: transparent;
+		border: none;
+		border-radius: 6px;
+		color: var(--text-muted);
+		cursor: pointer;
+		font-family: var(--font-display);
+		font-weight: 700;
+		transition: 0.15s ease;
+	}
+	.font-sizer button:hover {
+		color: var(--text);
+		background: var(--surface-2);
+	}
+	.font-sizer button.active {
+		background: var(--gradient-1);
+		color: white;
+	}
+	.font-sizer .small { font-size: 0.7em; }
+	.font-sizer .med { font-size: 0.9em; }
+	.font-sizer .big { font-size: 1.1em; }
+</style>
+
+<script is:inline>
+	(function () {
+		function setupSizer() {
+			document.querySelectorAll('.font-sizer').forEach(function (sizer) {
+				if (sizer.dataset.bound) return;
+				sizer.dataset.bound = '1';
+				var buttons = sizer.querySelectorAll('button');
+				function apply(size) {
+					var sizes = { '-1': '0.92em', '0': '1.05em', '1': '1.2em' };
+					var prose = document.querySelector('.prose');
+					if (prose) prose.style.fontSize = sizes[size] || '1.08em';
+					try {
+						localStorage.setItem('aitr-fs', size);
+					} catch (e) {}
+					buttons.forEach(function (b) {
+						b.classList.toggle('active', b.getAttribute('data-fs') === size);
+					});
+				}
+				var saved = null;
+				try { saved = localStorage.getItem('aitr-fs'); } catch (e) {}
+				if (saved) apply(saved);
+				else apply('0');
+				buttons.forEach(function (btn) {
+					btn.addEventListener('click', function () {
+						apply(btn.getAttribute('data-fs'));
+					});
+				});
+			});
+		}
+		document.addEventListener('astro:page-load', setupSizer);
+	})();
+</script>
