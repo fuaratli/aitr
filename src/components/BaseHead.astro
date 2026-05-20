@@ -145,6 +145,22 @@ const ogImageURL = new URL(image.src, Astro.url);
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5024366926268115"
 	crossorigin="anonymous"></script>
 
+{/* Microsoft Clarity — Heatmap + session recording (ücretsiz).
+	Kurulum:
+	1) clarity.microsoft.com → giriş yap (Microsoft veya Google hesabı)
+	2) "New project" → URL: aitr.blog
+	3) Setup sekmesinde 10-karakterli "Tracking ID" var
+	4) Aşağıdaki "XXXXXXXXXX" yerine onu yapıştır + yorum satırını kaldır */}
+{/*
+<script is:inline>
+	(function(c,l,a,r,i,t,y){
+		c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+		t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+		y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+	})(window, document, "clarity", "script", "XXXXXXXXXX");
+</script>
+*/}
+
 <script is:inline>
 	(function () {
 		function setupReveal() {
