@@ -1,0 +1,117 @@
+<button class="reading-mode-btn" id="aitr-reading-mode" aria-label="Odak modu" type="button" title="Odak modu (dikkatsizliksiz oku)">
+	<svg class="ico-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+	</svg>
+	<svg class="ico-on" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+		<circle cx="12" cy="12" r="10"></circle>
+	</svg>
+	<span class="lbl">Odak</span>
+</button>
+
+<style>
+	.reading-mode-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		padding: 0.45em 0.85em;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 10px;
+		color: var(--text-muted);
+		font-family: inherit;
+		font-size: 0.85em;
+		cursor: pointer;
+		transition: 0.18s ease;
+	}
+	.reading-mode-btn:hover {
+		color: var(--text);
+		border-color: var(--border-glow);
+		background: var(--surface-2);
+	}
+	.reading-mode-btn .ico-on {
+		display: none;
+	}
+	:global(body.reading-mode-active) .reading-mode-btn {
+		background: var(--gradient-1);
+		color: white;
+		border-color: transparent;
+	}
+	:global(body.reading-mode-active) .reading-mode-btn .ico-off {
+		display: none;
+	}
+	:global(body.reading-mode-active) .reading-mode-btn .ico-on {
+		display: inline-block;
+	}
+
+	/* === ODAK MODU CSS — body.reading-mode-active === */
+	:global(body.reading-mode-active) :global(.post-header .mesh-bg),
+	:global(body.reading-mode-active) :global(.hero-image),
+	:global(body.reading-mode-active) :global(.ad-top),
+	:global(body.reading-mode-active) :global(.ad-bottom),
+	:global(body.reading-mode-active) :global(.share-row),
+	:global(body.reading-mode-active) :global(.tags-row),
+	:global(body.reading-mode-active) :global(.feedback),
+	:global(body.reading-mode-active) :global(.author-card),
+	:global(body.reading-mode-active) :global(.newsletter),
+	:global(body.reading-mode-active) :global(.related),
+	:global(body.reading-mode-active) :global(.sticky-toc),
+	:global(body.reading-mode-active) :global(.toc),
+	:global(body.reading-mode-active) :global(.scroll-top),
+	:global(body.reading-mode-active) :global(footer),
+	:global(body.reading-mode-active) :global(.cursor-dot),
+	:global(body.reading-mode-active) :global(.cursor-ring),
+	:global(body.reading-mode-active) :global(.cursor-trail) {
+		display: none !important;
+	}
+	:global(body.reading-mode-active) :global(.post-header) {
+		padding: 2em 1em 1em !important;
+		border-bottom: 1px solid var(--border) !important;
+	}
+	:global(body.reading-mode-active) :global(.prose) {
+		max-width: 680px !important;
+		font-size: 1.15em !important;
+		line-height: 1.85 !important;
+		padding: 1.5em 1.25em !important;
+	}
+	:global(body.reading-mode-active) :global(header) {
+		opacity: 0.3 !important;
+		transition: opacity 0.3s ease !important;
+	}
+	:global(body.reading-mode-active) :global(header:hover) {
+		opacity: 1 !important;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function setupReadingMode() {
+			var btn = document.getElementById('aitr-reading-mode');
+			if (!btn || btn.dataset.bound) return;
+			btn.dataset.bound = '1';
+			function apply(on) {
+				document.body.classList.toggle('reading-mode-active', on);
+				try {
+					localStorage.setItem('aitr-reading-mode', on ? '1' : '0');
+				} catch (e) {}
+				btn.setAttribute('aria-pressed', String(on));
+			}
+			var saved = null;
+			try { saved = localStorage.getItem('aitr-reading-mode'); } catch (e) {}
+			if (saved === '1') apply(true);
+			btn.addEventListener('click', function () {
+				var on = !document.body.classList.contains('reading-mode-active');
+				apply(on);
+				if (typeof gtag === 'function') {
+					gtag('event', 'reading_mode', { active: on });
+				}
+			});
+			// ESC ile çık
+			document.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape' && document.body.classList.contains('reading-mode-active')) {
+					apply(false);
+				}
+			});
+		}
+		document.addEventListener('astro:page-load', setupReadingMode);
+	})();
+</script>
