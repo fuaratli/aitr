@@ -1,0 +1,166 @@
+<button class="audio-reader-btn" id="aitr-audio-reader" aria-label="Yazıyı sesli oku" type="button" title="Sesli oku (Web Speech)">
+	<svg class="ico-play" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<polygon points="6 4 20 12 6 20 6 4"></polygon>
+	</svg>
+	<svg class="ico-pause" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<rect x="6" y="4" width="4" height="16"></rect>
+		<rect x="14" y="4" width="4" height="16"></rect>
+	</svg>
+	<svg class="ico-stop" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<rect x="5" y="5" width="14" height="14"></rect>
+	</svg>
+	<span class="lbl-idle">🔊 Dinle</span>
+	<span class="lbl-play">Duraklat</span>
+	<span class="lbl-paused">Devam et</span>
+</button>
+
+<style>
+	.audio-reader-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		padding: 0.45em 0.85em;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 10px;
+		color: var(--text-muted);
+		font-family: inherit;
+		font-size: 0.85em;
+		cursor: pointer;
+		transition: 0.18s ease;
+	}
+	.audio-reader-btn:hover {
+		color: var(--text);
+		border-color: var(--border-glow);
+		background: var(--surface-2);
+	}
+	.audio-reader-btn .ico-pause,
+	.audio-reader-btn .ico-stop,
+	.audio-reader-btn .lbl-play,
+	.audio-reader-btn .lbl-paused {
+		display: none;
+	}
+	.audio-reader-btn[data-state='playing'] {
+		background: var(--gradient-1);
+		color: white;
+		border-color: transparent;
+	}
+	.audio-reader-btn[data-state='playing'] .ico-play,
+	.audio-reader-btn[data-state='playing'] .lbl-idle,
+	.audio-reader-btn[data-state='playing'] .lbl-paused {
+		display: none;
+	}
+	.audio-reader-btn[data-state='playing'] .ico-pause,
+	.audio-reader-btn[data-state='playing'] .lbl-play {
+		display: inline-block;
+	}
+	.audio-reader-btn[data-state='paused'] .ico-play {
+		display: inline-block;
+	}
+	.audio-reader-btn[data-state='paused'] .ico-pause,
+	.audio-reader-btn[data-state='paused'] .lbl-idle,
+	.audio-reader-btn[data-state='paused'] .lbl-play {
+		display: none;
+	}
+	.audio-reader-btn[data-state='paused'] .lbl-paused {
+		display: inline-block;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		function setupAudioReader() {
+			var btn = document.getElementById('aitr-audio-reader');
+			if (!btn || btn.dataset.bound) return;
+			if (!('speechSynthesis' in window)) {
+				btn.style.display = 'none';
+				return;
+			}
+			btn.dataset.bound = '1';
+			var utterance = null;
+			var paused = false;
+
+			function getProseText() {
+				var prose = document.querySelector('.prose');
+				if (!prose) return '';
+				// h2/h3 başlıklarını ekleyerek doğal akış üret
+				var nodes = prose.querySelectorAll('h2, h3, h4, p, li');
+				var text = '';
+				nodes.forEach(function (n) {
+					text += n.innerText + '. ';
+				});
+				return text.slice(0, 30000); // tarayıcı sınırı
+			}
+
+			function start() {
+				if (window.speechSynthesis.speaking) {
+					window.speechSynthesis.cancel();
+				}
+				var text = getProseText();
+				if (!text) return;
+				utterance = new SpeechSynthesisUtterance(text);
+				utterance.lang = 'tr-TR';
+				utterance.rate = 1.05;
+				utterance.pitch = 1.0;
+
+				// En iyi Türkçe sesi bul
+				var voices = window.speechSynthesis.getVoices();
+				var trVoice =
+					voices.find(function (v) { return v.lang === 'tr-TR'; }) ||
+					voices.find(function (v) { return v.lang && v.lang.indexOf('tr') === 0; });
+				if (trVoice) utterance.voice = trVoice;
+
+				utterance.onend = function () {
+					btn.removeAttribute('data-state');
+					paused = false;
+				};
+				utterance.onerror = function () {
+					btn.removeAttribute('data-state');
+					paused = false;
+				};
+
+				window.speechSynthesis.speak(utterance);
+				btn.setAttribute('data-state', 'playing');
+				paused = false;
+
+				if (typeof gtag === 'function') {
+					gtag('event', 'audio_play', { article: window.location.pathname });
+				}
+			}
+
+			function togglePause() {
+				if (paused) {
+					window.speechSynthesis.resume();
+					btn.setAttribute('data-state', 'playing');
+					paused = false;
+				} else {
+					window.speechSynthesis.pause();
+					btn.setAttribute('data-state', 'paused');
+					paused = true;
+				}
+			}
+
+			btn.addEventListener('click', function () {
+				var state = btn.getAttribute('data-state');
+				if (!state) {
+					start();
+				} else {
+					togglePause();
+				}
+			});
+
+			// Sayfa kapanırken durdur
+			window.addEventListener('beforeunload', function () {
+				if (window.speechSynthesis.speaking) {
+					window.speechSynthesis.cancel();
+				}
+			});
+
+			// Sesleri yükle
+			if (window.speechSynthesis.onvoiceschanged !== undefined) {
+				window.speechSynthesis.onvoiceschanged = function () { /* preload */ };
+			}
+		}
+		document.addEventListener('astro:page-load', setupAudioReader);
+	})();
+</script>

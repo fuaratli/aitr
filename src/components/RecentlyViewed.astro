@@ -1,0 +1,169 @@
+<aside class="recently-viewed" id="aitr-recently-viewed" hidden aria-labelledby="recent-heading">
+	<header class="recent-head">
+		<h3 id="recent-heading">🕒 Son Okuduğun Yazılar</h3>
+		<button class="clear-btn" id="recent-clear" type="button" aria-label="Temizle">Temizle</button>
+	</header>
+	<ul class="recent-list" id="recent-list"></ul>
+</aside>
+
+<style>
+	.recently-viewed {
+		max-width: 760px;
+		margin: 2em auto;
+		padding: 1.25em 1.5em;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 14px;
+	}
+	.recent-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.75em;
+	}
+	.recent-head h3 {
+		margin: 0;
+		font-size: 1em;
+		font-family: var(--font-display);
+		color: var(--text);
+	}
+	.clear-btn {
+		background: transparent;
+		border: 1px solid var(--border);
+		color: var(--text-dim);
+		font-size: 0.75em;
+		padding: 0.3em 0.7em;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: 0.15s ease;
+	}
+	.clear-btn:hover {
+		color: var(--text-muted);
+		border-color: var(--border-2);
+	}
+	.recent-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.recent-list li {
+		padding: 0.5em 0;
+		border-bottom: 1px solid var(--border);
+	}
+	.recent-list li:last-child {
+		border-bottom: none;
+	}
+	.recent-list a {
+		color: var(--text);
+		text-decoration: none;
+		font-size: 0.92em;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5em;
+		transition: 0.15s ease;
+	}
+	.recent-list a:hover {
+		color: #c4b5fd;
+	}
+	.recent-list a:hover .arrow {
+		transform: translateX(3px);
+	}
+	.recent-list .title {
+		flex: 1;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.recent-list .arrow {
+		color: var(--text-dim);
+		transition: transform 0.15s ease;
+		flex-shrink: 0;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		var KEY = 'aitr-recently-viewed';
+		var MAX = 5;
+
+		function getRecent() {
+			try {
+				return JSON.parse(localStorage.getItem(KEY) || '[]');
+			} catch (e) {
+				return [];
+			}
+		}
+		function setRecent(list) {
+			try {
+				localStorage.setItem(KEY, JSON.stringify(list));
+			} catch (e) {}
+		}
+
+		function recordView() {
+			// Sadece /blog/SLUG/ sayfasında kayıt
+			var match = window.location.pathname.match(/^\/blog\/([^\/]+)\/?$/);
+			if (!match) return;
+			var slug = match[1];
+			// İçindekiler, etiket, kategori sayfalarını atla
+			if (slug === 'kategori' || slug === 'etiket' || slug === 'index') return;
+			var titleEl = document.querySelector('h1');
+			if (!titleEl) return;
+			var title = titleEl.textContent.trim();
+			var list = getRecent();
+			// Eskisini çıkar
+			list = list.filter(function (i) { return i.slug !== slug; });
+			// Başa ekle
+			list.unshift({ slug: slug, title: title, date: new Date().toISOString() });
+			// Limit
+			if (list.length > MAX) list = list.slice(0, MAX);
+			setRecent(list);
+		}
+
+		function render() {
+			var widget = document.getElementById('aitr-recently-viewed');
+			var listEl = document.getElementById('recent-list');
+			if (!widget || !listEl) return;
+			var list = getRecent();
+			var currentSlug = (window.location.pathname.match(/^\/blog\/([^\/]+)\/?$/) || [])[1];
+			// Bu sayfayı listeden çıkar
+			var filtered = list.filter(function (i) { return i.slug !== currentSlug; });
+			if (filtered.length === 0) {
+				widget.hidden = true;
+				return;
+			}
+			widget.hidden = false;
+			listEl.innerHTML = filtered
+				.map(function (i) {
+					return (
+						'<li><a href="/blog/' +
+						i.slug +
+						'/"><span class="title">' +
+						escapeHtml(i.title) +
+						'</span><span class="arrow">→</span></a></li>'
+					);
+				})
+				.join('');
+		}
+
+		function escapeHtml(s) {
+			return s.replace(/[&<>"']/g, function (c) {
+				return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+			});
+		}
+
+		function setupRecent() {
+			recordView();
+			render();
+			var clearBtn = document.getElementById('recent-clear');
+			if (clearBtn && !clearBtn.dataset.bound) {
+				clearBtn.dataset.bound = '1';
+				clearBtn.addEventListener('click', function () {
+					setRecent([]);
+					render();
+				});
+			}
+		}
+		document.addEventListener('astro:page-load', setupRecent);
+	})();
+</script>
