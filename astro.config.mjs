@@ -4,16 +4,21 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
+import cloudflare from '@astrojs/cloudflare';
+
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://aitr.blog',
-	integrations: [
-		mdx(),
-		sitemap({
-			i18n: {
-				defaultLocale: 'tr',
-				locales: { tr: 'tr-TR' },
-			},
-		}),
+  site: 'https://aitr.blog',
+
+  integrations: [
+      mdx(),
+      sitemap({
+          i18n: {
+              defaultLocale: 'tr',
+              locales: { tr: 'tr-TR' },
+          },
+      }),
 	],
+
+  adapter: cloudflare(),
 });
