@@ -67,6 +67,37 @@ const ogImageURL = new URL(image.src, Astro.url);
 <meta name="color-scheme" content="dark light" />
 <link rel="manifest" href="/manifest.webmanifest" />
 
+<!-- Performance: preconnect to external origins -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+<link rel="dns-prefetch" href="https://www.clarity.ms" />
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+<!-- Performance: tab-hidden + low-power detection -->
+<script is:inline>
+	(function () {
+		// Tab visibility — animasyonları duraklat
+		document.addEventListener('visibilitychange', function () {
+			document.body.classList.toggle('tab-hidden', document.hidden);
+		});
+		// Düşük güçlü cihaz tespiti
+		try {
+			var lp = false;
+			if (navigator.deviceMemory && navigator.deviceMemory < 4) lp = true;
+			var c = navigator.connection;
+			if (c && c.saveData) lp = true;
+			if (c && c.effectiveType && ['slow-2g', '2g', '3g'].indexOf(c.effectiveType) !== -1) lp = true;
+			if (lp) {
+				document.addEventListener('astro:page-load', function () {
+					document.body.classList.add('low-power');
+				});
+			}
+		} catch (e) {}
+	})();
+</script>
+
 <script is:inline>
 	(function () {
 		try {

@@ -828,6 +828,39 @@ input:focus {
 .stagger.is-visible > *:nth-child(5) { transition-delay: 0.33s; }
 .stagger.is-visible > *:nth-child(6) { transition-delay: 0.40s; }
 
+/* === PERFORMANCE — Sayfa gizliyken animasyonları durdur === */
+html:has(body:not(:focus-within)) .mesh-bg::before,
+html:has(body:not(:focus-within)) .mesh-bg::after,
+html:has(body:not(:focus-within)) .particle,
+html:has(body:not(:focus-within)) .gradient-text,
+html:has(body:not(:focus-within)) .typer {
+	animation-play-state: running;
+}
+body.tab-hidden .mesh-bg::before,
+body.tab-hidden .mesh-bg::after,
+body.tab-hidden .particle,
+body.tab-hidden .gradient-text,
+body.tab-hidden .typer,
+body.tab-hidden .typer-caret,
+body.tab-hidden .badge-new,
+body.tab-hidden .brand-chip,
+body.tab-hidden .reading-progress {
+	animation-play-state: paused !important;
+}
+
+/* Düşük güçlü cihazlarda mesh ve glow azaltıldı */
+body.low-power .mesh-bg::before,
+body.low-power .mesh-bg::after {
+	display: none;
+}
+body.low-power .particle {
+	display: none;
+}
+body.low-power .gradient-text {
+	animation: none;
+	background-position: 0% center;
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
 	*,

@@ -18,7 +18,7 @@
 	.cursor-trail {
 		width: 100vw;
 		height: 100vh;
-		opacity: 0.6;
+		opacity: 0.5;
 	}
 	.cursor-dot {
 		width: 6px;
@@ -70,10 +70,21 @@
 
 <script is:inline>
 	(function () {
+		function isLowPower() {
+			try {
+				if (navigator.deviceMemory && navigator.deviceMemory < 4) return true;
+				var c = navigator.connection;
+				if (c && c.saveData) return true;
+			} catch (e) {}
+			return false;
+		}
+
 		function setupCursor() {
 			if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
 			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 			if (window.innerWidth < 980) return;
+			if (isLowPower()) return; // Düşük cihazda kapalı
+
 			var dot = document.getElementById('aitr-cursor-dot');
 			var ring = document.getElementById('aitr-cursor-ring');
 			var trail = document.getElementById('aitr-cursor-trail');
@@ -82,44 +93,53 @@
 			document.body.dataset.cursorBound = '1';
 			document.documentElement.classList.add('has-custom-cursor');
 
-			// Canvas setup for trail
-			var ctx = trail.getContext('2d');
+			var ctx = trail.getContext('2d', { alpha: true });
 			function resizeTrail() {
-				trail.width = window.innerWidth * window.devicePixelRatio;
-				trail.height = window.innerHeight * window.devicePixelRatio;
-				ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+				var dpr = Math.min(window.devicePixelRatio || 1, 2); // DPR cap
+				trail.width = window.innerWidth * dpr;
+				trail.height = window.innerHeight * dpr;
+				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 			}
 			resizeTrail();
 			window.addEventListener('resize', resizeTrail);
 
-			var mouseX = 0,
-				mouseY = 0;
-			var ringX = 0,
-				ringY = 0;
+			var mouseX = 0, mouseY = 0;
+			var ringX = 0, ringY = 0;
 			var visible = false;
 			var trailPoints = [];
+			var rafId = null;
+			var lastMoveTime = 0;
+			var isAnimating = false;
 
 			function move(e) {
 				mouseX = e.clientX;
 				mouseY = e.clientY;
-				dot.style.transform =
-					'translate3d(' + (mouseX - 3) + 'px, ' + (mouseY - 3) + 'px, 0)';
+				dot.style.transform = 'translate3d(' + (mouseX - 3) + 'px, ' + (mouseY - 3) + 'px, 0)';
 				if (!visible) {
 					dot.style.opacity = '1';
 					ring.style.opacity = '1';
-					trail.style.opacity = '0.6';
+					trail.style.opacity = '0.5';
 					visible = true;
 				}
 				trailPoints.push({ x: mouseX, y: mouseY, life: 1 });
-				if (trailPoints.length > 25) trailPoints.shift();
+				if (trailPoints.length > 18) trailPoints.shift(); // 25 → 18 (daha az iş)
+				lastMoveTime = performance.now();
+				if (!isAnimating) {
+					isAnimating = true;
+					animateLoop();
+				}
 			}
 
 			function drawTrail() {
+				if (trailPoints.length === 0) {
+					ctx.clearRect(0, 0, trail.width, trail.height);
+					return;
+				}
 				ctx.clearRect(0, 0, trail.width, trail.height);
 				for (var i = 0; i < trailPoints.length; i++) {
 					var p = trailPoints[i];
-					var alpha = (i / trailPoints.length) * 0.5 * p.life;
-					var radius = (i / trailPoints.length) * 5 + 1;
+					var alpha = (i / trailPoints.length) * 0.45 * p.life;
+					var radius = (i / trailPoints.length) * 4 + 1;
 					var gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 3);
 					gradient.addColorStop(0, 'rgba(196, 181, 253, ' + alpha + ')');
 					gradient.addColorStop(1, 'rgba(249, 168, 212, 0)');
@@ -127,64 +147,58 @@
 					ctx.arc(p.x, p.y, radius * 3, 0, Math.PI * 2);
 					ctx.fillStyle = gradient;
 					ctx.fill();
-					p.life *= 0.96;
+					p.life *= 0.94; // 0.96 → 0.94 (daha hızlı sönüm)
 				}
-				trailPoints = trailPoints.filter(function (p) {
-					return p.life > 0.05;
-				});
+				trailPoints = trailPoints.filter(function (p) { return p.life > 0.05; });
 			}
 
-			function animateRing() {
+			function animateLoop() {
+				// Ring tween
 				ringX += (mouseX - ringX) * 0.18;
 				ringY += (mouseY - ringY) * 0.18;
-				ring.style.transform =
-					'translate3d(' + (ringX - 16) + 'px, ' + (ringY - 16) + 'px, 0)';
+				ring.style.transform = 'translate3d(' + (ringX - 16) + 'px, ' + (ringY - 16) + 'px, 0)';
 				drawTrail();
-				requestAnimationFrame(animateRing);
+
+				// Hareket yoksa + iz boşsa, döngüyü durdur (CPU tasarrufu!)
+				var idle = performance.now() - lastMoveTime > 200;
+				var ringDone = Math.abs(mouseX - ringX) < 0.5 && Math.abs(mouseY - ringY) < 0.5;
+				if (idle && trailPoints.length === 0 && ringDone) {
+					isAnimating = false;
+					return;
+				}
+				rafId = requestAnimationFrame(animateLoop);
 			}
 
-			document.addEventListener('mousemove', move);
+			document.addEventListener('mousemove', move, { passive: true });
 			document.addEventListener('mouseleave', function () {
 				dot.style.opacity = '0';
 				ring.style.opacity = '0';
 				trail.style.opacity = '0';
 				visible = false;
+				trailPoints = [];
 			});
-			document.addEventListener('mousedown', function () {
-				ring.classList.add('click');
-			});
-			document.addEventListener('mouseup', function () {
-				ring.classList.remove('click');
+			document.addEventListener('mousedown', function () { ring.classList.add('click'); });
+			document.addEventListener('mouseup', function () { ring.classList.remove('click'); });
+
+			// Tab gizli → durdur
+			document.addEventListener('visibilitychange', function () {
+				if (document.hidden && rafId) {
+					cancelAnimationFrame(rafId);
+					isAnimating = false;
+				}
 			});
 
 			function isHoverable(el) {
 				if (!el || !el.tagName) return false;
 				var tag = el.tagName.toLowerCase();
-				if (
-					tag === 'a' ||
-					tag === 'button' ||
-					tag === 'input' ||
-					tag === 'textarea' ||
-					tag === 'select' ||
-					tag === 'label'
-				)
-					return true;
-				if (
-					el.classList &&
-					(el.classList.contains('post-card') ||
-						el.classList.contains('cat-card') ||
-						el.classList.contains('tool-card') ||
-						el.classList.contains('clickable'))
-				)
-					return true;
+				if (tag === 'a' || tag === 'button' || tag === 'input' || tag === 'textarea' || tag === 'select' || tag === 'label') return true;
+				if (el.classList && (el.classList.contains('post-card') || el.classList.contains('cat-card') || el.classList.contains('tool-card') || el.classList.contains('clickable'))) return true;
 				return false;
 			}
 			document.addEventListener('mouseover', function (e) {
 				var hover = isHoverable(e.target) || isHoverable(e.target.parentElement);
 				ring.classList.toggle('hover', hover);
 			});
-
-			animateRing();
 		}
 		document.addEventListener('astro:page-load', setupCursor);
 	})();
