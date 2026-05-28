@@ -375,7 +375,7 @@ input:focus {
 	font-family: var(--font-display);
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
-	background: var(--accent);
+	background: var(--accent-strong);
 	color: white;
 	border-radius: 6px;
 	vertical-align: middle;
@@ -456,7 +456,7 @@ input:focus {
 }
 .sticky-cta .btn-cta {
 	padding: 0.55em 1em;
-	background: var(--accent);
+	background: var(--accent-strong);
 	color: white;
 	border: none;
 	border-radius: 999px;
@@ -528,27 +528,10 @@ input:focus {
 .stagger.is-visible > *:nth-child(6) { transition-delay: 0.40s; }
 
 /* === PERFORMANCE — Sayfa gizliyken animasyonları durdur === */
-html:has(body:not(:focus-within)) .mesh-bg::before,
-html:has(body:not(:focus-within)) .mesh-bg::after,
-html:has(body:not(:focus-within)) .particle {
-	animation-play-state: running;
-}
-body.tab-hidden .mesh-bg::before,
-body.tab-hidden .mesh-bg::after,
-body.tab-hidden .particle,
 body.tab-hidden .badge-new,
 body.tab-hidden .brand-chip,
 body.tab-hidden .reading-progress {
 	animation-play-state: paused !important;
-}
-
-/* Düşük güçlü cihazlarda mesh ve glow azaltıldı */
-body.low-power .mesh-bg::before,
-body.low-power .mesh-bg::after {
-	display: none;
-}
-body.low-power .particle {
-	display: none;
 }
 
 /* Respect reduced motion */
