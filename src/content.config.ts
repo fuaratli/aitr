@@ -12,7 +12,7 @@ const blog = defineCollection({
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
 			category: z
-				.enum(['karsilastirma', 'rehber', 'inceleme', 'para-kazanma'])
+				.enum(['gundem', 'karsilastirma', 'rehber', 'inceleme', 'para-kazanma'])
 				.default('karsilastirma'),
 			tags: z.array(z.string()).default([]),
 			noindex: z.boolean().default(false),
