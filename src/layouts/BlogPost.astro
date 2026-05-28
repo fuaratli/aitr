@@ -50,6 +50,7 @@ const {
 	related = [],
 	upNext,
 	noindex = false,
+	faq = [],
 } = Astro.props;
 
 const categoryMeta = category ? CATEGORY_META[category as CategoryKey] : null;
@@ -95,6 +96,19 @@ const breadcrumbSchema = {
 		item: b.href ? new URL(b.href, Astro.site).toString() : articleUrl,
 	})),
 };
+
+const faqSchema =
+	faq.length > 0
+		? {
+				'@context': 'https://schema.org',
+				'@type': 'FAQPage',
+				mainEntity: faq.map((item) => ({
+					'@type': 'Question',
+					name: item.q,
+					acceptedAnswer: { '@type': 'Answer', text: item.a },
+				})),
+			}
+		: null;
 ---
 
 <html lang={SITE_LANG}>
@@ -109,6 +123,7 @@ const breadcrumbSchema = {
 		/>
 		<script type="application/ld+json" set:html={JSON.stringify(articleSchema)} is:inline />
 		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} is:inline />
+		{faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />}
 	</head>
 
 	<body>
@@ -198,6 +213,18 @@ const breadcrumbSchema = {
 				<div class="prose">
 					<slot />
 				</div>
+
+				{faq.length > 0 && (
+					<section class="faq" aria-labelledby="faq-title">
+						<h2 id="faq-title">Sık Sorulan Sorular</h2>
+						{faq.map((item) => (
+							<details class="faq-item">
+								<summary>{item.q}</summary>
+								<p>{item.a}</p>
+							</details>
+						))}
+					</section>
+				)}
 
 				{
 					tags.length > 0 && (
@@ -448,6 +475,47 @@ const breadcrumbSchema = {
 				justify-content: space-between;
 				gap: 1em;
 				flex-wrap: wrap;
+			}
+			.faq {
+				max-width: 760px;
+				margin: 1.5em auto;
+				padding: 0 1.25em;
+			}
+			.faq h2 {
+				font-size: 1.5em;
+				letter-spacing: -0.02em;
+				margin-bottom: 0.75em;
+			}
+			.faq-item {
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				padding: 0.85em 1.1em;
+				margin-bottom: 0.6em;
+				background: var(--surface);
+			}
+			.faq-item summary {
+				cursor: pointer;
+				font-weight: 600;
+				color: var(--text);
+				font-family: var(--font-display);
+				list-style: none;
+			}
+			.faq-item summary::-webkit-details-marker {
+				display: none;
+			}
+			.faq-item summary::after {
+				content: '+';
+				float: right;
+				color: var(--accent);
+				font-weight: 700;
+			}
+			.faq-item[open] summary::after {
+				content: '−';
+			}
+			.faq-item p {
+				margin: 0.75em 0 0.2em;
+				color: var(--text-muted);
+				line-height: 1.7;
 			}
 			@media (max-width: 720px) {
 				.post-header {

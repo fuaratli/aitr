@@ -4,6 +4,17 @@ description: 'n8n nedir, nasıl kurulur, AI nodes ile (OpenAI, Claude, Pinecone)
 pubDate: 'May 21 2026'
 category: 'rehber'
 tags: ['n8n', 'otomasyon', 'workflow', 'ai agent', 'rehber']
+faq:
+  - q: "n8n ücretsiz mi?"
+    a: "n8n açık kaynaktır; kendi sunucunda (self-host) ücretsiz çalıştırabilirsin. Bulut sürümü (n8n Cloud) ücretlidir. Teknik bilgin varsa self-host en ekonomik yoldur."
+  - q: "n8n ile Zapier veya Make arasındaki fark ne?"
+    a: "n8n açık kaynak ve self-host edilebilir; karmaşık, dallanan iş akışlarında daha esnek ve genelde daha ucuzdur. Zapier/Make daha kullanıcı dostu ama kapalı ve ölçeklendikçe daha pahalıdır."
+  - q: "Kod bilmeden n8n kullanabilir miyim?"
+    a: "Temel otomasyonları görsel node'larla kod yazmadan kurabilirsin. İleri senaryolarda küçük JavaScript ifadeleri işe yarar ama çoğu akış için zorunlu değildir."
+  - q: "n8n'e ChatGPT veya Claude bağlayabilir miyim?"
+    a: "Evet. OpenAI ve Claude gibi LLM node'larıyla otomasyonlarına yapay zeka adımları ekleyebilirsin — örneğin gelen e-postayı özetleme, içerik üretme veya sınıflandırma."
+  - q: "n8n Türkçe arayüz sunuyor mu?"
+    a: "Arayüz ağırlıklı İngilizcedir, ancak node'lar görsel olduğu için Türkçe konuşan kullanıcılar da rahatça kullanır; AI node'larına Türkçe prompt verebilirsin."
 ---
 
 Zapier aylık $50 alıyor + her **görev başına ek ücret**. **n8n** aynı şeyi yapıyor, **bedava** + **sınırsız** (self-hosted). 2026'da n8n = **otomasyonun yeni standardı**, özellikle **AI workflow** çağında.

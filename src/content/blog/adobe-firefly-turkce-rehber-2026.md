@@ -4,6 +4,17 @@ description: 'Adobe Firefly nedir, Photoshop''ta Generative Fill nasıl çalış
 pubDate: 'May 20 2026'
 category: 'rehber'
 tags: ['adobe firefly', 'photoshop', 'illustrator', 'tasarım', 'rehber']
+faq:
+  - q: "Adobe Firefly ücretsiz mi?"
+    a: "Firefly aylık belirli bir ücretsiz jeneratif kredi sunar; krediler bitince Creative Cloud aboneliği veya Firefly planıyla devam edersin. Photoshop'taki Generative Fill de Firefly kredilerini kullanır."
+  - q: "Firefly Türkçe prompt anlıyor mu?"
+    a: "Türkçe prompt'ları işleyebilir, ancak daha tutarlı sonuç için anahtar terimleri İngilizce yazmak çoğu zaman daha iyi çıktı verir."
+  - q: "Firefly ile üretilen görselleri ticari olarak kullanabilir miyim?"
+    a: "Firefly, ticari kullanım için 'güvenli' olacak şekilde lisanslı içerikle eğitildiği iddiasıyla öne çıkar; bu yönüyle birçok alternatiften ayrışır. Yine de güncel lisans şartlarını Adobe üzerinden teyit etmen önerilir."
+  - q: "Firefly mi Midjourney mi?"
+    a: "Photoshop iş akışı ve ticari güvenlik önceliğinse Firefly; ham görsel kalitesi ve sanatsal stil önceliğinse Midjourney genelde öndedir. Detaylı karşılaştırma için görsel üreticiler yazımıza bakabilirsin."
+  - q: "Firefly'a nereden erişirim?"
+    a: "firefly.adobe.com üzerinden web'de ya da Photoshop içindeki Generative Fill özelliğiyle kullanabilirsin."
 ---
 
 Photoshop 35 yaşında. 2024'te Adobe **Firefly**'ı çıkardı ve birden bire her şey değişti. Bu yazıda Firefly'ın **Photoshop, Illustrator, Express, Premiere**'deki kullanımını + **Türkçe destek durumunu** + **Midjourney'e göre farkını** anlatacağım.

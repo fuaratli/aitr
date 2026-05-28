@@ -4,6 +4,17 @@ description: 'Granola, toplantıyı bot olmadan dinleyen, AI ile not tutan, acti
 pubDate: 'May 20 2026'
 category: 'inceleme'
 tags: ['granola', 'toplantı asistanı', 'transkript', 'verimlilik', 'inceleme']
+faq:
+  - q: "Granola Windows'ta çalışır mı?"
+    a: "Hayır, şu an yalnızca Mac uygulaması var; Windows ve mobil sürüm bulunmuyor. Windows kullanıyorsan Otter veya tl;dv gibi alternatiflere bakabilirsin."
+  - q: "Granola ücretsiz mi?"
+    a: "Ücretsiz deneme sunar; sonrasında Personal planı aylık 25 dolar (ayda 25 toplantı), Business planı kullanıcı başına aylık 30 dolardır. Türkiye'den kartla ödeme sorunsuz çalışır."
+  - q: "Granola toplantıya bot olarak katılır mı?"
+    a: "Hayır. Otter veya Fireflies'ın aksine toplantıya bot eklemez; bilgisayarının sesini yerel olarak dinler. Bu yüzden daha gizlidir ve diğer katılımcılara 'AI kaydediyor' uyarısı gitmez."
+  - q: "Granola Türkçe destekliyor mu?"
+    a: "Evet, Türkçe transkript ve özet üretir; testlerde Türkçe doğruluğu iyi seviyededir ve Türkçe-İngilizce karışık toplantılarda da başarılıdır."
+  - q: "Granola güvenli mi, ses kaydım nereye gidiyor?"
+    a: "Ses işleme ağırlıklı olarak kendi makinende yapıldığı için gizlilik avantajı sunar. Yine de transkripti üçüncü kişilerle paylaşırken katılımcıları bilgilendirmek hem yasal hem etik açıdan doğrudur."
 ---
 
 Toplantıdayım. Karşımdaki müşteri konuşuyor. **Bir bot odaya katılmamış**. Ama Granola, MacBook'umun arkaplanında çalışıyor, **her şeyi dinliyor ve not tutuyor**. Toplantı bitince **action item'ları + özet** elime geliyor.
