@@ -52,7 +52,7 @@ const { variant = 'section' } = Astro.props;
 	.inner {
 		position: relative;
 		padding: 2.5em 2em;
-		background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(236, 72, 153, 0.08));
+		background: var(--surface);
 		border: 1px solid var(--border-2);
 		border-radius: 20px;
 		text-align: center;
@@ -66,8 +66,8 @@ const { variant = 'section' } = Astro.props;
 		width: 200%;
 		height: 200%;
 		background:
-			radial-gradient(circle at 30% 40%, rgba(139, 92, 246, 0.2), transparent 40%),
-			radial-gradient(circle at 70% 60%, rgba(236, 72, 153, 0.18), transparent 40%);
+			radial-gradient(circle at 30% 40%, rgba(129, 140, 248, 0.1), transparent 40%),
+			radial-gradient(circle at 70% 60%, rgba(99, 102, 241, 0.08), transparent 40%);
 		filter: blur(40px);
 		opacity: 0.7;
 		z-index: 0;
@@ -81,12 +81,12 @@ const { variant = 'section' } = Astro.props;
 		display: inline-block;
 		font-size: 0.7em;
 		letter-spacing: 0.18em;
-		color: #c4b5fd;
+		color: var(--accent);
 		font-weight: 700;
 		font-family: var(--font-display);
 		padding: 0.35em 0.85em;
-		background: rgba(139, 92, 246, 0.15);
-		border: 1px solid rgba(139, 92, 246, 0.3);
+		background: var(--surface-2);
+		border: 1px solid var(--border-glow);
 		border-radius: 999px;
 		margin-bottom: 1.25em;
 	}
@@ -124,14 +124,14 @@ const { variant = 'section' } = Astro.props;
 	.form input:focus {
 		outline: none;
 		border-color: var(--accent);
-		box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+		box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
 	}
 	.submit-btn {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.4em;
 		padding: 0.85em 1.4em;
-		background: var(--gradient-1);
+		background: var(--accent);
 		color: white;
 		border: none;
 		border-radius: 10px;
@@ -140,11 +140,10 @@ const { variant = 'section' } = Astro.props;
 		cursor: pointer;
 		font-family: var(--font-display);
 		transition: 0.2s ease;
-		box-shadow: var(--glow-violet);
 	}
 	.submit-btn:hover {
 		transform: translateY(-1px);
-		box-shadow: 0 0 50px rgba(139, 92, 246, 0.6);
+		box-shadow: var(--shadow-card-hover);
 	}
 	.proof {
 		color: var(--text-muted);

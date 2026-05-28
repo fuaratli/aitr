@@ -12,7 +12,7 @@
 		width: 46px;
 		height: 46px;
 		border-radius: 50%;
-		background: var(--gradient-1);
+		background: var(--accent);
 		border: none;
 		cursor: pointer;
 		color: white;
@@ -22,7 +22,7 @@
 		pointer-events: none;
 		transform: translateY(12px);
 		transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-		box-shadow: var(--glow-violet);
+		box-shadow: var(--shadow-card);
 		z-index: 90;
 	}
 	.scroll-top.visible {
@@ -31,11 +31,11 @@
 		transform: translateY(0);
 	}
 	.scroll-top:hover {
-		box-shadow: 0 0 60px rgba(139, 92, 246, 0.6);
+		box-shadow: var(--shadow-card-hover);
 		transform: translateY(-3px);
 	}
 	.scroll-top:focus-visible {
-		outline: 2px solid #c4b5fd;
+		outline: 2px solid var(--accent);
 		outline-offset: 3px;
 	}
 	@media (max-width: 540px) {

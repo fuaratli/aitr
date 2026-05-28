@@ -39,12 +39,12 @@ const meta = CATEGORY_META[post.data.category as CategoryKey];
 		overflow: hidden;
 		z-index: 80;
 		backdrop-filter: blur(16px);
-		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(139, 92, 246, 0.2);
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 		animation: up-next-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 	}
 	:global([data-theme='light']) .up-next {
 		background: rgba(255, 255, 255, 0.96);
-		box-shadow: 0 20px 60px rgba(15, 15, 40, 0.15), 0 0 30px rgba(139, 92, 246, 0.18);
+		box-shadow: 0 20px 60px rgba(15, 15, 40, 0.15);
 	}
 	@keyframes up-next-in {
 		from {
@@ -80,7 +80,7 @@ const meta = CATEGORY_META[post.data.category as CategoryKey];
 		font-size: 0.7em;
 		text-transform: uppercase;
 		letter-spacing: 0.1em;
-		color: #c4b5fd;
+		color: var(--accent);
 		font-weight: 700;
 		font-family: var(--font-display);
 		margin-bottom: 0.4em;
@@ -106,11 +106,11 @@ const meta = CATEGORY_META[post.data.category as CategoryKey];
 	}
 	.up-next-cta {
 		font-size: 0.78em;
-		color: #f9a8d4;
+		color: var(--accent);
 		font-weight: 600;
 	}
 	.up-next-link:hover .up-next-cta {
-		color: #c4b5fd;
+		color: var(--text);
 	}
 	.up-next-dismiss {
 		position: absolute;

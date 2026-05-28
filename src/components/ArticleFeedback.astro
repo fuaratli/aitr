@@ -34,7 +34,7 @@ const { slug } = Astro.props;
 		padding: 0 1.25em;
 	}
 	.inner {
-		background: linear-gradient(135deg, rgba(139, 92, 246, 0.06), rgba(236, 72, 153, 0.04));
+		background: var(--surface);
 		border: 1px solid var(--border);
 		border-radius: 16px;
 		padding: 1.5em 1.75em;
@@ -75,7 +75,7 @@ const { slug } = Astro.props;
 		background: var(--surface-2);
 	}
 	.buttons button.selected {
-		background: var(--gradient-1);
+		background: var(--accent);
 		color: white;
 		border-color: transparent;
 	}
@@ -123,11 +123,6 @@ const { slug } = Astro.props;
 							stored[slug] = value;
 							localStorage.setItem('aitr-feedback', JSON.stringify(stored));
 						} catch (e) {}
-						// Pozitif geri bildirimde konfeti at
-						if (value === 'up' && typeof window.aitrConfetti === 'function') {
-							var rect = btn.getBoundingClientRect();
-							window.aitrConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
-						}
 						// Send to GA4 if available
 						if (typeof gtag === 'function') {
 							gtag('event', 'article_feedback', {

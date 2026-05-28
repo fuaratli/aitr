@@ -27,7 +27,7 @@ const tools: { category: string; emoji: string; gradient: string; items: Tool[] 
 	{
 		category: 'Sohbet & Yazım',
 		emoji: '💬',
-		gradient: 'linear-gradient(135deg,#8b5cf6,#ec4899)',
+		gradient: 'var(--surface-2)',
 		items: [
 			{ name: 'ChatGPT', desc: 'OpenAI\'nin amiral gemisi. Genel sohbet, kod, görsel.', tag: 'En dengeli', free: 'kısmi', link: '/blog/chatgpt-claude-gemini-karsilastirma-2026/' },
 			{ name: 'Claude', desc: 'Anthropic. Türkçe yazımda en iyilerden. Uzun belge analizi.', tag: 'En iyi yazım', free: 'kısmi', link: '/blog/chatgpt-claude-gemini-karsilastirma-2026/' },
@@ -40,7 +40,7 @@ const tools: { category: string; emoji: string; gradient: string; items: Tool[] 
 	{
 		category: 'Görsel Üretimi',
 		emoji: '🎨',
-		gradient: 'linear-gradient(135deg,#3b82f6,#8b5cf6)',
+		gradient: 'var(--surface-2)',
 		items: [
 			{ name: 'Midjourney', desc: 'En estetik. İllüstrasyon, konsept sanat.', tag: 'En estetik', free: 'yok', link: '/blog/midjourney-turkce-rehber-2026/' },
 			{ name: 'DALL·E 3', desc: 'ChatGPT içinde. Yazı içeren görsellerde iyi.', tag: 'En akıllı prompt', free: 'kısmi', link: '/blog/ai-gorsel-ureticiler-karsilastirma-2026/' },
@@ -54,7 +54,7 @@ const tools: { category: string; emoji: string; gradient: string; items: Tool[] 
 	{
 		category: 'Video & Ses',
 		emoji: '🎬',
-		gradient: 'linear-gradient(135deg,#06b6d4,#3b82f6)',
+		gradient: 'var(--surface-2)',
 		items: [
 			{ name: 'Runway', desc: 'Gen-3 Alpha video AI. Endüstri lideri.', tag: 'Video lideri', free: 'kısmi' },
 			{ name: 'Pika Labs', desc: 'Hızlı kısa videolar. Sosyal medya odaklı.', tag: 'Hızlı', free: 'kısmi' },
@@ -67,7 +67,7 @@ const tools: { category: string; emoji: string; gradient: string; items: Tool[] 
 	{
 		category: 'Yazılım & Kod',
 		emoji: '💻',
-		gradient: 'linear-gradient(135deg,#ec4899,#f97316)',
+		gradient: 'var(--surface-2)',
 		items: [
 			{ name: 'Cursor', desc: 'VS Code üzerine kurulu AI IDE. Yeni standart.', tag: 'Geliştiriciler için', free: 'kısmi' },
 			{ name: 'GitHub Copilot', desc: 'GitHub\'ın AI asistanı. Free tier mevcut.', tag: 'Resmi GitHub', free: 'kısmi' },
@@ -79,7 +79,7 @@ const tools: { category: string; emoji: string; gradient: string; items: Tool[] 
 	{
 		category: 'Verimlilik & İş',
 		emoji: '📋',
-		gradient: 'linear-gradient(135deg,#8b5cf6,#3b82f6)',
+		gradient: 'var(--surface-2)',
 		items: [
 			{ name: 'Notion AI', desc: 'Notion içinde yapay zeka.', tag: 'Notion entegre', free: 'kısmi' },
 			{ name: 'Gamma', desc: 'AI ile sunum, doc, web sitesi.', tag: 'Sunum', free: 'kısmi' },
@@ -93,7 +93,7 @@ const tools: { category: string; emoji: string; gradient: string; items: Tool[] 
 const freeLabel = { tam: 'Tamamen ücretsiz', kısmi: 'Ücretsiz + ücretli', yok: 'Sadece ücretli' };
 const freeColor = {
 	tam: 'linear-gradient(135deg,#22c55e,#16a34a)',
-	kısmi: 'linear-gradient(135deg,#8b5cf6,#ec4899)',
+	kısmi: 'var(--surface-2)',
 	yok: 'linear-gradient(135deg,#f97316,#ef4444)',
 };
 ---
@@ -223,7 +223,6 @@ const freeColor = {
 				height: 50px;
 				border-radius: 12px;
 				font-size: 1.4em;
-				box-shadow: var(--glow-violet);
 			}
 			.cat-head h2 {
 				margin: 0;
@@ -297,12 +296,12 @@ const freeColor = {
 			.read-cta {
 				display: inline-block;
 				font-size: 0.85em;
-				color: #c4b5fd;
+				color: var(--accent);
 				font-weight: 600;
 				margin-top: 0.5em;
 			}
 			.tool-card:hover .read-cta {
-				color: #f9a8d4;
+				color: var(--text);
 			}
 		</style>
 	</body>

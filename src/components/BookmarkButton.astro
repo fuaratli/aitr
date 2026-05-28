@@ -48,9 +48,9 @@ const { slug, title, variant = 'inline' } = Astro.props;
 		display: none;
 	}
 	.bookmark-btn.saved {
-		background: rgba(236, 72, 153, 0.15);
-		border-color: rgba(236, 72, 153, 0.4);
-		color: #f9a8d4;
+		background: var(--surface-2);
+		border-color: var(--border-glow);
+		color: var(--accent);
 	}
 	.bookmark-btn.saved .icon-off {
 		display: none;
@@ -117,10 +117,6 @@ const { slug, title, variant = 'inline' } = Astro.props;
 					}
 					setBookmarks(marks);
 					refresh();
-					if (isAdding && typeof window.aitrConfetti === 'function') {
-						var rect = btn.getBoundingClientRect();
-						window.aitrConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
-					}
 					if (typeof gtag === 'function') {
 						gtag('event', isAdding ? 'bookmark_add' : 'bookmark_remove', {
 							article_slug: slug,
