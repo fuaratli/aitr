@@ -354,15 +354,6 @@ input:focus {
 	}
 }
 
-@keyframes shimmer {
-	0% { background-position: -200% 0; }
-	100% { background-position: 200% 0; }
-}
-
-
-
-
-
 /* Reveal-on-scroll utility (used with IntersectionObserver) */
 .reveal {
 	opacity: 0;
@@ -384,10 +375,9 @@ input:focus {
 	font-family: var(--font-display);
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
-	background: var(--gradient-1);
+	background: var(--accent);
 	color: white;
 	border-radius: 6px;
-	box-shadow: var(--glow-violet);
 	vertical-align: middle;
 	margin-left: 0.5em;
 }
@@ -466,7 +456,7 @@ input:focus {
 }
 .sticky-cta .btn-cta {
 	padding: 0.55em 1em;
-	background: var(--gradient-1);
+	background: var(--accent);
 	color: white;
 	border: none;
 	border-radius: 999px;
@@ -483,7 +473,7 @@ input:focus {
 }
 .sticky-cta .btn-cta:hover {
 	transform: translateY(-1px);
-	box-shadow: var(--glow-violet);
+	box-shadow: none;
 }
 .sticky-cta-close {
 	flex-shrink: 0;
@@ -501,9 +491,6 @@ input:focus {
 .sticky-cta-close:hover {
 	color: var(--text);
 }
-
-
-
 
 
 
