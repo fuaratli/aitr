@@ -100,11 +100,10 @@ const articleSchema = {
 			<Breadcrumbs items={breadcrumbs} />
 			<article>
 				<header class="post-header">
-					<div class="mesh-bg" aria-hidden="true"></div>
 					<div class="meta">
 						{
 							categoryMeta && (
-								<a class="cat-pill" href={`/blog/kategori/${categoryMeta.slug}/`} style={`background:${categoryMeta.gradient}`}>
+								<a class="cat-pill" href={`/blog/kategori/${categoryMeta.slug}/`}>
 									{categoryMeta.emoji} {categoryMeta.label}
 								</a>
 							)
@@ -243,7 +242,7 @@ const articleSchema = {
 				text-align: center;
 				border-bottom: 1px solid var(--border);
 			}
-			.post-header > *:not(.mesh-bg) {
+			.post-header > * {
 				position: relative;
 				z-index: 2;
 			}
@@ -261,11 +260,11 @@ const articleSchema = {
 				gap: 0.4em;
 				padding: 0.4em 0.95em;
 				border-radius: 999px;
+				background: var(--accent);
 				color: white;
 				font-weight: 600;
 				font-size: 0.85em;
 				text-decoration: none;
-				box-shadow: var(--glow-violet);
 				transition: 0.2s ease;
 			}
 			.cat-pill:hover {
@@ -351,8 +350,8 @@ const articleSchema = {
 				border-bottom: 1px solid transparent;
 			}
 			.toc a:hover {
-				color: #c4b5fd;
-				border-bottom-color: rgba(196, 181, 253, 0.3);
+				color: var(--accent);
+				border-bottom-color: var(--border);
 			}
 			.prose {
 				max-width: 760px;
@@ -407,7 +406,7 @@ const articleSchema = {
 				transition: 0.15s ease;
 			}
 			.tag-pill:hover {
-				background: var(--gradient-1);
+				background: var(--accent);
 				color: white;
 				border-color: transparent;
 				transform: translateY(-1px);
