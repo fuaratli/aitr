@@ -49,6 +49,7 @@ const {
 	minutes,
 	related = [],
 	upNext,
+	noindex = false,
 } = Astro.props;
 
 const categoryMeta = category ? CATEGORY_META[category as CategoryKey] : null;
@@ -71,13 +72,28 @@ const articleSchema = {
 	description,
 	datePublished: pubDate.toISOString(),
 	...(updatedDate && { dateModified: updatedDate.toISOString() }),
-	author: { '@type': 'Person', name: SITE_AUTHOR },
+	author: {
+		'@type': 'Person',
+		name: SITE_AUTHOR,
+		url: new URL('/about/', Astro.site).toString(),
+	},
 	publisher: {
 		'@type': 'Organization',
 		name: SITE_TITLE,
 		logo: { '@type': 'ImageObject', url: new URL('/favicon.svg', Astro.site).toString() },
 	},
 	mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+};
+
+const breadcrumbSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'BreadcrumbList',
+	itemListElement: breadcrumbs.map((b, i) => ({
+		'@type': 'ListItem',
+		position: i + 1,
+		name: b.label,
+		item: b.href ? new URL(b.href, Astro.site).toString() : articleUrl,
+	})),
 };
 ---
 
@@ -89,8 +105,10 @@ const articleSchema = {
 			pubDate={pubDate}
 			updatedDate={updatedDate}
 			type="article"
+			noindex={noindex}
 		/>
 		<script type="application/ld+json" set:html={JSON.stringify(articleSchema)} is:inline />
+		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} is:inline />
 	</head>
 
 	<body>

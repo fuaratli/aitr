@@ -10,8 +10,11 @@ export default defineConfig({
 	integrations: [
 		mdx(),
 		sitemap({
-			// Etiket arşivlerini sitemap dışında tut — çoğu ince/noindex; dahili linklerle zaten keşfedilir.
-			filter: (page) => !page.includes('/etiket/'),
+			// Sitemap dışı: etiket arşivleri (ince/noindex) ve noindex'li yinelenen yazılar.
+			filter: (page) =>
+				!page.includes('/etiket/') &&
+				!page.includes('/blog/ai-sunum-hazirlama-gamma-tome-beautiful/') &&
+				!page.includes('/blog/bolt-lovable-v0-ai-web-sitesi-yapma/'),
 			i18n: {
 				defaultLocale: 'tr',
 				locales: { tr: 'tr-TR' },
