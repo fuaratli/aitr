@@ -1,4 +1,11 @@
 export const CATEGORY_META = {
+	gundem: {
+		slug: 'gundem',
+		label: 'AI Gündem',
+		emoji: '📰',
+		gradient: 'var(--surface-2)',
+		description: 'Yapay zeka dünyasındaki son gelişmeler ve bunların Türkçe kullanıcıya pratik etkisi.',
+	},
 	karsilastirma: {
 		slug: 'karsilastirmalar',
 		label: 'Karşılaştırmalar',
