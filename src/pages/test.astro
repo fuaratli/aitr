@@ -95,10 +95,9 @@ const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana U
 			.quiz-progress .bar {
 				height: 100%;
 				width: 0%;
-				background: var(--gradient-1);
+				background: var(--accent);
 				border-radius: inherit;
 				transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-				box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
 			}
 			.quiz {
 				background: var(--surface);
@@ -166,11 +165,11 @@ const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana U
 				flex-shrink: 0;
 			}
 			.option:focus-visible {
-				outline: 2px solid #c4b5fd;
+				outline: 2px solid var(--accent);
 				outline-offset: 2px;
 			}
 			.quiz-result {
-				background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.05));
+				background: var(--surface);
 				border: 1px solid var(--border);
 				border-radius: 16px;
 				padding: 2em;
@@ -181,10 +180,10 @@ const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana U
 				display: inline-block;
 				font-size: 0.8em;
 				padding: 0.4em 0.95em;
-				background: rgba(139, 92, 246, 0.15);
-				border: 1px solid rgba(139, 92, 246, 0.4);
+				background: var(--surface-2);
+				border: 1px solid var(--border-glow);
 				border-radius: 999px;
-				color: #c4b5fd;
+				color: var(--accent);
 				font-weight: 700;
 				text-transform: uppercase;
 				letter-spacing: 0.1em;
@@ -195,11 +194,10 @@ const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana U
 				place-items: center;
 				width: 80px;
 				height: 80px;
-				background: var(--gradient-1);
+				background: var(--accent);
 				border-radius: 20px;
 				font-size: 2.4em;
 				margin: 0 auto 1em;
-				box-shadow: var(--glow-violet);
 			}
 			.result-name {
 				font-size: 2em;
@@ -208,7 +206,7 @@ const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana U
 				letter-spacing: -0.03em;
 			}
 			.result-tagline {
-				color: #c4b5fd;
+				color: var(--accent);
 				margin: 0 0 1em 0;
 				font-weight: 600;
 			}
@@ -340,7 +338,7 @@ const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana U
 						midjourney: {
 							name: 'Midjourney',
 							icon: '🎨',
-							gradient: 'linear-gradient(135deg,#8b5cf6,#ec4899)',
+							gradient: 'var(--accent)',
 							tagline: 'En estetik görsel üretici',
 							desc: 'Estetik kalite olarak rakipsiz. İllüstrasyon, konsept sanat, atmosferik görsel için ideal. $10-60/ay.',
 							link: '/blog/midjourney-turkce-rehber-2026/',
@@ -364,7 +362,7 @@ const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana U
 						suno: {
 							name: 'Suno AI',
 							icon: '🎵',
-							gradient: 'linear-gradient(135deg,#f97316,#ec4899)',
+							gradient: 'linear-gradient(135deg,#f97316,#ea580c)',
 							tagline: 'AI ile şarkı üretimi',
 							desc: 'Şarkı sözü + stil verince tam şarkı üretiyor. Türkçe destekli. $0-24/ay.',
 							link: '/blog/suno-ai-turkce-sarki-uretme-rehberi/',
@@ -474,13 +472,6 @@ const breadcrumbs = [{ label: 'Anasayfa', href: '/' }, { label: 'Hangi AI Sana U
 							'<button class="restart-btn" id="quiz-restart" type="button">↻ Testi Tekrar Çöz</button>';
 
 						bar.style.width = '100%';
-
-						// Confetti — pozitif sonuç!
-						if (typeof window.aitrConfetti === 'function') {
-							setTimeout(function () {
-								window.aitrConfetti(window.innerWidth / 2, window.innerHeight / 3);
-							}, 200);
-						}
 
 						// Restart
 						document.getElementById('quiz-restart').addEventListener('click', function () {

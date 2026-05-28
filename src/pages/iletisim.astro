@@ -152,12 +152,12 @@ const breadcrumbs = [
 				font-size: 0.95em;
 			}
 			.info a {
-				color: #c4b5fd;
+				color: var(--accent);
 				text-decoration: none;
-				border-bottom: 1px solid rgba(196, 181, 253, 0.3);
+				border-bottom: 1px solid var(--border-glow);
 			}
 			.info a:hover {
-				color: #f9a8d4;
+				color: var(--text);
 			}
 			.form {
 				display: flex;
@@ -199,7 +199,7 @@ const breadcrumbs = [
 			.form textarea:focus {
 				outline: none;
 				border-color: var(--accent);
-				box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+				box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
 			}
 			.privacy-note {
 				font-size: 0.8em;
@@ -207,7 +207,7 @@ const breadcrumbs = [
 				margin: 0;
 			}
 			.privacy-note a {
-				color: #c4b5fd;
+				color: var(--accent);
 			}
 			.submit {
 				display: inline-flex;
@@ -215,7 +215,7 @@ const breadcrumbs = [
 				justify-content: center;
 				gap: 0.5em;
 				padding: 0.85em 1.5em;
-				background: var(--gradient-1);
+				background: var(--accent-strong);
 				color: white;
 				border: none;
 				border-radius: 10px;
@@ -223,12 +223,11 @@ const breadcrumbs = [
 				font-family: var(--font-display);
 				font-size: 0.95em;
 				cursor: pointer;
-				box-shadow: var(--glow-violet);
 				transition: 0.2s ease;
 			}
 			.submit:hover {
 				transform: translateY(-1px);
-				box-shadow: 0 0 50px rgba(139, 92, 246, 0.6);
+				box-shadow: var(--shadow-card-hover);
 			}
 			.success-msg {
 				background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
