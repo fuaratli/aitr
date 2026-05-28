@@ -15,6 +15,7 @@ const blog = defineCollection({
 				.enum(['karsilastirma', 'rehber', 'inceleme', 'para-kazanma'])
 				.default('karsilastirma'),
 			tags: z.array(z.string()).default([]),
+			noindex: z.boolean().default(false),
 		}),
 });
 
