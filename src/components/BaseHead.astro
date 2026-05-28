@@ -45,6 +45,7 @@ interface Props {
 	pubDate?: Date;
 	updatedDate?: Date;
 	type?: 'website' | 'article';
+	noindex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -56,6 +57,7 @@ const {
 	pubDate,
 	updatedDate,
 	type = 'website',
+	noindex = false,
 } = Astro.props;
 
 const ogImageURL = new URL(image.src, Astro.url);
@@ -108,7 +110,7 @@ const ogImageURL = new URL(image.src, Astro.url);
 		} catch (e) {}
 	})();
 </script>
-<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
 <meta name="author" content={SITE_AUTHOR} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />

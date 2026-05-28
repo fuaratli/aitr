@@ -37,6 +37,8 @@ export async function getStaticPaths() {
 const { label, posts } = Astro.props;
 const pageTitle = `#${label} — ${SITE_TITLE}`;
 const pageDescription = `"${label}" etiketli tüm yapay zeka yazıları.`;
+// İnce etiket arşivlerini (3'ten az yazı) indekslemiyoruz — "düşük değerli içerik" sinyalini azaltır.
+const noindex = posts.length < 3;
 
 const breadcrumbs = [
 	{ label: 'Anasayfa', href: '/' },
@@ -48,14 +50,13 @@ const breadcrumbs = [
 <!doctype html>
 <html lang={SITE_LANG}>
 	<head>
-		<BaseHead title={pageTitle} description={pageDescription} />
+		<BaseHead title={pageTitle} description={pageDescription} noindex={noindex} />
 	</head>
 	<body>
 		<Header />
 		<main class="tag-main">
 			<Breadcrumbs items={breadcrumbs} />
 			<header class="tag-hero">
-				<div class="mesh-bg" aria-hidden="true"></div>
 				<div class="inner">
 					<span class="pill pill-glow">Etiket</span>
 					<h1>#<span class="gradient-text">{label}</span></h1>

@@ -108,6 +108,7 @@ const articleSchema = {
 								</a>
 							)
 						}
+						<a class="byline" href="/about/" rel="author">{SITE_AUTHOR}</a>
 						<span class="date">
 							<FormattedDate date={pubDate} />
 							{
@@ -270,6 +271,16 @@ const articleSchema = {
 			.cat-pill:hover {
 				transform: translateY(-1px);
 				color: white;
+			}
+			.byline {
+				color: var(--text-muted);
+				font-size: 0.9em;
+				font-weight: 600;
+				text-decoration: none;
+				transition: 0.15s ease;
+			}
+			.byline:hover {
+				color: var(--accent);
 			}
 			.meta .date {
 				color: var(--text-muted);

@@ -10,6 +10,8 @@ export default defineConfig({
 	integrations: [
 		mdx(),
 		sitemap({
+			// Etiket arşivlerini sitemap dışında tut — çoğu ince/noindex; dahili linklerle zaten keşfedilir.
+			filter: (page) => !page.includes('/etiket/'),
 			i18n: {
 				defaultLocale: 'tr',
 				locales: { tr: 'tr-TR' },
