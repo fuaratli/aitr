@@ -8,8 +8,6 @@ import Header from '../components/Header.astro';
 import AdSlot from '../components/AdSlot.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import HeroCover from '../components/HeroCover.astro';
-import FloatingParticles from '../components/FloatingParticles.astro';
-import Vanta3D from '../components/Vanta3D.astro';
 import { SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from '../consts';
 import { CATEGORY_META } from '../lib/categories';
 
@@ -30,18 +28,14 @@ const featured = posts[0];
 		<main class="home-main">
 			<!-- HERO -->
 			<section class="hero">
-				<Vanta3D />
-				<div class="mesh-bg" aria-hidden="true"></div>
-				<FloatingParticles count={22} />
 				<div class="hero-inner">
-					<a href="/blog/chatgpt-claude-gemini-karsilastirma-2026/" class="pill pill-glow announce">
+					<a href="/blog/chatgpt-claude-gemini-karsilastirma-2026/" class="pill announce">
 						<span class="dot"></span>
 						Yeni: ChatGPT vs Claude vs Gemini 2026 karşılaştırması
 						<span class="arrow">→</span>
 					</a>
 					<h1 class="hero-title">
-						Yapay zekayı <span class="gradient-text">Türkçe</span><br />
-						<span class="typer-wrap"><span class="typer" data-typer='["keşfet","kullan","öğret","kazandır"]'>keşfet</span><span class="typer-caret" aria-hidden="true"></span></span>
+						Yapay zekayı <span class="accent-word">Türkçe</span> keşfet
 					</h1>
 					<p class="hero-sub">
 						ChatGPT, Claude, Gemini, Midjourney ve onlarca AI aracı için derinlikli
@@ -205,15 +199,14 @@ const featured = posts[0];
 			}
 			.announce:hover {
 				transform: translateY(-1px);
-				box-shadow: var(--glow-violet);
-				color: white;
+				border-color: var(--border-glow);
+				color: var(--text);
 			}
 			.announce .dot {
 				width: 8px;
 				height: 8px;
-				background: var(--accent-2);
+				background: var(--accent);
 				border-radius: 50%;
-				animation: pulse-dot 1.6s ease-in-out infinite;
 			}
 			.announce .arrow {
 				color: var(--text-muted);
@@ -221,15 +214,16 @@ const featured = posts[0];
 			}
 			.announce:hover .arrow {
 				transform: translateX(3px);
-				color: white;
+				color: var(--text);
 			}
 			.hero-title {
 				font-size: clamp(2.4em, 6vw, 4.2em);
 				line-height: 1.05;
 				margin: 0 0 0.5em 0;
 				letter-spacing: -0.035em;
-				font-weight: 700;
+				font-weight: 600;
 			}
+			.accent-word { color: var(--accent); }
 			.hero-sub {
 				font-size: 1.2em;
 				color: var(--text-muted);
@@ -260,7 +254,6 @@ const featured = posts[0];
 				background: var(--surface);
 				font-weight: 500;
 				font-family: var(--font-display);
-				animation: float-tiny 4.5s ease-in-out infinite;
 				transition: 0.2s ease;
 			}
 			.brand-chip:hover {
@@ -268,13 +261,6 @@ const featured = posts[0];
 				border-color: var(--border-glow);
 				background: var(--surface-2);
 			}
-			.brand-chip:nth-child(1) { animation-delay: 0s; }
-			.brand-chip:nth-child(2) { animation-delay: -0.6s; }
-			.brand-chip:nth-child(3) { animation-delay: -1.2s; }
-			.brand-chip:nth-child(4) { animation-delay: -1.8s; }
-			.brand-chip:nth-child(5) { animation-delay: -2.4s; }
-			.brand-chip:nth-child(6) { animation-delay: -3s; }
-			.brand-chip:nth-child(7) { animation-delay: -3.6s; }
 
 			/* SECTIONS */
 			.section {
