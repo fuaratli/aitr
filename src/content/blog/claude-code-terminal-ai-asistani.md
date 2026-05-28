@@ -4,6 +4,17 @@ description: 'Claude Code nedir, terminal''de nasıl çalışır, Cursor IDE''de
 pubDate: 'May 21 2026'
 category: 'rehber'
 tags: ['claude code', 'terminal', 'cli', 'yazılım', 'rehber']
+faq:
+  - q: "Claude Code nedir?"
+    a: "Anthropic'in terminalde çalışan yapay zeka kodlama asistanıdır. Doğal dille verdiğin görevleri kod tabanında okuyup düzenleyebilir, komut çalıştırabilir ve çok dosyalı değişiklikler yapabilir."
+  - q: "Claude Code ücretsiz mi?"
+    a: "Kullanım Anthropic'in abonelik/API modeline bağlıdır ve ücretsiz değildir. Maliyet, yaptığın işin token miktarına göre değişir."
+  - q: "Claude Code ile Cursor veya Copilot farkı ne?"
+    a: "Cursor bir IDE, Copilot bir editör eklentisidir; Claude Code ise terminal merkezlidir ve çok dosyalı, ajan benzeri görevlerde güçlüdür. Detaylı karşılaştırma için Cursor ve Copilot yazılarımıza bakabilirsin."
+  - q: "Türkçe komut verebilir miyim?"
+    a: "Evet, Claude Code Türkçe talimatları anlar. Yine de teknik terimleri net yazmak sonucu iyileştirir."
+  - q: "Başlamak için ne gerekiyor?"
+    a: "Bir terminal, Node.js ve bir Anthropic hesabı/anahtarı yeterlidir. Kurulumdan sonra proje klasöründe çalıştırıp doğal dille görev verebilirsin."
 ---
 
 Cursor IDE seveni çok ([rehberim](/blog/cursor-ide-turkce-rehber-2026/)) — ama **terminalden** çıkmak istemeyenler de var. Vim, tmux, Emacs kullanıcıları, sysadmin'ler. Onlar için Anthropic **Claude Code**'u çıkardı: **terminal'de gerçek bir AI geliştirici asistanı**.
