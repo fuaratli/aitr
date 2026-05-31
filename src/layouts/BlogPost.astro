@@ -24,6 +24,7 @@ import RecentlyViewed from '../components/RecentlyViewed.astro';
 import Comments from '../components/Comments.astro';
 import UpNext from '../components/UpNext.astro';
 import StickyCta from '../components/StickyCta.astro';
+import TelegramCTA from '../components/TelegramCTA.astro';
 import { SITE_LANG, SITE_TITLE, SITE_AUTHOR } from '../consts';
 import { CATEGORY_META, type CategoryKey } from '../lib/categories';
 import { slugifyTag } from '../lib/slug';
@@ -242,6 +243,8 @@ const faqSchema =
 				<div class="share-row">
 					<SocialShare url={articleUrl} title={title} />
 				</div>
+
+				<TelegramCTA />
 
 				<div class="ad-bottom">
 					<AdSlot size="banner" label="Reklam" slot="post-bottom" />
