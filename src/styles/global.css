@@ -122,7 +122,7 @@ h6 {
 	letter-spacing: -0.02em;
 	font-weight: 700;
 }
-h1 { font-size: 2.75em; letter-spacing: -0.03em; }
+h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); letter-spacing: -0.035em; }
 h2 { font-size: 2em; }
 h3 { font-size: 1.5em; }
 h4 { font-size: 1.2em; }
@@ -646,4 +646,72 @@ footer,
 	h1 { font-size: 2em; }
 	h2 { font-size: 1.5em; }
 	h3 { font-size: 1.2em; }
+}
+
+/* === LANDONORRIS-STYLE UTILITIES === */
+
+/* Sola yaslı dev display başlık */
+.display-xl {
+	font-family: var(--font-display);
+	font-weight: 700;
+	font-size: clamp(2.8rem, 8vw, 7rem);
+	line-height: 0.98;
+	letter-spacing: -0.045em;
+	text-align: left;
+	margin: 0;
+}
+
+/* Numaralı editoryal section başlığı */
+.section-num {
+	font-family: var(--font-mono);
+	font-size: 0.8rem;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--accent);
+	display: inline-block;
+	margin-bottom: 0.6em;
+}
+
+/* Kalın editoryal ayraç çizgisi */
+.rule {
+	height: 1px;
+	border: none;
+	background: var(--border-2);
+	margin: 0;
+}
+
+/* Sonsuz akan marquee (saf CSS) */
+.marquee {
+	overflow: hidden;
+	width: 100%;
+	-webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+	mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+	display: inline-flex;
+	gap: 2.5rem;
+	white-space: nowrap;
+	will-change: transform;
+	animation: marquee-scroll 32s linear infinite;
+}
+.marquee:hover .marquee-track {
+	animation-play-state: paused;
+}
+.marquee-item {
+	font-family: var(--font-display);
+	font-weight: 700;
+	font-size: clamp(1.4rem, 3vw, 2.2rem);
+	letter-spacing: -0.02em;
+	color: var(--text-dim);
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+.marquee-item:hover { color: var(--accent); }
+.marquee-item .sep { color: var(--accent); margin-left: 2.5rem; }
+@keyframes marquee-scroll {
+	from { transform: translateX(0); }
+	to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.marquee-track { animation: none; }
 }
