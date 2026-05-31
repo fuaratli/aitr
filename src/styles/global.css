@@ -21,6 +21,9 @@
 	--accent-strong: #06b6d4;
 	--accent-2: #818cf8;          /* eski indigo, ikincil aksan olarak korunur */
 	--accent-2-strong: #6366f1;
+	--accent-glow: rgba(34, 211, 238, 0.2);
+	--selection-bg: rgba(34, 211, 238, 0.35);
+	--selection-fg: #04141a;
 
 	--shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
 	--shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
@@ -47,6 +50,9 @@
 	--accent-strong: #0e7490;
 	--accent-2: #6366f1;
 	--accent-2-strong: #4f46e5;
+	--accent-glow: rgba(8, 145, 178, 0.2);
+	--selection-bg: rgba(8, 145, 178, 0.3);
+	--selection-fg: #04141a;
 	--shadow-card: 0 1px 2px rgba(10, 10, 12, 0.06);
 	--shadow-card-hover: 0 4px 16px rgba(10, 10, 12, 0.1);
 }
@@ -263,7 +269,7 @@ textarea:focus,
 input:focus {
 	outline: none;
 	border-color: var(--accent);
-	box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
+	box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 /* Buttons */
@@ -551,8 +557,8 @@ body.tab-hidden .reading-progress {
 
 /* Selection */
 ::selection {
-	background: rgba(34, 211, 238, 0.35);
-	color: #04141a;
+	background: var(--selection-bg);
+	color: var(--selection-fg);
 }
 
 /* Code copy button wrapper */
