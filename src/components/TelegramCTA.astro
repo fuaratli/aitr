@@ -1,0 +1,65 @@
+---
+// Telegram kanalı CTA'sı — makale sonunda okuyucuyu kanala yönlendirir.
+// Tasarım dili: site CSS değişkenleri (--surface, --border-2, .gradient-text).
+const CHANNEL_URL = 'https://t.me/aitr_firsatlar';
+---
+
+<a class="tg-cta" href={CHANNEL_URL} target="_blank" rel="noopener" aria-label="Telegram kanalımıza katıl">
+	<span class="tg-cta__icon" aria-hidden="true">
+		<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71l-4.14-3.05-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+	</span>
+	<span class="tg-cta__text">
+		<strong>Telegram kanalımıza <span class="gradient-text">katıl</span></strong>
+		<small>Güncel yapay zekâ &amp; teknoloji haberleri anında — her gün, ücretsiz.</small>
+	</span>
+	<span class="tg-cta__btn">Katıl →</span>
+</a>
+
+<style>
+	.tg-cta {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		max-width: 760px;
+		margin: 2.5em auto;
+		padding: 1.1em 1.3em;
+		background: var(--surface);
+		border: 1px solid var(--border-2);
+		border-radius: 16px;
+		text-decoration: none;
+		color: var(--text, inherit);
+		transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+	}
+	.tg-cta:hover {
+		transform: translateY(-2px);
+		border-color: #229ED9;
+		box-shadow: 0 10px 30px rgba(34, 158, 217, 0.18);
+	}
+	.tg-cta__icon {
+		flex-shrink: 0;
+		display: grid;
+		place-items: center;
+		width: 48px;
+		height: 48px;
+		border-radius: 12px;
+		background: #229ED9;
+		color: #fff;
+	}
+	.tg-cta__text { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+	.tg-cta__text strong { font-size: 1.02rem; font-weight: 700; }
+	.tg-cta__text small { opacity: .72; font-size: .85rem; line-height: 1.35; }
+	.tg-cta__btn {
+		flex-shrink: 0;
+		white-space: nowrap;
+		font-weight: 700;
+		font-size: .9rem;
+		padding: .6em 1.1em;
+		border-radius: 10px;
+		background: #229ED9;
+		color: #fff;
+	}
+	@media (max-width: 540px) {
+		.tg-cta { gap: .8rem; padding: 1em; }
+		.tg-cta__btn { display: none; }
+	}
+</style>
