@@ -11,14 +11,16 @@
 
 	--border: rgba(255, 255, 255, 0.08);
 	--border-2: rgba(255, 255, 255, 0.12);
-	--border-glow: rgba(129, 140, 248, 0.4);
+	--border-glow: rgba(34, 211, 238, 0.4);
 
 	--text: #fafafa;
 	--text-muted: #a1a1aa;
 	--text-dim: #71717a;
 
-	--accent: #818cf8;
-	--accent-strong: #6366f1;
+	--accent: #22d3ee;
+	--accent-strong: #06b6d4;
+	--accent-2: #818cf8;          /* eski indigo, ikincil aksan olarak korunur */
+	--accent-2-strong: #6366f1;
 
 	--shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
 	--shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
@@ -37,12 +39,14 @@
 	--surface-3: rgba(10, 10, 12, 0.08);
 	--border: rgba(10, 10, 12, 0.1);
 	--border-2: rgba(10, 10, 12, 0.15);
-	--border-glow: rgba(99, 102, 241, 0.4);
+	--border-glow: rgba(8, 145, 178, 0.4);
 	--text: #0a0a0c;
 	--text-muted: #52525b;
 	--text-dim: #71717a;
-	--accent: #6366f1;
-	--accent-strong: #4f46e5;
+	--accent: #0891b2;
+	--accent-strong: #0e7490;
+	--accent-2: #6366f1;
+	--accent-2-strong: #4f46e5;
 	--shadow-card: 0 1px 2px rgba(10, 10, 12, 0.06);
 	--shadow-card-hover: 0 4px 16px rgba(10, 10, 12, 0.1);
 }
@@ -81,9 +85,9 @@ body::before {
 	pointer-events: none;
 	z-index: 0;
 	background:
-		radial-gradient(ellipse 60% 50% at 20% 0%, rgba(129, 140, 248, 0.06), transparent 60%),
-		radial-gradient(ellipse 50% 40% at 100% 30%, rgba(99, 102, 241, 0.04), transparent 60%),
-		radial-gradient(ellipse 60% 50% at 50% 100%, rgba(59, 130, 246, 0.04), transparent 60%);
+		radial-gradient(ellipse 60% 50% at 20% 0%, rgba(34, 211, 238, 0.06), transparent 60%),
+		radial-gradient(ellipse 50% 40% at 100% 30%, rgba(129, 140, 248, 0.05), transparent 60%),
+		radial-gradient(ellipse 60% 50% at 50% 100%, rgba(34, 211, 238, 0.04), transparent 60%);
 }
 
 body > * {
@@ -259,7 +263,7 @@ textarea:focus,
 input:focus {
 	outline: none;
 	border-color: var(--accent);
-	box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+	box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
 }
 
 /* Buttons */
@@ -547,8 +551,8 @@ body.tab-hidden .reading-progress {
 
 /* Selection */
 ::selection {
-	background: rgba(129, 140, 248, 0.4);
-	color: white;
+	background: rgba(34, 211, 238, 0.35);
+	color: #04141a;
 }
 
 /* Code copy button wrapper */
