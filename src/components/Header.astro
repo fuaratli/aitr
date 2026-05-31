@@ -17,8 +17,7 @@ import RandomArticle from './RandomArticle.astro';
 					<circle cx="20.5" cy="3.5" r="1.5" fill="currentColor"></circle>
 				</svg>
 			</span>
-			<span class="brand-text">AITR</span>
-			<span class="brand-tag">.tr</span>
+			<span class="brand-ai">ai</span><span class="brand-tr">tr</span>
 		</a>
 
 		<button
@@ -120,15 +119,22 @@ import RandomArticle from './RandomArticle.astro';
 		border-radius: 9px;
 		color: var(--text);
 	}
-	.brand-text {
-		font-weight: 800;
-		font-size: 1.15em;
+	.brand-ai {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-weight: 500;
+		font-size: 1.45em;
+		line-height: 1;
 		color: var(--text);
 	}
-	.brand-tag {
-		font-weight: 600;
-		font-size: 0.95em;
-		color: var(--text-dim);
+	.brand-tr {
+		font-family: var(--font-display);
+		font-weight: 900;
+		font-size: 1.15em;
+		letter-spacing: -0.02em;
+		text-transform: uppercase;
+		color: var(--text);
+		margin-left: 0.05em;
 	}
 
 	.hamburger {
