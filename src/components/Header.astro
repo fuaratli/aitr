@@ -143,8 +143,8 @@ import RandomArticle from './RandomArticle.astro';
 		border: 1px solid var(--border-2);
 		border-radius: 8px;
 		padding: 0;
-		width: 38px;
-		height: 38px;
+		width: 42px;
+		height: 42px;
 		cursor: pointer;
 		position: relative;
 		order: 5;
@@ -247,7 +247,8 @@ import RandomArticle from './RandomArticle.astro';
 		box-shadow: 0 12px 32px rgba(15, 15, 40, 0.12);
 	}
 	.dropdown:hover .dropdown-menu,
-	.dropdown:focus-within .dropdown-menu {
+	.dropdown:focus-within .dropdown-menu,
+	.dropdown-trigger[aria-expanded='true'] + .dropdown-menu {
 		opacity: 1;
 		pointer-events: auto;
 		transform: translateY(0);
@@ -340,6 +341,40 @@ import RandomArticle from './RandomArticle.astro';
 					}
 				});
 			});
+			setupDropdowns(nav);
+		}
+
+		function setupDropdowns(nav) {
+			var triggers = nav.querySelectorAll('.dropdown-trigger');
+			triggers.forEach(function (t) {
+				if (t.dataset.bound) return;
+				t.dataset.bound = '1';
+				function close() { t.setAttribute('aria-expanded', 'false'); }
+				t.addEventListener('click', function (e) {
+					e.preventDefault();
+					var open = t.getAttribute('aria-expanded') === 'true';
+					// diğer açık menüleri kapat
+					triggers.forEach(function (o) { if (o !== t) o.setAttribute('aria-expanded', 'false'); });
+					t.setAttribute('aria-expanded', String(!open));
+				});
+				t.addEventListener('keydown', function (e) {
+					if (e.key === 'Escape') { close(); t.focus(); }
+				});
+				var menu = t.nextElementSibling;
+				if (menu) {
+					menu.addEventListener('keydown', function (e) {
+						if (e.key === 'Escape') { close(); t.focus(); }
+					});
+				}
+			});
+			if (!document.documentElement.dataset.ddOutside) {
+				document.documentElement.dataset.ddOutside = '1';
+				document.addEventListener('click', function (e) {
+					document.querySelectorAll('.dropdown-trigger[aria-expanded="true"]').forEach(function (t) {
+						if (!t.parentElement.contains(e.target)) t.setAttribute('aria-expanded', 'false');
+					});
+				});
+			}
 		}
 		document.addEventListener('astro:page-load', setupNav);
 	})();

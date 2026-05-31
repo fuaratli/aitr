@@ -3,22 +3,21 @@
 /* === SELF-HOSTED FONTS === */
 @font-face {
 	font-family: 'Mona Sans';
-	src: url('/fonts/MonaSans.woff2') format('woff2-variations');
+	src: url('/fonts/MonaSans.woff2') format('woff2');
 	font-weight: 200 900;
-	font-stretch: 75% 125%;
 	font-style: normal;
 	font-display: swap;
 }
 @font-face {
 	font-family: 'Fraunces';
-	src: url('/fonts/Fraunces.woff2') format('woff2-variations');
+	src: url('/fonts/Fraunces.woff2') format('woff2');
 	font-weight: 100 900;
 	font-style: normal;
 	font-display: swap;
 }
 @font-face {
 	font-family: 'Fraunces';
-	src: url('/fonts/Fraunces-Italic.woff2') format('woff2-variations');
+	src: url('/fonts/Fraunces-Italic.woff2') format('woff2');
 	font-weight: 100 900;
 	font-style: italic;
 	font-display: swap;
@@ -39,7 +38,7 @@
 
 	--text: #ececdd;
 	--text-muted: #a8ab90;
-	--text-dim: #74775f;
+	--text-dim: #8f927a;
 
 	/* lime = sabit marka rengi (her iki temada da pill butonlar için) */
 	--lime: #d2ff00;
@@ -420,8 +419,8 @@ input:focus {
 	font-family: var(--font-display);
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
-	background: var(--accent-strong);
-	color: white;
+	background: var(--lime);
+	color: var(--lime-ink);
 	border-radius: 6px;
 	vertical-align: middle;
 	margin-left: 0.5em;
@@ -501,8 +500,8 @@ input:focus {
 }
 .sticky-cta .btn-cta {
 	padding: 0.55em 1em;
-	background: var(--accent-strong);
-	color: white;
+	background: var(--lime);
+	color: var(--lime-ink);
 	border: none;
 	border-radius: 999px;
 	font-weight: 700;
@@ -734,12 +733,15 @@ footer,
 }
 .marquee-item {
 	font-family: var(--font-display);
-	font-weight: 700;
+	font-weight: 800;
 	font-size: clamp(1.4rem, 3vw, 2.2rem);
 	letter-spacing: -0.02em;
-	color: var(--text-dim);
+	color: var(--text-muted);
 	text-decoration: none;
 	transition: color 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	padding: 0.3em 0;
 }
 .marquee-item:hover { color: var(--accent); }
 .marquee-item .sep { color: var(--accent); margin-left: 2.5rem; }
@@ -769,7 +771,6 @@ footer,
 .grotesk-black {
 	font-family: var(--font-display);
 	font-weight: 900;
-	font-stretch: 105%;
 	text-transform: uppercase;
 	letter-spacing: -0.02em;
 	line-height: 0.92;
@@ -794,9 +795,8 @@ footer,
 .headline .line-grotesk {
 	font-family: var(--font-display);
 	font-weight: 900;
-	font-stretch: 110%;
 	text-transform: uppercase;
-	font-size: clamp(2.9rem, 11vw, 9rem);
+	font-size: clamp(2.6rem, 10.5vw, 9rem);
 	line-height: 0.88;
 	letter-spacing: -0.025em;
 	color: var(--text);
@@ -857,8 +857,8 @@ footer,
 	inset: 0;
 	z-index: -1;
 	background:
-		linear-gradient(180deg, rgba(16, 20, 0, 0.35) 0%, rgba(16, 20, 0, 0.1) 35%, rgba(16, 20, 0, 0.75) 100%),
-		linear-gradient(90deg, rgba(16, 20, 0, 0.7) 0%, transparent 55%);
+		linear-gradient(180deg, rgba(16, 20, 0, 0.45) 0%, rgba(16, 20, 0, 0.15) 35%, rgba(16, 20, 0, 0.8) 100%),
+		linear-gradient(90deg, rgba(16, 20, 0, 0.85) 0%, rgba(16, 20, 0, 0.5) 35%, transparent 65%);
 }
 
 /* Eyebrow / küçük etiket */

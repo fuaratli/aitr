@@ -29,13 +29,18 @@ const gallery = [
 <html lang={SITE_LANG}>
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<link rel="preload" as="image" href="/images/hero.webp" media="(min-width: 701px)" fetchpriority="high" />
+		<link rel="preload" as="image" href="/images/hero-mobile.webp" media="(max-width: 700px)" fetchpriority="high" />
 	</head>
 	<body>
 		<Header />
 		<main class="home-main">
 			<!-- HERO — tam ekran sinematik -->
 			<section class="hero bleed">
-				<img class="bleed-img" src="/images/hero.webp" alt="" width="1600" height="914" fetchpriority="high" />
+				<picture>
+					<source media="(max-width: 700px)" srcset="/images/hero-mobile.webp" width="800" height="1000" />
+					<img class="bleed-img" src="/images/hero.webp" alt="" width="1600" height="914" fetchpriority="high" />
+				</picture>
 				<div class="bleed-scrim"></div>
 
 				<div class="hero-grid">
@@ -63,7 +68,7 @@ const gallery = [
 					</div>
 
 					{featured && (
-						<a class="folder-card hero-featured" data-tab="Öne Çıkan" href={`/blog/${featured.id}/`}>
+						<a class="folder-card hero-featured" data-tab="Öne Çıkan" aria-label={`Öne çıkan yazı: ${featured.data.title}`} href={`/blog/${featured.id}/`}>
 							<span class="ff-cat eyebrow">{CATEGORY_META[featured.data.category]?.label ?? 'Yazı'}</span>
 							<span class="ff-title">{featured.data.title}</span>
 							<span class="ff-go">
@@ -105,7 +110,7 @@ const gallery = [
 			<section class="section reveal">
 				<header class="section-head">
 					<span class="section-num">01 — Kategoriler</span>
-					<h2>Ne ararsan burada</h2>
+					<h2><span class="serif-italic">Ne</span> ararsan burada</h2>
 					<p>Dört ana kategoride üretiyoruz, hepsi Türkçe ve uygulamaya dönük.</p>
 				</header>
 				<div class="cat-grid">
@@ -113,7 +118,7 @@ const gallery = [
 						(Object.entries(CATEGORY_META) as [keyof typeof CATEGORY_META, (typeof CATEGORY_META)[keyof typeof CATEGORY_META]][]).map(
 							([key, meta]) => (
 								<a class="cat-card" href={`/blog/kategori/${meta.slug}/`}>
-									<div class="cat-emoji" style={`--g: ${meta.gradient}`}>{meta.emoji}</div>
+									<span class="cat-emoji" set:html={meta.icon} />
 									<h3>{meta.label}</h3>
 									<p>{meta.description}</p>
 								</a>
@@ -127,7 +132,7 @@ const gallery = [
 			<section class="section reveal">
 				<header class="section-head">
 					<span class="section-num">02 — Vitrin</span>
-					<h2>AI evreninde gezin</h2>
+					<h2>AI <span class="serif-italic">evreninde</span> gezin</h2>
 					<p>Üretken yapay zekânın dört dünyası — birini seç, derinlere dal.</p>
 				</header>
 				<div class="gallery">
@@ -169,7 +174,7 @@ const gallery = [
 			<section class="section reveal">
 				<header class="section-head">
 					<span class="section-num">03 — Son Yazılar</span>
-					<h2>Son Yazılar</h2>
+					<h2>Son <span class="serif-italic">Yazılar</span></h2>
 					<p>En yeni karşılaştırmalar, rehberler ve incelemeler.</p>
 				</header>
 				{
@@ -195,7 +200,7 @@ const gallery = [
 										</div>
 										<div class="body">
 											<span class="pill">{CATEGORY_META[post.data.category]?.label ?? 'Yazı'}</span>
-											<h4>{post.data.title}</h4>
+											<h3 class="card-title">{post.data.title}</h3>
 											<p class="excerpt">{post.data.description}</p>
 											<p class="date">
 												<FormattedDate date={post.data.pubDate} />
@@ -375,13 +380,20 @@ const gallery = [
 			.cat-emoji {
 				display: inline-grid;
 				place-items: center;
-				width: 50px;
-				height: 50px;
+				width: 52px;
+				height: 52px;
 				background: var(--surface-2);
 				border: 1px solid var(--border);
 				border-radius: 12px;
-				font-size: 1.4em;
+				color: var(--accent);
 				margin-bottom: 1em;
+			}
+			.cat-emoji :global(svg) {
+				width: 24px;
+				height: 24px;
+			}
+			.cat-card:hover .cat-emoji {
+				border-color: var(--border-glow);
 			}
 			.cat-card h3 {
 				margin: 0 0 0.4em 0;
@@ -505,7 +517,7 @@ const gallery = [
 				flex-direction: column;
 				justify-content: center;
 			}
-			.post-card-feature h4 { font-size: 1.7em; margin-bottom: 0.5em; }
+			.post-card-feature .body .card-title { font-size: 1.7em; margin-bottom: 0.5em; }
 			.img-wrap {
 				overflow: hidden;
 				background: var(--bg-2);
@@ -524,7 +536,7 @@ const gallery = [
 			.post-card:hover .img-wrap :global(.hcover) { transform: scale(1.04); }
 			.body { padding: 1.25em; }
 			.body .pill { margin-bottom: 0.85em; }
-			.body h4 {
+			.body .card-title {
 				margin: 0 0 0.5em 0;
 				font-size: 1.15em;
 				line-height: 1.3;
@@ -575,7 +587,7 @@ const gallery = [
 				.post-card-feature { grid-template-columns: 1fr; }
 				.post-card-feature .img-wrap img { min-height: auto; height: 220px; }
 				.post-card-feature .body { padding: 1.25em; }
-				.post-card-feature h4 { font-size: 1.25em; }
+				.post-card-feature .body .card-title { font-size: 1.25em; }
 			}
 		</style>
 	</body>
