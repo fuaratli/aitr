@@ -20,10 +20,10 @@ const r3x = (seed * 19) % 50 + 20;
 const r3y = (seed * 23) % 50 + 40;
 
 const colorMap: Record<string, [string, string, string]> = {
-	karsilastirma: ['#818cf8', '#6366f1', '#3b82f6'],
-	rehber: ['#3b82f6', '#818cf8', '#06b6d4'],
+	karsilastirma: ['#22d3ee', '#06b6d4', '#818cf8'],
+	rehber: ['#22d3ee', '#06b6d4', '#818cf8'],
 	inceleme: ['#06b6d4', '#3b82f6', '#22c55e'],
-	'para-kazanma': ['#f97316', '#ea580c', '#818cf8'],
+	'para-kazanma': ['#f97316', '#ea580c', '#22d3ee'],
 };
 const colors = colorMap[(category as string) || 'karsilastirma'] || colorMap.karsilastirma;
 const meshStyle = `--c1:${colors[0]};--c2:${colors[1]};--c3:${colors[2]};--r1x:${r1x}%;--r1y:${r1y}%;--r2x:${r2x}%;--r2y:${r2y}%;--r3x:${r3x}%;--r3y:${r3y}%;`;
@@ -108,7 +108,7 @@ const meshStyle = `--c1:${colors[0]};--c2:${colors[1]};--c3:${colors[2]};--r1x:$
 		position: absolute;
 		inset: 0;
 		background:
-			radial-gradient(ellipse 80% 60% at 50% 100%, rgba(99, 102, 241, 0.22), transparent 60%),
+			radial-gradient(ellipse 80% 60% at 50% 100%, rgba(34, 211, 238, 0.22), transparent 60%),
 			radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0, 0, 0, 0.35), transparent 60%);
 		z-index: 2;
 	}
