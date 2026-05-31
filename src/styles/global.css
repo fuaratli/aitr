@@ -539,7 +539,7 @@ input:focus {
 
 /* === PERFORMANCE — Sayfa gizliyken animasyonları durdur === */
 body.tab-hidden .badge-new,
-body.tab-hidden .brand-chip,
+body.tab-hidden .marquee-track,
 body.tab-hidden .reading-progress {
 	animation-play-state: paused !important;
 }
