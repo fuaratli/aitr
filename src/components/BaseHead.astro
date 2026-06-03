@@ -73,7 +73,6 @@ const ogImageURL = new URL(image.src, Astro.url);
 <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
 <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 <link rel="dns-prefetch" href="https://www.clarity.ms" />
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
 <!-- Performance: tab-hidden + low-power detection -->
 <script is:inline>
@@ -119,7 +118,6 @@ const ogImageURL = new URL(image.src, Astro.url);
 	title={SITE_TITLE}
 	href={new URL('rss.xml', Astro.site)}
 />
-<meta name="generator" content={Astro.generator} />
 
 <!-- Fonts: self-hosted Mona Sans (UI/grotesk) + Fraunces (editoryal serif) -->
 <link rel="preload" href="/fonts/MonaSans.woff2" as="font" type="font/woff2" crossorigin />
