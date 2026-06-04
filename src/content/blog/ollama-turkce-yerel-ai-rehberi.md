@@ -15,7 +15,7 @@ Bu yazıda **Ollama** ile **Türkçe konuşan LLM'leri** kendi laptop'ında nas�
 ## Önce: Yerel AI Kim İçin?
 
 ✅ **Senin için ideal eğer:**
-- Hassas iş yapıyorsan (hukuk, sağlık, finans, savunma)
+- Hassas iş yapıyorsan (hukuk, sağlık, finans, savunma) — veri bilgisayardan çıkmadığı için [KVKK uyumu](/blog/kvkk-yapay-zeka-uyum-rehberi-2026/) açısından en güvenli yol
 - Gizliliğe **fanatik** önem veriyorsan
 - Şirket politikası AI bulut kullanımı kısıtlıyorsa
 - Sıfır internet'le çalışmak istiyorsan (uçak, kamp, vs.)
