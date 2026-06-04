@@ -91,11 +91,7 @@ const tools: { category: string; emoji: string; gradient: string; items: Tool[] 
 ];
 
 const freeLabel = { tam: 'Tamamen ücretsiz', kısmi: 'Ücretsiz + ücretli', yok: 'Sadece ücretli' };
-const freeColor = {
-	tam: 'linear-gradient(135deg,#22c55e,#16a34a)',
-	kısmi: 'var(--accent-strong)',
-	yok: 'linear-gradient(135deg,#f97316,#ef4444)',
-};
+const freeClass = { tam: 'free-full', kısmi: 'free-partial', yok: 'free-paid' };
 ---
 
 <!doctype html>
@@ -137,7 +133,7 @@ const freeColor = {
 										<a href={tool.link}>
 											<div class="row">
 												<h3>{tool.name}</h3>
-												<span class="free-badge" style={`background:${freeColor[tool.free]}`}>{freeLabel[tool.free]}</span>
+												<span class={`free-badge ${freeClass[tool.free]}`}>{freeLabel[tool.free]}</span>
 											</div>
 											<p>{tool.desc}</p>
 											<span class="tool-tag">{tool.tag}</span>
@@ -147,7 +143,7 @@ const freeColor = {
 										<div class="static-card">
 											<div class="row">
 												<h3>{tool.name}</h3>
-												<span class="free-badge" style={`background:${freeColor[tool.free]}`}>{freeLabel[tool.free]}</span>
+												<span class={`free-badge ${freeClass[tool.free]}`}>{freeLabel[tool.free]}</span>
 											</div>
 											<p>{tool.desc}</p>
 											<span class="tool-tag">{tool.tag}</span>
@@ -273,10 +269,24 @@ const freeColor = {
 			.free-badge {
 				font-size: 0.65em;
 				font-weight: 700;
-				color: white;
 				padding: 0.25em 0.6em;
 				border-radius: 999px;
 				white-space: nowrap;
+				border: 1px solid transparent;
+			}
+			.free-badge.free-full {
+				background: var(--lime);
+				color: var(--lime-ink);
+			}
+			.free-badge.free-partial {
+				background: var(--surface-3);
+				color: var(--text);
+				border-color: var(--border-2);
+			}
+			.free-badge.free-paid {
+				background: transparent;
+				color: var(--text-dim);
+				border-color: var(--border);
 			}
 			.tool-card p {
 				margin: 0 0 0.8em 0;

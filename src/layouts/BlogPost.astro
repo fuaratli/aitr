@@ -27,6 +27,7 @@ import StickyCta from '../components/StickyCta.astro';
 import TelegramCTA from '../components/TelegramCTA.astro';
 import { SITE_LANG, SITE_TITLE, SITE_AUTHOR } from '../consts';
 import { CATEGORY_META, type CategoryKey } from '../lib/categories';
+import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { slugifyTag } from '../lib/slug';
 
 type Props = CollectionEntry<'blog'>['data'] & {
@@ -84,6 +85,7 @@ const articleSchema = {
 		name: SITE_TITLE,
 		logo: { '@type': 'ImageObject', url: new URL('/favicon.svg', Astro.site).toString() },
 	},
+	image: [new URL((heroImage ?? FallbackImage).src, Astro.site).toString()],
 	mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
 };
 
@@ -121,6 +123,7 @@ const faqSchema =
 			updatedDate={updatedDate}
 			type="article"
 			noindex={noindex}
+			image={heroImage}
 		/>
 		<script type="application/ld+json" set:html={JSON.stringify(articleSchema)} is:inline />
 		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} is:inline />

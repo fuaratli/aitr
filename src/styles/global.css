@@ -49,6 +49,11 @@
 	--accent-2: #c2c7a0;          /* nötr ikincil */
 	--accent-2-strong: #aeb486;
 	--accent-glow: rgba(210, 255, 0, 0.22);
+	--success: #d2ff00;           /* olumlu durum = marka lime'ı */
+	--success-glow: rgba(210, 255, 0, 0.14);
+	--success-border: rgba(210, 255, 0, 0.4);
+	--danger: #ff7a5c;            /* olive zeminde okunur sıcak kırmızı */
+	--danger-strong: #ff5a3c;
 	--selection-bg: rgba(210, 255, 0, 0.35);
 	--selection-fg: #101400;
 
@@ -81,6 +86,11 @@
 	--accent-2: #6b7152;
 	--accent-2-strong: #565b40;
 	--accent-glow: rgba(90, 108, 0, 0.22);
+	--success: #4d5c00;           /* krem zeminde okunur koyu olive-lime */
+	--success-glow: rgba(90, 108, 0, 0.12);
+	--success-border: rgba(90, 108, 0, 0.35);
+	--danger: #c0392b;
+	--danger-strong: #a52f23;
 	--selection-bg: rgba(210, 255, 0, 0.5);
 	--selection-fg: #161a04;
 	--shadow-card: 0 1px 2px rgba(16, 20, 0, 0.07);
@@ -628,8 +638,8 @@ body.tab-hidden .reading-progress {
 	border-color: var(--border-2);
 }
 .code-copy-btn.copied {
-	color: white;
-	background: linear-gradient(135deg, #22c55e, #16a34a);
+	color: var(--lime-ink);
+	background: var(--lime);
 	border-color: transparent;
 	opacity: 1;
 }

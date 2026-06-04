@@ -4,7 +4,6 @@ description: '5 sunum 3 AI aracıyla. Gamma, Tome, Beautiful.AI ve PowerPoint Co
 pubDate: 'May 20 2026'
 category: 'karsilastirma'
 tags: ['gamma', 'tome', 'beautiful ai', 'sunum', 'karşılaştırma']
-noindex: true
 ---
 
 Sunum hazırlamak **iş hayatının en sevilmeyen göreviydi** — taş devrinden bu yana. Yıl 2026 ve AI bunu **dakikalara indirdi**. Ama 3 büyük araç farklı sonuçlar veriyor.

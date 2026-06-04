@@ -131,8 +131,8 @@ const { variant = 'section' } = Astro.props;
 		align-items: center;
 		gap: 0.4em;
 		padding: 0.85em 1.4em;
-		background: var(--accent-strong);
-		color: white;
+		background: var(--lime);
+		color: var(--lime-ink);
 		border: none;
 		border-radius: 10px;
 		font-weight: 600;
@@ -157,9 +157,9 @@ const { variant = 'section' } = Astro.props;
 	.proof-dot {
 		width: 8px;
 		height: 8px;
-		background: #4ade80;
+		background: var(--success);
 		border-radius: 50%;
-		box-shadow: 0 0 8px #4ade80;
+		box-shadow: 0 0 8px var(--success);
 		animation: pulse-dot-green 1.8s ease-in-out infinite;
 	}
 	@keyframes pulse-dot-green {
@@ -167,7 +167,7 @@ const { variant = 'section' } = Astro.props;
 		50% { opacity: 0.5; }
 	}
 	.success-msg {
-		color: #4ade80;
+		color: var(--success);
 		font-weight: 600;
 		padding: 1em;
 	}

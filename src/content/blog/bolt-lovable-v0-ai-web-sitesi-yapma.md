@@ -4,7 +4,6 @@ description: 'Bolt.new, Lovable ve Vercel V0 — üç AI website oluşturucu tes
 pubDate: 'May 20 2026'
 category: 'karsilastirma'
 tags: ['bolt', 'lovable', 'v0', 'ai web sitesi', 'no-code']
-noindex: true
 ---
 
 "Ben bir web sitesi yapmak istiyorum" diyenler için son 2 yılda **AI website builder** ekosistemi patladı. Bolt.new, Lovable ve V0 — üç büyük rakip. Aynı 5 projeyi üçünde de yaptım. Hangisi gerçekten **deploy edilebilir kod** üretiyor, hangisi sadece **güzel prototip**?
