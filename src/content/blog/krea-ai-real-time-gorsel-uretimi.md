@@ -45,7 +45,7 @@ Asıl yıldız özellik. Sol panelde çizim canvas, sağda live AI çıktı. Çi
 Klasik prompt → görsel. Krea'nın **Flux** ve **SDXL** model erişimi var.
 
 ### 3. Enhance / Upscale
-Düşük çözünürlüklü görsel → 4K AI upscale.
+Düşük çözünürlüklü görsel → 4K AI upscale. Sadece büyütme için en iyi araçları [Magnific, Topaz ve Krea karşılaştırması](/blog/ai-image-upscaler-magnific-topaz-krea/) yazımızda inceledik.
 
 ### 4. Image to Image
 Mevcut görseli AI ile yeniden yorumla.

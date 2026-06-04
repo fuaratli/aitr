@@ -39,6 +39,8 @@ Türkçe'de dil bilgisi kuralları, akıcılık ve doğal cümle yapısı en ön
 - **ChatGPT Plus** çok yakın ikinci. Bazen "translation-y" ya da hafif kalıplaşmış cümleler kurabilir, ama hızlı düzeltir. Yaratıcı yazımda iyi, mizah ve ton ayarı yapabiliyor.
 - **Gemini Advanced** Türkçe'de hâlâ biraz daha mekanik. Anlam doğru, ama doğal akış arıyorsan diğer ikisinin gerisinde kalıyor. Son sürümlerle açığı kapatıyor ama tam eşitlik henüz gelmedi.
 
+> 💡 Hangi modeli seçersen seç, doğru prompt fark yaratır: [ChatGPT için 50 hazır prompt](/blog/chatgpt-50-hazir-prompt-kopyala-yapistir/) listemizi kopyala-yapıştır kullanabilirsin.
+
 **Sonuç:** Türkçe içerik üreticisi, çevirmen ya da yazar isen **Claude Pro** açık ara.
 
 ## Yazılım Geliştirme ve Kod
@@ -48,7 +50,7 @@ Geliştirici kullanımında üçünün de güçlü ve zayıf tarafları var.
 ### Claude Pro
 - Anthropic'in odaklandığı bir alan; **en güçlü kod yazma deneyimini** sunuyor diyebiliriz.
 - "Artifacts" özelliği ile yazılan kodu yan panelde canlı düzenleyebiliyorsun. React/HTML uygulamalarını anında çalıştırabiliyor.
-- Cursor, Windsurf, Claude Code gibi geliştirici araçlarının altyapısında çoğunlukla Anthropic modelleri var — bu rastlantı değil.
+- Cursor, Windsurf, [Claude Code](/blog/claude-code-terminal-ai-asistani/) gibi geliştirici araçlarının altyapısında çoğunlukla Anthropic modelleri var — bu rastlantı değil.
 - Eksik: Görsel üretimi yok.
 
 ### ChatGPT Plus

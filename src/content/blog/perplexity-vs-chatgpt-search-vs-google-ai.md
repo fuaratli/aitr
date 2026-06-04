@@ -213,7 +213,7 @@ Aylık maliyet karşılaştırması:
 2026 sonrasında beklenenler:
 - **Google AI Mode**, Search'ün varsayılan hali olacak (mavi linkler ayrı sekme)
 - **Perplexity**, Pro fiyatlarını $30+'a çıkaracak (rakip artıyor)
-- **ChatGPT**, "Atlas browser" ile **tarayıcı seviyesinde arama** dahil edecek (söylenti)
+- **ChatGPT**, "Atlas browser" ile **[tarayıcı seviyesinde arama](/blog/comet-chatgpt-atlas-ai-browser-karsilastirma/)** dahil edecek (söylenti)
 - **Yeni oyuncular** — Apple Intelligence Search, Anthropic Search (rumors)
 - **Anlık veri lisansları** — yayıncılar AI şirketlerinden ödeme almak için yasal aksiyon alacak (zaten başladı)
 

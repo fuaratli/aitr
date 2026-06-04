@@ -44,6 +44,8 @@ Bu yazıda **100 farklı prompt ile** dördünü yan yana test ettik. Hangisinin
 - Ücretsiz deneme yok.
 - API resmi olarak yok (üçüncü taraf çözümler mevcut).
 
+> 💡 Derinlemesine: [Midjourney Türkçe rehberimiz](/blog/midjourney-turkce-rehber-2026/) ile kurulumdan prompt yazımına kadar her şeyi öğren.
+
 ### Test sonucu (10 prompt)
 Portre, manzara, illüstrasyon, ürün fotoğrafı kategorilerinde **6/10 prompt'ta birinci**. Yazı içeren ve şematik görsellerde başarısız.
 

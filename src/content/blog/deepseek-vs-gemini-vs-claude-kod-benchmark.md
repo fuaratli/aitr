@@ -20,7 +20,7 @@ tags: ['deepseek', 'gemini', 'claude', 'kod', 'benchmark', 'yazılım']
 | **Gemini 2.5 Pro** | 2026-05 | $2.50 / $10.00 |
 | **Claude Sonnet 4.5** | 2026-04 | $3.00 / $15.00 |
 
-DeepSeek bariz en ucuz, Claude en pahalı. Performans buna değer mi?
+[DeepSeek](/blog/deepseek-incelemesi-chatgpt-rakibi-mi/) bariz en ucuz, Claude en pahalı. Performans buna değer mi?
 
 ### Test Kategorileri
 

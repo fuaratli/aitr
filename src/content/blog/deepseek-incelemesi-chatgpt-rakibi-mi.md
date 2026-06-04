@@ -82,6 +82,8 @@ Karmaşık problemler için R1 **gerçekten daha iyi.** Basit sorularda fark yok
 
 DeepSeek-V3 ve R1 hem genel hem de spesifik kod konularında çok güçlü. Test ettiklerimiz:
 
+> 💡 Sayılarla görmek istersen: [DeepSeek vs Gemini vs Claude kod benchmark](/blog/deepseek-vs-gemini-vs-claude-kod-benchmark/) yazımızda 60 testlik karşılaştırma var.
+
 - **Python data analysis:** Aynı kalitede çıktı (Claude/ChatGPT ile yarışıyor).
 - **React/Next.js:** Biraz daha eski pattern'ları öneriyor (örn. class components yerine hooks tercih edilmesine rağmen).
 - **SQL queries:** Çok iyi, complex JOIN'lerde ChatGPT'den iyi.

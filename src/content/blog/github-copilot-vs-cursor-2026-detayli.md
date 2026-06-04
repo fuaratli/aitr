@@ -6,7 +6,7 @@ category: 'karsilastirma'
 tags: ['copilot', 'cursor', 'ai kod', 'geliştirici', 'karşılaştırma']
 ---
 
-3 yıl önce GitHub Copilot **devrim**di. Sonra Cursor çıktı, geliştirici dünyasını **yeniden ısırdı**. 2026'da hangisi lider? 60 gün **paralel** kullandım, 200 görev test ettim. **Sayılarla** anlatıyorum.
+3 yıl önce GitHub Copilot **devrim**di. Sonra [Cursor](/blog/cursor-ide-turkce-rehber-2026/) çıktı, geliştirici dünyasını **yeniden ısırdı**. 2026'da hangisi lider? 60 gün **paralel** kullandım, 200 görev test ettim. **Sayılarla** anlatıyorum.
 
 ## Test Kurulumu
 
